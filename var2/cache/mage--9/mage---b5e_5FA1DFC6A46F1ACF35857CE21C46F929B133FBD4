@@ -1,0 +1,58 @@
+
+<a class="btn-feedback" href="javascript:void(0);" onclick="showFeedback();">Feedback</a>
+
+<div class="footer-container">
+	<div class="footer pg-section">
+		<div class="mentions-box clear-box">
+			<a class="link-mention" href="http://www.wired.com/business/2012/05/ff_gururies/3/" target="_blank"><img src="http://localhost/shopbevel/skin/frontend/enterprise/bevel_shop/images/logo-wired.png" alt="Wired"></a>
+			<a class="link-mention" href="http://techcrunch.com/2012/01/28/founder-soup/" target="_blank"><img src="http://localhost/shopbevel/skin/frontend/enterprise/bevel_shop/images/logo-techcrunch.png" alt="TechCrunch"></a>
+			<a class="link-mention" href="http://www.forbes.com/sites/tomiogeron/2012/06/01/dna-to-dollhouses-stanfords-startx-accelerator-launches-new-batch/" target="_blank"><img src="http://localhost/shopbevel/skin/frontend/enterprise/bevel_shop/images/logo-forbes.png" alt="Forbes"></a>
+			<a href="http://www.7x7.com/tech-gadgets/stanford-student-incubator-startx-launches-multiple-medical-startups" target="_blank"><img src="http://localhost/shopbevel/skin/frontend/enterprise/bevel_shop/images/logo-7x7.png" alt="7x7"></a>
+		</div><!-- .mentions-box -->
+
+		<div class="dotted-lines-h"></div>
+
+		<div class="footer-links clear-box">
+			<div class="links-wrap">
+								<a class="btn-link-meet" href="http://localhost/shopbevel/jobs">Work Here</a>
+				<a href="http://localhost/shopbevel/terms">Terms & Conditions</a>
+				<a href="http://localhost/shopbevel/privacy">Privacy Policy</a>
+				<a href="http://localhost/shopbevel/faq">FAQs</a>
+				<a href="http://localhost/shopbevel/in-the-press">In The Press</a>
+				<a href="http://shopbevel.tumblr.com" target="_blank">Blog</a>
+			</div><!-- .links-wrap -->
+
+			<p class="txt-copyright">ShopBevel Inc. (formerly CrowdJewel) 2013, All Rights Reserved.</p>
+		</div><!-- .footer-links -->
+
+			</div><!-- .footer -->
+</div><!-- .footer-container -->
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-37728918-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<script type="text/javascript">
+	adroll_adv_id = "3CWFJVFDFJHLHJAO74QA6O";
+	adroll_pix_id = "J2KFHQ5LGRFE3AT3J6XX63";
+	(function () {
+	var oldonload = window.onload;
+	window.onload = function(){
+		__adroll_loaded=true;
+		var scr = document.createElement("script");
+		var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+		scr.setAttribute('async', 'true');
+		scr.type = "text/javascript";
+		scr.src = host + "/j/roundtrip.js";
+		((document.getElementsByTagName('head') || [null])[0] ||
+		document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+		if(oldonload){oldonload()}};
+	}());
+</script>

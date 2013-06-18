@@ -1,0 +1,25 @@
+<div class="pg-section main-section section-vote cms-page">
+	<div class="hdr-wrap clear-box">
+		<!-- <h2 class="section-hdr icon-vote">Vote</h2> -->
+
+		<div class="section-blurb"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vote-title-caption')->toHtml() ?></div>
+		<?php /*
+			<a class="btn-teal btn-sign-up btn-sign-up-top" href="<?php echo Mage::getStoreConfig('bevel/general/vote_url'); ?>" target="_blank"><?php echo $this->__('Cast Your Vote'); ?></a>
+		*/ ?>
+	</div><!-- .hdr-wrap -->
+	<div class="dotted-lines-h"></div>
+
+	<div class="section-cntnt cntnt-vote clear-box">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-vote')->toHtml() ?>
+	</div><!-- .cntnt-vote -->
+</div><!-- .section-vote -->
+
+<script type="text/javascript">
+	jQuery(function(){
+		/* show voting overlay */
+			jQuery('.overlay-container, .vote-box').show();
+
+		/* level voting items */
+			equalHeight(jQuery('.cntnt-vote .prdt-info'));
+	});
+</script>

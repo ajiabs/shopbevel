@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_onepage_index>
+		<block type="cim/payment_savecard" template="cim/payment/savecard.phtml" name="cim.savecard" output="toHtml"></block>
+    </checkout_onepage_index>
+</layout>

@@ -1,0 +1,4 @@
+*.db
+/nbproject
+/var
+/app/etc

@@ -1,0 +1,33 @@
+<?php
+	$_comments = $this->getComments();
+	$_commenters = $this->getCommenters();
+	foreach($_comments as $_comment):
+?>
+	<p>
+		By <?php echo $_commenters[$_comment->getCustomerId()]->getName();?> <br/>
+		<?php echo $_comment->getComment();?><br/>
+		<img src="<?php echo $this->helper("pixvote")->getProfileImage( $_commenters[$_comment->getCustomerId()])?>" height="100" width="auto" />
+	</p>
+<?php
+	endforeach;
+?>
+<?php
+	if($this->helper("customer")->isLoggedIn()):
+?>
+		<img src="<?php echo $this->helper("pixvote")->getProfileImage( $this->helper("customer")->getCustomer())?>" />
+		<textarea class="comment-field" id="comment-field-<?php echo $this->getDesignId()?>"></textarea>
+		<a class="comments-btn" data-design-id="<?php echo $this->getDesignId()?>" href="javascript:void(0)">Post Comment</a>
+
+<?php
+	endif;
+?>
+
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+	$j(function() {
+		$j( '.comment-input' ).on( 'focus', function() {
+			showLogin();
+		});
+	});
+</script>
+<?php endif; ?>

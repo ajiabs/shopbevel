@@ -1,0 +1,29 @@
+
+5/14/2013
+app/design/frontend/enterprise/bevel_shop/tempalte/page/html/header.phtml
+
+added overlay in 86
+
+
+new files
+
+app/etc/modules/Contat_Messages.xml
+app/design/frontend/enterprise/bevel_shop/temaplte/messages
+app/code/local/contact
+
+contactimporter/
+
+added a new block 'context_welcome_message'
+context_welcome_title
+context_mailbody
+context_cloudsponge_apikey
+
+
+
+
+js/pixafy/scripts.js
+
+
+app\code\local\Contact\Messages\controllers\IndexController.php
+app\design\frontend\enterprise\bevel_shop\template\page\html\header.phtml
+contactimporter\styles\style.css

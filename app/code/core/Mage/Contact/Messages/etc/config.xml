@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+ 
+<config>
+    <modules>
+        <Contact_Messages>
+            <version>0.1.0</version>
+        </Contact_Messages>
+    </modules>   
+ 
+    <frontend>
+        <routers>
+            <contact_messages>
+                <use>standard</use>
+                <args>
+                    <module>Contact_Messages</module>
+                    <frontName>messages</frontName>
+                </args>
+		
+		 
+            </contact_messages>
+		 
+
+        </routers>
+        <layout>
+      <updates>
+        <messages>
+          <file>messages.xml</file>
+        </messages>
+      </updates>
+    </layout>
+    </frontend>    
+</config>

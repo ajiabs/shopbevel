@@ -1,0 +1,9 @@
+<li id="remember_me" style="display:none">
+		<label for="remember_me_checkbox">Remember me</label>
+		<div class="input-box"><input id="remember_me_checkbox" type="checkbox" name="login[remember_me]" value="1"/></div>
+</li>
+<script type="text/javascript">
+	var remember = $j("#remember_me").detach();
+	$j("#pass").parents("li").after(remember);
+	$j("#remember_me").show();
+</script>

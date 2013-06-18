@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+<default>
+	 <reference name="root">
+		<action method="setTemplate"><template>page/1column.phtml</template></action>
+	</reference>
+<!--	<reference name="head">
+		<action method="setTitle" translate="title" module="pixvote">
+			<title>Shopbevel - Vote</title>
+		</action>
+	</reference>-->
+</default>
+<pixvote_index_index>
+	<reference name="head">
+	<action method="addItem">
+		<type>js</type>
+		<name>pixafy/pixvote.js</name>
+	</action>
+	<action method="setTitle" translate="title" module="pixvote">
+			<title>Vote</title>
+	</action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs" template="pixvote/designs.phtml" name="beveldesigns">
+			<action method="getUserDesigns"></action>
+<!--			<block type="pixvote/designs"  template="pixvote/featuredDesign.phtml" name="bevelfeatureddesign">
+				<action method="loadFeaturedDesign"></action>
+			</block>-->
+			<block type="core/template" template="pixvote/firstVoteModal.phtml" name="firstVoteModal"/>
+		</block>
+<!--		<block type="core/template" template="page/html/vote.phtml"/>-->
+	</reference>
+</pixvote_index_index>
+
+<pixvote_comment_getcomments>
+	<reference name="root">
+		<action method="setTemplate"><template>page/ajax.phtml</template></action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs" name="beveldesigncomments">
+			<action method="getDesignComments"></action>
+		</block>
+	</reference>
+</pixvote_comment_getcomments>
+
+<pixvote_index_ajaxdesign>
+	<reference name="root">
+		<action method="setTemplate"><template>page/ajax.phtml</template></action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs" template="pixvote/designs.phtml" name="bevelajaxdesigns">
+			<action method="getUserDesigns"></action>
+		</block>
+	</reference>
+</pixvote_index_ajaxdesign>
+
+<pixvote_index_ajaxfeatured>
+	<reference name="root">
+		<action method="setTemplate"><template>page/ajax.phtml</template></action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs"  template="pixvote/featuredDesign.phtml" name="bevelfeatureddesign">
+<!--			<action method="loadFeaturedDesign"></action>-->
+		</block>
+	</reference>
+</pixvote_index_ajaxfeatured>
+
+<pixvote_index_view>
+	<reference name="head">
+		<action method="addItem">
+			<type>js</type>
+			<name>pixafy/pixvote.js</name>
+		</action>
+		<action method="setTitle" translate="title" module="pixvote">
+			<title>Vote</title>
+		</action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs" template="pixvote/view.phtml" name="beveldesignview">
+		<action method="loadDesign"></action>
+		<block type="core/template" template="pixvote/firstVoteModal.phtml" name="firstVoteModal"/>
+		</block>
+	</reference>
+</pixvote_index_view>
+
+<pixvote_view_submission>
+	<reference name="head">
+		<action method="addItem">
+			<type>js</type>
+			<name>pixafy/pixvote.js</name>
+		</action>
+		<action method="setTitle" translate="title" module="pixvote">
+			<title>Vote</title>
+		</action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designs" template="pixvote/view.phtml" name="beveldesignview">
+		<action method="loadDesign"></action>
+		</block>
+	</reference>
+</pixvote_view_submission>
+
+<pixvote_view_index>
+	<reference name="content">
+		<block type="pixvote/challenges" template="pixvote/challenge.phtml" name="challengeview">
+		<action method="loadChallenge"></action>
+		</block>
+	</reference>
+</pixvote_view_index>
+
+<pixvote_designers_index>
+	<reference name="head">
+		<action method="addItem">
+		<type>js</type>
+		<name>bevel/jquery.form.js</name>
+	</action>
+	<action method="setTitle" translate="title" module="pixvote">
+			<title>Designer Profile</title>
+	</action>
+	<action method="addItem">
+		<type>js</type>
+		<name>pixafy/pixvote.js</name>
+	</action>
+	</reference>
+	<reference name="content">
+		<block type="pixvote/designers" template="pixvote/designer-profile.phtml" name="designersindex">
+			<action method="loadDesigner"></action>
+			<block type="core/template" template="pixvote/firstVoteModal.phtml" name="firstVoteModal"/>
+<!--			<block type="pixvote/designers" template="pixvote/designvote.phtml" name="designvote"/>-->
+<!--			<block type="core/template" template="pixvote/designer-profile.phtml" name="designersindex">-->
+		</block>
+	</reference>
+</pixvote_designers_index>
+</layout>

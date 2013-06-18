@@ -1,0 +1,88 @@
+<?php
+ $featuredTrunkShow = $this->helper('bevel/trunkShows')->getFeaturedTrunkShow();
+?>
+<div class="home">
+	<div class="main-slideshow">
+		<?php echo $this->getLayout()->createBlock('imageslider/slider')->setTemplate('imageslider/slider.phtml')->setId(2)->toHtml() ?>
+	</div><!-- .main-slideshow -->
+	
+	<div class="home-links-block clear-box">
+		<div class="homelinkblock no-left-margin">
+			<span class="homelink-trigger"><?php echo $this->__('FEATURED TRUNK SHOW') ?></span>
+			<div class="homelinkout" >
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('featured-trunk-show')->toHtml() ?>
+			</div>
+		</div>
+		<div class="homelinkblock">
+			<span class="homelink-trigger"><?php echo $this->__('HOW IT WORKS') ?></span>
+			<div class="homelinkout">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('how-it-works')->toHtml() ?>
+			</div>
+		</div>
+		<div class="homelinkblock">
+			<span class="homelink-trigger"><?php echo $this->__('STUDIO VIEW') ?></span>
+			<div class="homelinkout">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('behind-the-scenes-home')->toHtml() ?>
+				
+			</div>			
+		</div>
+		<div class="homelinkblock">
+			<span class="homelink-trigger"><?php echo $this->__('FEATURED TRUNK SHOW') ?></span>
+			<div class="homelinkout">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('our-team')->toHtml() ?>
+			</div>
+		</div>
+
+	</div><!-- .home-links-block -->
+	<div class="home-trunkshows-block">
+		<h2><?php echo $this->__('ONGOING TRUNK SHOWS') ?></h2>
+		<div class="home-trunkshows">
+			<ul>
+				<?php
+					// display the trunk show categories
+				
+					// randomize the events
+					$limit = 3;
+					
+					$_events = $this->helper('bevel/trunkShows')->getTrunkShows(FALSE, FALSE, TRUE);
+					$ids =  $_events->getAllIds();
+					
+					// if we have less than 3 or less trunks show the featured from upper menu too.
+					if ($featuredTrunkShow && count($ids) > 3) {
+						$key = array_search($featuredTrunkShow->getId(), $ids);
+						if ( $key !== FALSE ){
+							unset($ids[$key]);
+						}
+					}
+					
+					shuffle($ids);
+					// grab only $limit number of elements
+					$ids = array_splice($ids, 0, $limit);
+					
+					foreach ($ids as $id)
+					{
+						$_event = $_events->getItemById($id);
+						if (!$_event){
+							continue;
+						}
+						$_eventDate = new DateTime($_event->getDateEnd());
+						$_trunkshow = Mage::getModel('catalog/category')->load($_event->getCategoryId());
+				?>	
+				<li>
+					<a href="<?php echo $_trunkshow->getUrl()?>" class="home-cat-img">
+						<img src="<?php echo $_trunkshow->getResizedImage("med")?>" alt="" />
+					</a>
+					<a href="<?php echo$_trunkshow->getUrl(); ?>" title="" class="home-trunkshow-title"><?php echo $_trunkshow->getName();?></a>
+					<span class="home-designby-title"><?php echo $_trunkshow->getDesigner() ?></span>
+					<span class="home-trunkshow-date">ends <?php echo $_eventDate->format("l");?>, <?php echo $_eventDate->format("F");?> <?php echo $_eventDate->format("d");?></span>
+					<a href="<?php echo $_trunkshow->getUrl()?>"><button class="button btn-cart" title="view collection" type="button"><span><span>View Collection</span></span></button></a>
+				</li>				
+				<?php
+					}
+				?>
+			</ul>
+			
+		</div>
+		
+	</div>
+</div><!-- .home -->

@@ -1,0 +1,77 @@
+	<?php
+	if(!$this->_loaded){
+		$this->setSliderId();
+	}	
+	if(!$this->_isDisabled){
+		$openInNewWindow	=	($this->_slider->getOpenNewWindow() ? TRUE : FALSE);
+
+		$width	=	$this->getWidth();
+		$height	=	$this->getHeight();
+		?>
+		<?php
+		if(!Mage::registry($this->_registryKey)){
+			?>
+			<script type="text/javascript" src="<?php echo $this->getJsUrl('imageslider/jquery.cycle.all.js') ?>"></script>
+			<?php
+			Mage::register($this->_registryKey, 1);
+		}
+		?>
+		<script type="text/javascript">
+		$j	=	jQuery.noConflict();
+		$j('#s<?php echo $this->_slider->getId() ?>').cycle({ 
+			fx:     'fade', 
+			speed:  'slow',
+			pager: 	'#slidenav<?php echo $this->_slider->getId() ?>',
+			timeout: <?php echo $this->getDelay() * 1000 ?>, 
+			next:   '#next<?php echo $this->_slider->getId() ?>', 
+			prev:   '#prev<?php echo $this->_slider->getId() ?>',
+			pager: '.home-links-block',
+			pagerEvent: 'mouseover',
+			pauseOnPagerHover: true,
+			pagerAnchorBuilder: function(idx, slide) { 
+			        // return selector string for existing anchor 
+			        return '.home-links-block .homelinkblock:eq(' + idx + ') .homelink-trigger'; 
+			    } 
+		});
+		</script>
+
+		<div class="homeSlideshow">
+			<?php
+			if($this->_yesNo[$this->_slider->getShowArrows()]){
+				?>
+				<a class="btn-prev" href="#" id="prev<?php echo $this->_slider->getId() ?>">Prev</a>
+				<a class="btn-next" href="#" id="next<?php echo $this->_slider->getId() ?>">Next</a>
+				<?php
+			}
+			if($this->_yesNo[$this->_slider->getShowDots()]){
+				?>
+				<div id="slidenav<?php echo $this->_slider->getId() ?>"></div>
+				<?php
+			}
+			?>
+			<div id="s<?php echo $this->_slider->getId() ?>" class="pics">
+				<?php 
+				foreach($this->_images as $img){	
+					$imageUrl =  $this->getResizedImage($img);
+					if($url = trim($img->getExternalUrl())){
+						?>
+						<a href="<?php echo $url ?>" <?php echo ($openInNewWindow ? ' target="_blank" ' : '') ?>>
+							<img src="<?php echo $imageUrl; ?>" <?php echo ($width ? ' width="'.$width.'" ' : '') ?> <?php echo ($height ? ' height="'.$height.'" ' : '') ?> />
+						</a>
+						<?php
+					}
+					else{
+						?>
+						<img src="<?php echo $imageUrl; ?>"  <?php echo ($width ? ' width="'.$width.'" ' : '') ?> <?php echo ($height ? ' height="'.$height.'" ' : '') ?>/>
+						<?php
+					}
+					?>
+					<?php echo $img->getImageText() ?>
+					<?php
+				}
+				?>
+			</div>
+		</div>
+		<?php
+	}
+	?>

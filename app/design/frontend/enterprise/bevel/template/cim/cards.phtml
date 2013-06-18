@@ -1,0 +1,84 @@
+<div class="page-title">
+    <h1><?php echo Mage::helper('customer')->__('My Payment Method') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php 
+
+$_addLink = Mage::getUrl("cim/index/add");
+$_profiles = $this->getProfiles();
+if(count($_profiles)): 
+	$encObject = Mage::getSingleton('core/encryption');
+   $_deleteLink = Mage::getUrl("cim/index/delete");
+   $_editLink = Mage::getUrl("cim/index/edit");
+?>
+    <table class="data-table" id="my-profiles-table">
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+		<script type="text/javascript">
+		$j(function()
+		{
+			$j(".action-link").click(function() {
+				
+				var proceed = true;
+				if ($j(this).hasClass("delete-link")) {
+					if(confirm("Are you sure? This action will cancel any subscriptions used with this card"))
+					{
+						proceed = true;
+					}
+					else
+					{
+						proceed =  false;
+					}
+				}
+				
+				if (proceed) {
+					$j('#cim-cards-action-form').attr('action',$j(this).attr('href'));
+					$j('#cim-cards-action-form').submit();
+					proceed = false;
+				}
+				return proceed;
+			});
+			
+	
+			
+			
+		});
+		</script>
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('customer')->__('Card') ?></th>
+                <th><?php echo Mage::helper('customer')->__('Type') ?></th>
+                <th><?php echo Mage::helper('customer')->__('Exp Date') ?></th>
+                <th><?php echo Mage::helper('customer')->__('Action') ?></th>
+            </tr>
+        </thead>
+		
+        <tbody>
+                <?php
+		  	foreach($_profiles as $_profile):
+                            $encId = $encObject->encrypt($_profile->getId());
+		  ?>
+            <tr>
+                <td><?php echo $_profile->getCcLastfour();?></td>
+                <td><?php echo $_profile->getCcType(); ?></td>
+                <td><?php echo $_profile->getCcExpMonth().'/'.$_profile->getCcExpYear(); ?></td>
+                <td>
+					
+				<form id="cim-cards-action-form" name="action-form" method="post" action="" >
+					<input type="hidden" id="enc_id" name="id" value="<?php echo $encId ?>" />
+				</form>
+					<a class="action-link" href="<?php echo $_editLink?>">Edit</a>
+                    | <a class="action-link delete-link" href="<?php echo $_deleteLink?>">Delete</a></td>
+            </tr>
+                <?php
+                        endforeach;
+                ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-downloadable-products-table')</script>
+<?php else: ?>
+    <p><?php echo Mage::helper('customer')->__('You have no saved credit cards.'); ?></p>
+<?php endif; ?>
+	<a class="button" href="<?php echo $_addLink; ?>"><span><?php echo Mage::helper('customer')->__('Add a New Card'); ?></span></a>

@@ -1,0 +1,406 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php $_helper = $this->helper('catalog/output'); ?>
+<?php 
+	$_product = $this->getProduct(); 
+	$_category = $_product->getCategory(); 
+	if(is_null($_category))
+	{
+		$_catId = current($_product->getCategoryIds());
+		$_category = Mage::getModel('catalog/category')->load($_catId);
+	}
+	$_event = $_product->getEvent();
+	$_today = new DateTime(date("Y-m-d H:i:s"));
+	$_endDate = new DateTime($_event->getDateEnd());
+	$_timeLeft = $_today->diff($_endDate);
+	$_bevelHelper = $this->helper('bevel/data');
+	$_days = $_timeLeft->format("%d");
+	$_hours = $_timeLeft->format("%h");
+	$_minutes = $_timeLeft->format("%i");
+	
+	$qtyStock = $this->helper('bevel/trunkShows')->getProductStock($_product);
+	$initialStock = $_product->getData('initial_stock_qty');
+	$servingNumber = ($initialStock - $qtyStock) + 1;
+	$_prevNextProducts = Mage::helper("bevel/trunkshows")->getPrevNextProduct($_category, $_product->getId());
+	extract($_prevNextProducts);
+	$isSellable = $this->helper('bevel/trunkShows')->getIsSellable($_product, $_event); 
+	//$qtyStock = number_format(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty(), 0); 
+	$productAlertHelper = Mage::helper('productalert');
+	$productAlertHelper->setProduct($_product);
+?>
+
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+
+<div class="custom-breadcrumbs">
+	<a href="<?php echo $_category->getParentCategory()->getUrl()?>">TRUNK SHOWS</a>/<a href="<?php echo $_category->getUrl()?>"><?php echo $_category->getName()?></a>/<a href="<?php echo $_product	->getProductUrl()?>"><?php echo $_product->getName()?></a>
+</div>
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->setEscapeMessageFlag(true)->toHtml() ?></div>
+<div class="product-view">
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+        <div class="product-essential">
+	        <div class="product-shop">
+	            <div class="product-main-info">
+	                <div class="product-name">
+	                    <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+	                </div>
+	                <div class="from-collection-block">
+	                	<?php echo $this->__('by') ?>
+	                	<a href="#designerone" class="cat-designer-title"><?php echo $_product->getDesigner(); ?></a>
+	                </div>
+		            <div class="product-share-block">
+						<?php 
+								$url = urlencode($_product->getProductUrl());
+								$text = urlencode($_bevelHelper->generateShareText($_helper->productAttribute($_product, $_product->getName(), 'name')));
+	                			$image = urlencode($_product->getImageUrl());
+						?>
+		            	<span class="tt-title"><?php echo $this->__('share:') ?></span>
+				        <ul>
+				    		<li><a target="_blank" class="fb-icon" href="http://www.facebook.com/sharer.php?u=<?php echo $url?>">Facebook</a></li>
+				    		<li><a target="_blank" class="tw-icon" href="https://twitter.com/share?text=<?php echo $text?>&url=<?php echo $url?>">Twitter</a></li>
+				    		<li><a target="_blank" class="pi-icon" href="http://pinterest.com/pin/create/button/?url=<?php echo $url?>&media=<?php echo $image?>">pinterest</a></li>
+				    		<li><a target="_blank" class="t-icon" href="http://www.tumblr.com/share/photo?source=<?php echo $image?>&caption=<?php echo $text?>&click_thru=<?php echo $url?>">t</a></li>
+			        	</ul>
+		            </div>
+			        <?php if ($_product->getShortDescription()):?>
+			        	<div class="about-product-block">
+				        	<span class="tt-title"><?php echo $this->__('about:') ?></span>
+				            <div class="short-description std">
+				            	<?php echo  $_product->getDescription();  ?>
+				               
+				            </div>
+			            </div>
+			        <?php endif;?>
+		            <!--
+	                <div class="prev-next-block">
+						<?php
+							if(!empty($_prevProduct))
+							{
+						?>	
+								<a class="prev-product" href="<?php echo $_prevProduct->getProductUrl()?>">Prev</a>	
+						<?php
+							}
+							if(!empty($_nextProduct))
+							{
+						?>
+								<a class="next-product" href="<?php echo $_nextProduct->getProductUrl()?>">Next</a>	
+						<?php
+							}
+						?>
+	                </div>        
+	                -->     
+	                <p class="product-ids"><?php echo $this->__('SKU# %s', $this->escapeHtml($_product->getSku())); ?></p>
+	                <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+					<?php
+	                	/*if(!$isSellable || !$qtyStock)
+						{	
+							echo $this->getChildHtml('alert_urls');
+	                		echo $this->getChildHtml('product_type_data');
+						}
+						*/
+					?>
+	            </div>
+	            
+	            <?php echo $this->getChildHtml('tierprices') ?>
+	            <?php echo $this->getChildHtml('extrahint') ?>
+	            <div class="hrt-block">
+		            <?php echo $this->getChildHtml('product_type_data') ?>
+		            <div class="ed-block edition-of">
+					<?php
+		                if($isSellable && $qtyStock)
+						{
+					?>
+		            	<span class="tt-title"><?php echo $this->__('edition of: ') ?></span>
+		            	<span class="lil-strong"><?php echo $initialStock; ?></span>
+					<?php
+						}
+						else
+						{
+							if($isSellable && !$qtyStock)
+							{
+					?>
+								<button type="button" title="<?php echo $this->__('sold out') ?>" class="button btn-cart sold-out" onclick="setLocation('<?php echo $productAlertHelper->getSaveUrl('stock') ?>')"><span><span><?php echo $this->__('sold out') ?></span></span></button>
+								<?php // join waiting list button ?>
+								<button type="button" title="<?php echo $this->__('join waitlist') ?>" class="button btn-cart join-waitlist" onclick="setLocation('<?php echo $productAlertHelper->getSaveUrl('stock') ?>')"><span><span><?php echo $this->__('join waitlist') ?></span></span></button>
+						
+					<?php
+							}
+						}
+					?>
+		            </div>
+		            <?php if (!$this->hasOptions()):?>
+		                <div class="add-to-box">
+		                        <?php echo $this->getChildHtml('addtocart') ?>
+		                    <?php /*  echo $this->getChildHtml('addto') */ ?>
+		                </div>
+		            <?php else:?>
+		                <?php if ($sellable && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
+		                    <div class="options-container-small">
+		                        <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+		                    </div>
+		                <?php else: ?>
+		                    <?php echo $this->getChildHtml('addto') ?>
+		                <?php endif;?>
+		            <?php endif; ?>
+	            </div>
+	            <div class="designer-info-block">
+	            	<?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+	            </div>
+	            <div class="designer-info-block">
+	            <a href="#designerone" class="meet-the-designer-icon"></a>
+	            <a href="#designertwo" class="behind-the-scenes-icon"></a>
+	            </div>
+	
+	
+	
+	            <?php echo $this->getChildHtml('other');?>
+	        </div>
+	
+	        <div class="product-img-box">
+	            <?php echo $this->getChildHtml('media') ?>
+	        </div>
+			<div class="clearer"></div>
+        </div>
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($_product->getProductStaticBlock())->toHtml() ?>
+        
+        <?php /*
+        <div class="product-collateral">
+            <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')):?>
+                <dl id="collateral-tabs" class="collateral-tabs">
+                <?php foreach ($detailedInfoGroup as $alias => $html):?>
+                    <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span></dt>
+                    <dd class="tab-container">
+                       <div class="tab-content"><?php echo $html ?></div>
+                    </dd>
+                <?php endforeach;?>
+                </dl>
+                <script type="text/javascript">
+                //<![CDATA[
+                    var collateralTabs = new Enterprise.Tabs('collateral-tabs');
+                    Event.observe(window, 'load', function() {
+                        collateralTabs.select();
+                    });
+                //]]>
+                </script>
+            <?php endif; ?>
+            <?php if ($this->canEmailToFriend()): ?>
+                <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+            <?php endif; ?>
+        </div>
+		 */?>
+        <div class="clearer"></div>
+        <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
+            <div class="options-container-big">
+                <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+            </div>
+        <?php endif;?>
+    </form>
+        
+
+</div>
+<?php /*
+<div class="designer-block">
+	<?php echo $this->getChildHtml('relatedProducts') ?>
+	<div class="meet-designer-bio">
+		<a name="designername"></a>
+		<h2 class="sp-title"><?php echo $this->__('Meet The Designer') ?></h2>
+		<div class="designer-bio-content">
+			<img src="<?php echo $this->getSkinUrl('images/desiger-bio-image.gif') ?>" alt="" />
+			<div class="meet-designer-right-content">
+				<h3 class="big-title"><?php echo $this->__('Noise Girl') ?></h3>
+				<p>
+					orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper congue eros non aliquam. 
+					Nullam condimentum lorem ut leo tempor vitae iaculis quam dignissim. Suspendisse venenatis accumsan vulputate. 
+					orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper congue eros non aliquam. Nullam condimentum lorem ut 
+					leo tempor vitae iaculis quam dignissim. Suspendisse venenatis accumsan vulputate. 
+				</p>
+				<p>
+					orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper congue eros non aliquam. 
+					Nullam condimentum lorem ut leo tempor vitae iaculis quam dignissim. Suspendisse venenatis accumsan vulputate. 
+					orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper. 
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="designer-block">
+	<h2 class="sp-title"><?php echo $this->__('Behind the Scenes') ?></h2>
+	<div class="scene-block">
+		<div class="scene-item-block">
+			<img class="push-it" src="<?php echo $this->getSkinUrl('images/behind-scenes.gif') ?>" alt="" />
+			<img src="<?php echo $this->getSkinUrl('images/behind-scenes.gif') ?>" alt="" />
+			<img class="push-it" src="<?php echo $this->getSkinUrl('images/behind-scenes.gif') ?>" alt="" />
+			<img src="<?php echo $this->getSkinUrl('images/behind-scenes.gif') ?>" alt="" />			
+			
+		</div>
+		<div class="designer-scene-content">
+			<h3 class="big-title"><?php echo $this->__('Behind the Scenes Article Title') ?></h3>
+			<p>
+				orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper congue eros non aliquam. 
+				Nullam condimentum lorem ut leo tempor vitae iaculis quam dignissim. Suspendisse venenatis accumsan vulputate. 
+				orem ipsum dolor sit amet, consectetur adipiscing elit. Sed ullamcorper. 
+			</p>
+			<a href="javascript:void(0);" title=""><?php echo $this->__('read more') ?></a>	
+		</div>
+	</div>
+</div>
+*/ ?>
+<?php echo $this->getChildHtml('upsell_products') ?>
+
+<?php //$_category = Mage::getModel('catalog/category')->loadByAttribute('name', 'trunk shows');?>
+<?php //$subcats = $_category->getChildren();?>
+
+<div class="designer-block">
+	<?php
+			//Get ongoing trunk shows minus the one we're currently on
+			$_events = $this->helper('bevel/trunkShows')->getTrunkShows($_event->getId(), 3, true);
+			
+			//Show header if other trunkshows avaiable
+			if(count($_events))
+			{
+	?>
+	<h2 class="sp-title"><?php echo $this->__('PAST TRUNK SHOWS') ?></h2>
+	<?php
+			}
+	?>
+	<div class="trunk-show-content clearfix">
+		<ul class="trunk-show-slider jcarousel-skin-tango">
+		
+		<?php
+
+			foreach($_events as $_event)
+			{
+				$_eventDate = new DateTime($_event->getDateEnd());
+				$_trunkshow = Mage::getModel('catalog/category')->load($_event->getCategoryId());
+		?>	
+				<li class="temporary-style">
+					<a class="cat-img" href="<?php echo $_trunkshow->getUrl()?>" title="">
+						<img src="<?php echo$_trunkshow->getResizedImage(); ?>" alt="" />
+					</a>
+					<a href="<?php echo $_trunkshow->getUrl()?>"><?php echo $_trunkshow->getName();?></a>
+					<span>
+					<?php 
+						if($_event->getStatus() == "open")
+						{
+							echo 'ends ';
+						}
+						else
+						{
+							echo 'ended ';
+						} 
+						echo $_eventDate->format("l");?>, <?php echo $_eventDate->format("F");?> <?php echo $_eventDate->format("d");
+					?>
+					</span>
+				</li>
+		<?php
+			}
+		?>
+
+		</ul>
+	
+	</div>
+</div>
+
+<script type="text/javascript">
+/*jQuery(document).ready(function(){
+	jQuery('.trunk-show-slider').jcarousel({
+		wrap: 'circular',
+		animation: 800
+	});
+});
+*/
+</script>
+
+<?php echo $this->getChildHtml('productTagList') ?>
+<?php echo $this->getChildHtml('product_additional_data') ?>
+
+<script type="text/javascript">
+//<![CDATA[
+    var productAddToCartForm = new VarienForm('product_addtocart_form');
+    productAddToCartForm.submit = function(button, url) {
+        if (this.validator.validate()) {
+           /* var form = this.form;
+            var oldUrl = form.action;
+
+            if (url) {
+               form.action = url;
+            }
+            var e = null;
+            try {
+                this.form.submit();
+            } catch (e) {
+            }
+            this.form.action = oldUrl;
+            if (e) {
+                throw e;
+            }
+
+            if (button && button != 'undefined') {
+                button.disabled = true;
+            }
+			*/
+			$j(this.form).ajaxSubmit(ajaxCartOptions);
+        }
+    }.bind(productAddToCartForm);
+
+    productAddToCartForm.submitLight = function(button, url){
+        if(this.validator) {
+            var nv = Validation.methods;
+            delete Validation.methods['required-entry'];
+            delete Validation.methods['validate-one-required'];
+            delete Validation.methods['validate-one-required-by-name'];
+            // Remove custom datetime validators
+            for (var methodName in Validation.methods) {
+                if (methodName.match(/^validate-datetime-.*/i)) {
+                    delete Validation.methods[methodName];
+                }
+            }
+
+            if (this.validator.validate()) {
+                if (url) {
+                    this.form.action = url;
+                }
+                this.form.submit();
+            }
+            Object.extend(Validation.methods, nv);
+        }
+    }.bind(productAddToCartForm);
+//]]>
+</script>

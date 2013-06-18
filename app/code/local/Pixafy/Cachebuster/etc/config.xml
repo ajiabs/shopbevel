@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Pixafy
+ *
+ * @category    Pixafy
+ * @package     Pixafy_Cachebuster
+ * @copyright   Copyright (c) 2013 Pixafy (http://www.pixafy.com)
+ * @author      Thomas Lackemann
+ */
+-->
+<config>
+    <modules>
+        <Pixafy_Cachebuster>
+            <version>1.0.0</version>
+        </Pixafy_Cachebuster>
+    </modules>
+    <admin>
+        <routers>
+            <cachebuster>
+                <use>admin</use>
+                <args>
+                    <module>Pixafy_Cachebuster</module>
+                    <frontName>cachebuster</frontName>
+                </args>
+            </cachebuster>
+        </routers>
+    </admin>
+    <global>
+        <models>
+            <cachebuster>
+                <class>Pixafy_Cachebuster_Model</class>
+            </cachebuster>
+        </models>
+        <blocks>
+            <cachebuster>
+                <class>Pixafy_Cachebuster_Block</class>
+            </cachebuster>
+            <page>
+                <rewrite>
+                    <html_head>Pixafy_Cachebuster_Block_Head</html_head>
+                </rewrite>
+            </page>
+        </blocks>
+        <helpers>
+            <cachebuster>
+                <class>Pixafy_Cachebuster_Helper</class>
+            </cachebuster>
+        </helpers>
+    </global>
+    <default>
+        <cachebuster>
+            <cache_general>
+                <is_enabled>1</is_enabled>
+                <cache_version>1.0.0.0</cache_version>
+            </cache_general>
+        </cachebuster>
+    </default>
+</config>

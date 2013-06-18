@@ -1,0 +1,98 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<a class="btn-feedback" href="javascript:void(0);" onclick="showFeedback();">Feedback</a>
+
+<div class="footer-container">
+	<div class="footer pg-section">
+		<div class="mentions-box clear-box">
+			<a class="link-mention" href="http://www.wired.com/business/2012/05/ff_gururies/3/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/logo-wired.png'); ?>" alt="Wired"></a>
+			<a class="link-mention" href="http://techcrunch.com/2012/01/28/founder-soup/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/logo-techcrunch.png'); ?>" alt="TechCrunch"></a>
+			<a class="link-mention" href="http://www.forbes.com/sites/tomiogeron/2012/06/01/dna-to-dollhouses-stanfords-startx-accelerator-launches-new-batch/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/logo-forbes.png'); ?>" alt="Forbes"></a>
+			<a href="http://www.7x7.com/tech-gadgets/stanford-student-incubator-startx-launches-multiple-medical-startups" target="_blank"><img src="<?php echo $this->getSkinUrl('images/logo-7x7.png'); ?>" alt="7x7"></a>
+		</div><!-- .mentions-box -->
+
+		<div class="dotted-lines-h"></div>
+
+		<div class="footer-links clear-box">
+			<div class="links-wrap">
+				<?php /*
+					<a class="btn-link-shop" href="<?php echo Mage::getBaseUrl(); ?>shop"><?php echo $this->__('Shop'); ?></a>
+					<a class="btn-link-vote" href="<?php echo Mage::getBaseUrl(); ?>vote"><?php echo $this->__('Vote'); ?></a>
+					<a class="btn-link-meet" href="<?php echo Mage::getBaseUrl(); ?>meet-us"><?php echo $this->__('Meet Us'); ?></a>
+					<a href="mailto:info@shopbevel.com"><?php echo $this->__('Contact Us'); ?></a>
+					<a href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank"><?php echo $this->__('Find us on Facebook'); ?></a>
+					<a href="https://twitter.com/shopbevel" target="_blank"><?php echo $this->__('Follow us on Twitter'); ?></a>
+				*/ ?>
+				<a class="btn-link-meet" href="<?php echo Mage::getBaseUrl(); ?>jobs"><?php echo $this->__('Work Here'); ?></a>
+				<a href="<?php echo Mage::getBaseUrl(); ?>terms"><?php echo $this->__('Terms & Conditions'); ?></a>
+				<a href="<?php echo Mage::getBaseUrl(); ?>privacy"><?php echo $this->__('Privacy Policy'); ?></a>
+				<a href="<?php echo Mage::getBaseUrl(); ?>faq"><?php echo $this->__('FAQs'); ?></a>
+				<a href="<?php echo Mage::getBaseUrl(); ?>in-the-press"><?php echo $this->__('In The Press'); ?></a>
+				<a href="http://shopbevel.tumblr.com" target="_blank"><?php echo $this->__('Blog'); ?></a>
+			</div><!-- .links-wrap -->
+
+			<p class="txt-copyright"><?php echo $this->getCopyright(); ?></p>
+		</div><!-- .footer-links -->
+
+		<?php /*
+		<ul class="footer-site-links clear-box">
+			<li><a href="<?php echo Mage::getBaseUrl(); ?>terms"><?php echo $this->__('Terms & Conditions'); ?></a></li>
+			<li><a href="<?php echo Mage::getBaseUrl(); ?>privacy"><?php echo $this->__('Privacy Policy'); ?></a></li>
+		</ul>
+		*/ ?>
+	</div><!-- .footer -->
+</div><!-- .footer-container -->
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-37728918-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<script type="text/javascript">
+	adroll_adv_id = "3CWFJVFDFJHLHJAO74QA6O";
+	adroll_pix_id = "J2KFHQ5LGRFE3AT3J6XX63";
+	(function () {
+	var oldonload = window.onload;
+	window.onload = function(){
+		__adroll_loaded=true;
+		var scr = document.createElement("script");
+		var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+		scr.setAttribute('async', 'true');
+		scr.type = "text/javascript";
+		scr.src = host + "/j/roundtrip.js";
+		((document.getElementsByTagName('head') || [null])[0] ||
+		document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+		if(oldonload){oldonload()}};
+	}());
+</script>

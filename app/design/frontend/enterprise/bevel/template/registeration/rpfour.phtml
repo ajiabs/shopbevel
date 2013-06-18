@@ -1,0 +1,24 @@
+
+<script type="text/javascript">
+	function ajaxPostFuncOne2(param){
+		jQuery.ajax({
+			type: "GET",
+			url: "<?php echo $this->getUrl('registeration/ajax/pagefive/')?>",
+			dataType: "json",
+			success: function(jsonResponse){
+	         	if(jsonResponse.status == 1){
+		         	jQuery("#ajax-content").html(jsonResponse.html_content);
+	         	}else{
+		         	alert(jsonResponse.error_message);
+	         	}
+	        }
+					
+		});
+	}
+</script>
+
+<h1>Registeration Page 4</h1>
+
+<P>page 4 test content </P>
+
+<button onclick="ajaxPostFuncOne2()">That's us.Now you</button>

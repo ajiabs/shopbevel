@@ -1,0 +1,485 @@
+<?php
+	$_collections = $this->getCollections();
+	$_shopBevelHelper = $this->helper("bevel/shopbevel");
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_topProducts = $this->getTopProducts();
+	$_newProducts = $this->getNewProducts();
+	$_preorderProducts = $this->getPreorderProducts();
+	$_sliderProducts = $this->getSliderProducts();
+?>
+<div class="home-new">
+	<div class="main-cntnt">
+		<div class="hero-section clear-box">
+			<div class="hero-left">
+				<div class="hero-slider">
+					<?php
+						foreach($_collections as $_collection):
+
+					?>
+					<div class="slider-item">
+						<?php $_collectionImage = $_collection->getThumbnail() ? $_shopBevelHelper->getCategoryThumbnail($_collection) :  $_collection->getImageUrl() ?>
+						<a href="<?php echo $_collection->getUrl()?>"><img class="hero-slider-main-image" src="<?php echo $_collectionImage?>" /></a>
+
+					</div>
+					<?php
+						endforeach;
+					?>
+				</div>
+				<div class="product-slider-wrapper">
+					<div class="product-slider">
+
+						<div class="slider-item">
+							<?php
+							$_count = 1;
+							$_productsPerSlide = 4;
+							$_total = count($_sliderProducts);
+							foreach($_sliderProducts as $_product):
+								//echo $_product->getName();
+								$_designerCategory = $_shopBevelHelper->getProductDesigner($_product);
+								$_profileUrl = $_pixvoteHelper->checkForDesignerProfile($_designerCategory);
+								$_maindollarprice = $this->helper('core')->currency($_product->getPrice());
+								$_mainprice = $_product->getPrice();
+								$_specialprice = $_product->getSpecialPrice();
+						?>
+							<div class="product">
+								<div class="product-designer">
+									<div class="prdt-img">
+										<a href="<?php echo $_product->getProductUrl(); ?>">
+											<img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize($_shopBevelHelper->_resizeWidthHome, $_shopBevelHelper->_resizeHeightHome); ?>" />
+										</a>
+									</div>
+									<div class="vote-dsgnr-info clear-box">
+										<?php
+											if($_profileUrl):
+										?>
+											<a href="<?php echo $_profileUrl?>">
+										<?php
+											endif;
+										?>
+										<div class="vote-dsgnr-pic">
+											<img src="<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>" />
+										</div>
+										<?php
+											if($_profileUrl):
+										?>
+											</a>
+										<?php
+											endif;
+										?>
+										<div class="vote-dsgnr-desc">
+											<p class="txt-title">Designer</p>
+											<?php
+												if($_profileUrl):
+											?>
+												<a href="<?php echo $_profileUrl?>">
+											<?php
+												endif;
+											?>
+											<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner())?></p>
+											<?php
+												if($_profileUrl):
+											?>
+												</a>
+											<?php
+												endif;
+											?>
+											<p class="txt-locale"><?php echo $_designerCategory->getLocation()?></p>
+											<p class="bevel-price"><?php echo $_specialprice ? $this->helper('core')->currency($_specialprice) : $_maindollarprice; ?></p>
+										</div>
+									</div>
+								</div>
+							</div>
+						<?php
+							if( $_count % $_productsPerSlide == 0 && ($_count < $_total)):
+						?>
+							</div>
+							<div class="slider-item">
+
+						<?php
+							endif;
+							$_count++;
+							endforeach;
+						?>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="vote-slider">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vote-slider')->toHtml() ?>
+			</div>
+		</div>
+
+		<div class="learn-more-section">
+			<a href="<?php echo Mage::getBaseUrl(); ?>about-us">Learn More</a>
+		</div>
+
+		<div class="testimonials-section">
+			<div class="designer-stories">
+				<h1>Our Designers</h1>
+				<div class="designer-slider">
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('our_designers')->toHtml() ?>
+				</div>
+			</div>
+
+			<div class="customer-stories">
+				<h1>Customer Moments</h1>
+				<div class="customer-slider">
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customer_moments')->toHtml() ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="top-sellers-section">
+			<h2>Top Sellers</h2>
+			<div class="top-seller-items-container clear-box">
+				<?php
+					foreach($_topProducts as $_topProduct):
+						$_designerCategory = $_shopBevelHelper->getProductDesigner($_topProduct);
+						$_profileUrl = $_pixvoteHelper->checkForDesignerProfile($_designerCategory);
+						$_maindollarprice = $this->helper('core')->currency($_topProduct->getPrice());
+						$_mainprice = $_topProduct->getPrice();
+						$_specialprice = $_topProduct->getSpecialPrice();
+				?>
+				<div class="product-designer shop">
+					<div class="prdt-img">
+						<a href="<?php echo $_topProduct->getProductUrl()?>">
+							<div class="product-grid-slider">
+								<?php
+									$_images = Mage::getModel('catalog/product')->load($_topProduct->getId())->getMediaGalleryImages();
+									foreach($_images as $_image):
+								?>
+									<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image', $_image->getFile())->resize($_shopBevelHelper->_resizeWidth, $_shopBevelHelper->_resizeHeight); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+								<?php endforeach; ?>
+							</div>
+						</a>
+					</div>
+					<div class="vote-dsgnr-info clear-box">
+						<?php
+							if($_profileUrl):
+						?>
+							<a href="<?php echo $_profileUrl?>">
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-pic">
+							<img src='<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>'/>
+						</div>
+						<?php
+							if($_profileUrl):
+						?>
+							</a>
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-desc">
+							<p class="txt-title">Designer</p>
+							<?php
+								if($_profileUrl):
+							?>
+								<a href="<?php echo $_profileUrl?>">
+							<?php
+								endif;
+							?>
+							<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner())?></p>
+							<?php
+								if($_profileUrl):
+							?>
+								</a>
+							<?php
+								endif;
+							?>
+							<p class="txt-locale"><?php echo $_designerCategory->getLocation()?></p>
+						</div>
+						<p class="bevel-price"><?php echo $_specialprice ? $this->helper('core')->currency($_specialprice) : $_maindollarprice; ?></p>
+					</div>
+				</div><!-- end product container -->
+				<?php
+					endforeach;
+				?>
+			</div><!-- end items container -->
+		</div><!-- end top sellers section -->
+
+		<div class="best-sellers-section">
+			<h2>New Arrivals</h2>
+			<div class="best-seller-items-container clear-box">
+				<?php
+					foreach($_newProducts as $_newProduct):
+						$_designerCategory = $_shopBevelHelper->getProductDesigner($_newProduct);
+						$_profileUrl = $_pixvoteHelper->checkForDesignerProfile($_designerCategory);
+						$_maindollarprice = $this->helper('core')->currency($_newProduct->getPrice());
+						$_mainprice = $_newProduct->getPrice();
+						$_specialprice = $_newProduct->getSpecialPrice();
+				?>
+				<div class="product-designer shop">
+					<div class="prdt-img">
+						<a href="<?php echo $_newProduct->getProductUrl()?>">
+							<div class="product-grid-slider">
+								<?php
+									$_images = Mage::getModel('catalog/product')->load($_newProduct->getId())->getMediaGalleryImages();
+									foreach($_images as $_image):
+								?>
+									<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image', $_image->getFile())->resize($_shopBevelHelper->_resizeWidth, $_shopBevelHelper->_resizeHeight); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+								<?php endforeach; ?>
+							</div>
+						</a>
+					</div>
+					<div class="vote-dsgnr-info clear-box">
+						<?php
+							if($_profileUrl):
+						?>
+							<a href="<?php echo $_profileUrl?>">
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-pic">
+							<img src='<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>'/>
+						</div>
+						<?php
+							if($_profileUrl):
+						?>
+							</a>
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-desc">
+							<p class="txt-title">Designer</p>
+							<?php
+								if($_profileUrl):
+							?>
+								<a href="<?php echo $_profileUrl?>">
+							<?php
+								endif;
+							?>
+							<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner())?></p>
+							<?php
+								if($_profileUrl):
+							?>
+								</a>
+							<?php
+								endif;
+							?>
+							<p class="txt-locale"><?php echo $_designerCategory->getLocation()?></p>
+						</div>
+						<p class="bevel-price"><?php echo $_specialprice ? $this->helper('core')->currency($_specialprice) : $_maindollarprice; ?></p>
+					</div>
+				</div><!-- end product container -->
+				<?php
+					endforeach;
+				?>
+			</div><!-- end items container -->
+		</div><!-- end best sellers section -->
+
+		<div class="best-sellers-section">
+			<h2>Recent Winners</h2>
+			<div class="best-seller-items-container clear-box">
+				<?php
+					foreach($_preorderProducts as $_preorderProduct):
+						$_designerCategory = $_shopBevelHelper->getProductDesigner($_preorderProduct);
+						$_profileUrl = $_pixvoteHelper->checkForDesignerProfile($_designerCategory);
+						$_maindollarprice = $this->helper('core')->currency($_preorderProduct->getPrice());
+						$_mainprice = $_preorderProduct->getPrice();
+						$_specialprice = $_preorderProduct->getSpecialPrice();
+				?>
+				<div class="product-designer shop">
+					<span class="hdr-pre-order">Preorder</span>
+					<div class="prdt-img">
+						<a href="<?php echo $_preorderProduct->getProductUrl()?>">
+							<div class="product-grid-slider">
+								<?php
+									$_images = Mage::getModel('catalog/product')->load($_preorderProduct->getId())->getMediaGalleryImages();
+									foreach($_images as $_image):
+								?>
+									<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image', $_image->getFile())->resize($_shopBevelHelper->_resizeWidth, $_shopBevelHelper->_resizeHeight); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+								<?php endforeach; ?>
+							</div>
+						</a>
+					</div>
+					<div class="vote-dsgnr-info clear-box">
+						<?php
+							if($_profileUrl):
+						?>
+							<a href="<?php echo $_profileUrl?>">
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-pic">
+							<img src='<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>'/>
+						</div>
+						<?php
+							if($_profileUrl):
+						?>
+							</a>
+						<?php
+							endif;
+						?>
+						<div class="vote-dsgnr-desc">
+							<p class="txt-title">Designer</p>
+							<?php
+								if($_profileUrl):
+							?>
+								<a href="<?php echo $_profileUrl?>">
+							<?php
+								endif;
+							?>
+							<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner())?></p>
+							<?php
+								if($_profileUrl):
+							?>
+								</a>
+							<?php
+								endif;
+							?>
+							<p class="txt-locale"><?php echo $_designerCategory->getLocation()?></p>
+						</div>
+						<p class="bevel-price">
+							<?php echo $_specialprice ? $this->helper('core')->currency($_specialprice) : $_maindollarprice; ?>
+							<span>
+								<?php //echo $this->__('('); ?><?php //echo Mage::getStoreConfig($_pixvoteHelper->IN_PRODUCTION_DISCOUNT_PATH); ?><?php //echo $this->__('% off)'); ?>
+							</span>
+						</p>
+					</div>
+				</div><!-- end product container -->
+				<?php
+					endforeach;
+				?>
+			</div><!-- end items container -->
+		</div><!-- end best sellers section -->
+
+
+
+	</div><!-- .main-cntnt -->
+</div><!-- .home-new -->
+
+<script type="text/javascript">
+
+	jQuery(window).load(function() {
+		jQuery(window).scrollTop(0);
+	});
+
+	jQuery(function(){
+		<?php
+			if($this->getRequest()->getParam("feedback")):
+		?>
+				showFeedback();
+		<?php
+			endif;
+		?>
+		customerForm = new VarienForm('customer-form', true);
+		designerForm = new VarienForm('designer-form', true);
+		Validation.add('validate-defaults','Please enter a valid value',check_defaults);
+
+		//custom submit code
+		jQuery("#customer-submit").click(function(event)
+		{
+			//Run validator
+			event.preventDefault();
+			if(customerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+
+		jQuery("#designer-submit").click(function(event)
+		{
+			//Run validator
+			event.preventDefault();
+			if(designerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+
+		// @home-new - creating main slider
+			slider = jQuery('.bxslider').bxSlider({
+				controls: true,
+				infiniteLoop: true,
+				pager: false
+			});
+
+			jQuery('.go-to-designers').on('click', function(){
+				slider.goToNextSlide();
+			});
+
+		/* leveling voting boxes */
+			equalHeight(jQuery('.section-vote .prdt-info'));
+
+		/* @global-header - header spacing for offset
+			headerOffset = 100;
+
+		//	@global-header - scrollTo link button controls
+			jQuery('.link-shop, .btn-link-shop').on('click', function(){
+				var offsetTop = jQuery('.section-shop').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '193px'});
+				jQuery('body').stop().animate({ 'scrollTop': offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-vote, .btn-link-vote').on('click', function(){
+				var offsetTop = jQuery('.section-vote').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '325px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-meet, .btn-link-meet').on('click', function(){
+				var offsetTop = jQuery('.section-meet').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '470px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.btn-sign-up-top').on('click', function(){
+				jQuery('body').stop().animate({ scrollTop: 0 }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+		*/
+
+		// @global-header - scrolling header for iOS below version 5
+			ver = iOSversion();
+
+			window.onscroll = function() {
+				iOSScroll();
+			};
+
+		/* @global-header - adding header links to array for checking page position
+			contentTop = [];
+
+			jQuery('.main-section').each(function(){
+				var topPos = jQuery(this).offset();
+
+				contentTop.push( (topPos.top - headerOffset) );
+			});
+
+			contentTop[3] = jQuery('.footer-container').offset().top;
+
+			jQuery(window).scroll(function(){
+				checkPagePosition();
+			});
+		*/
+	});
+</script>
+<?php
+	//Get Vote date
+	$date = new DateTime(Mage::helper('bevel/shopbevel')->getVoteDate());
+?>
+<script type="text/javascript">
+$j(function () {
+	target = new Date("<?php echo $date->format('F d, Y H:i:s');?>");
+
+	//Modify for time zone
+	target.setHours(target.getHours() - (target.getTimezoneOffset()/60));
+	$j('.countdown').countdown({onExpiry:voteExpire, until: target, format: 'DMS', layout:"in {dn} {dl}", alwaysExpire:true});
+});
+function voteExpire()
+{
+	$j('.countdown').html("TODAY");
+}
+</script>

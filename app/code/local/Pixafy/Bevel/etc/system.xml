@@ -1,0 +1,138 @@
+<config>
+	<tabs>
+		<bevel translate="label" module="bevel">
+			<label>Shop Bevel</label>
+			<sort_order>10</sort_order>
+		</bevel>
+	</tabs>	
+	<sections>
+		<bevel translate="label" module="bevel">
+			<label>Configuration</label>
+			<tab>bevel</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <sort_order>10</sort_order>
+            <groups>
+				<general>
+                    <label>Site Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <vote_start_date>
+                            <label>Vote Start Date</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Date for when voting begins (YYYY-MM-DD format)</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </vote_start_date>
+                        <vote_url>
+                            <label>Vote Url</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Url for voting page</comment>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </vote_url>
+						<designer_category_id>
+                            <label>Designer Category ID</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>ID of category that contains designer information</comment>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </designer_category_id>
+						<login_display_time>
+                            <label>Login Display Time</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Amount of seconds until login window is displayed for logged out users</comment>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </login_display_time>
+						<popup_frequency>
+                            <label>Popup Frequency</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Frequency in which Login window is presented to user</comment>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </popup_frequency>
+						<collection_category_id>
+                            <label>Collection Category ID:</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>ID for collections parent</comment>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </collection_category_id>
+						<in_production_category_id>
+                            <label>In Production Category ID:</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>ID for designs moved to in production status</comment>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </in_production_category_id>
+						<in_production_default_qty>
+                            <label>In Production Default Quantity:</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Default quantity for designs converted into products</comment>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </in_production_default_qty>
+						<in_production_discount>
+                            <label>In Production Discount Percentage:</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Percent to discount a product in production</comment>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </in_production_discount>
+						 <vote_count>
+                            <label>Vote Count</label>
+                            <frontend_type>text</frontend_type>
+                            <comment># of votes</comment>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </vote_count>
+						<google_captcha_public_key>
+                            <label>Google captcha public key</label>
+                            <frontend_type>password</frontend_type>
+                            <comment>Google captcha public keys</comment>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </google_captcha_public_key>
+						<google_captcha_private_key>
+                           <label>Google captcha private key</label>
+                            <frontend_type>password</frontend_type>
+                            <comment>Google captcha private key</comment>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </google_captcha_private_key>
+                    </fields>
+				</general>
+			</groups>
+		</bevel>
+	</sections>
+</config>

@@ -1,0 +1,23 @@
+
+<script type="text/javascript">
+	function ajaxPostFuncFive(){
+		var str = jQuery("#emailForm").serialize();
+		jQuery.ajax({
+			type: "POST",
+			url: "<?php echo $this->getUrl('registeration/ajax/pagesix/')?>",
+			dataType: "html",
+			data: {data: str},
+			success: function(data){
+		         	jQuery("#ajax-content").html(data);
+	        }
+					
+		});
+	}
+</script>
+
+
+<form method="post" id="emailForm" action="javascript:void(0)">
+<h1>Registeration Page 5</h1>
+	<input class="ipt-footerText" type="text" name="email" value="Enter your Email" > 
+	<input class="ipt-footerSubmit" type="submit" value="next" onclick="ajaxPostFuncFive()">
+</form>

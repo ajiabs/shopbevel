@@ -1,0 +1,5 @@
+<config>
+	<sections>
+		<cim translate="label" module="cim"></cim>
+	</sections>
+</config>

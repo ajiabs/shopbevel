@@ -1,0 +1,765 @@
+<!-- Tumblr Theme for Crowd Jewel/Bevel by Pixafy/Rachel R. Vasquez. Visit us at www.pixafy.com-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>{Title}{block:PostSummary} - {PostSummary}{/block:PostSummary}</title>
+        <link rel="shortcut icon" href="{Favicon}">
+        {block:Description} <meta name="description" content="{MetaDescription}" /> {/block:Description}
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}"/>
+		<meta name="viewport" content="width=775"/> <!-- iPhone -->
+		<meta name="if:Show post notes" content ="1"/>
+		<meta name="if:Enable text shadow" content ="1"/>
+		<link href='http://fonts.googleapis.com/css?family=Lekton' rel='stylesheet' type='text/css'>	
+		<style type="text/css">
+		/*RESET*/
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, font, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			font-size: 100%;
+			vertical-align: baseline;
+			background: transparent;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		
+		/* remember to define focus styles! */
+		:focus {
+			outline: 0;
+		}
+		
+		/* remember to highlight inserts somehow! */
+		ins {
+			text-decoration: none;
+		}
+		del {
+			text-decoration: line-through;
+		}
+		
+		/* tables still need 'cellspacing="0"' in the markup */
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+		/*END OF RESET*/
+		
+		/*GENERAL*/
+		.clear {
+		clear: both;
+		}
+		
+		body { 
+		font-family: 'Lekton', sans-serif;
+		font-size: 12px;
+		line-height: 18px;
+		background-color: #fff;
+		}
+		
+		.tumblr_wrap {
+		width: 990px; 
+		margin: auto; 
+		display: block;
+		}
+		/*NAVS/FOOTER*/
+		.tumblr_wrap .tumblr_nav { 
+		width: 100%; 
+		text-align: center; 
+		padding: 28px 0 0; 
+		position: relative; 
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 { 
+		width: 100%; 
+		position: absolute; 
+		margin-left: 45px; 
+		top: 9px; 
+        z-index: 0;
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 strong { 
+		text-indent: -9999px; 
+		font-size: 0; 
+		line-height: 0; 
+		*text-indent: 0; 
+		*color: #fff; 
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 span, h1 a { 
+		text-indent: 0; 
+		}
+		
+		.tumblr_wrap .tumblr_nav .nav_main { 
+		border-bottom: 1px solid #999; 
+		margin-top: 39px; 
+		padding-bottom: 13px; 
+        position: relative;
+        z-index: 10;
+		}
+		
+		.tumblr_wrap .tumblr_footer {
+		border-top: 1px solid #999;
+		height: 225px;
+		}
+		
+		.tumblr_wrap .tumblr_footer .footer_links, .tumblr_wrap .tumblr_footer .social_icons { 
+		margin: 15px auto 0; 
+		text-align: center; 
+		width: 100%; 
+		display: block; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul, .tumblr_wrap .tumblr_footer ul { 
+		display: inline-block; 
+		*display: inline; 
+		*zoom:1; 
+		width: auto; 
+		margin: auto; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li, .tumblr_wrap .tumblr_footer ul li { 
+		float: left; 
+		margin: 0 10px; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li a, .tumblr_wrap .tumblr_footer ul li a { 
+		text-transform: uppercase; 
+		color: #000; 
+		text-decoration: none; 
+		font-size: 14px; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li a:hover, .tumblr_wrap .tumblr_nav ul li a.current, 
+		.tumblr_wrap .tumblr_footer .footer_links ul li a:hover, .tumblr_wrap .tumblr_footer .footer_links ul li a.current { 
+		color: #D34F35; 
+		}
+		/*SIDEBAR*/
+		.tumblr_wrap .sidebar {  
+		width: 155px; 
+		float: right;
+		margin-top: 110px;
+        font-size: 14px;
+		}
+		
+		.tumblr_wrap .sidebar ul li a { 
+		text-decoration: none; 
+		color: #000; 
+		font-size: 14px; 
+		line-height: 18px; 
+		}	
+		
+		/*RECENT POSTS SIDEBAR*/
+		
+		.tumblr_wrap .sidebar #recent_posts { 
+		text-align: left; 
+		border-top: 1px solid #d9d9d9; 
+		padding: 25px 0; 
+		}
+		
+		.tumblr_wrap .sidebar #recent_posts p a {
+		font-size: 14px; 
+		line-height: 17px; 
+		color: #000; 
+		text-decoration: none;
+		}
+		
+		.tumblr_wrap .sidebar #recent_posts p a:hover, .tumblr_wrap .sidebar #recent_posts a:focus { 
+		color: #D9654E; 
+		}
+		
+		.gf-result .gf-relativePublishedDate, .gf-result .gf-snippet { display: none!important; }
+		
+		.gfc-resultsHeader { border: none!important; }
+		
+		/*SOCIAL ICONS*/
+		.sidebar .social_icons { 
+		padding: 15px 0 22px; 
+		}
+		
+		.btn_social { 
+		float: right; 
+		margin-right: 10px; 
+		width: 30px; 
+		height: 30px; 
+		text-indent: -9999px; 
+		text-decoration: none; 
+		border: none; 
+		display: block; 
+		background: url('http://beveltrunkshows.com/welcome/wp-content/uploads/2012/10/social-sprite.png') no-repeat; 
+		}
+		
+		.social_icons .btn_social:first-child { 
+		margin-right: 0; 
+		}
+		
+		.social_icons .btn_social.btn_facebook { 
+		background-position: 0 0; 
+		}
+		
+		.social_icons .btn_social.btn_twitter { 
+		background-position: -30px 0; 
+		}
+		
+		.social_icons .btn_social.btn_pinterest { 
+		background-position: -60px 0; 
+		}
+		
+		.social_icons .btn_social.btn_tumblr { 
+		background-position: -90px 0;
+		 }
+		 
+		/*POST*/
+		.tumblr_wrapper {
+		position: relative;
+		}
+		
+		.tumblr_wrapper .tumblr_content { 
+		margin-left: 204px; 
+		width: 580px; 
+		float: left; 
+		}
+	
+		.tumblr_wrapper .tumblr_content .tumblr_post { 
+		width: 580px; 
+		margin: auto; 
+		display: block; 
+		padding: 59px 0 45px; 
+		border-top: 1px dotted #d9d9d9; 
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post:first-child { 
+		border-top: none; 
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_date {
+		padding: 0 0 21px;
+		text-align: center;
+		color: black;
+		font-size: 14px;
+		line-height: 14px;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post h2.post_title, .tumblr_wrapper .tumblr_content .tumblr_post h2.post_title a {
+		letter-spacing: 2px;
+		color: black;
+		font-size: 17px;
+		line-height: 19px;
+		text-transform: uppercase;
+		text-align: left;
+		text-decoration: none;
+		margin: 18px 0 0;
+		border: none;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post h2.post_title a:hover, .tumblr_wrapper .tumblr_content .tumblr_post h2.post_title a:focus {
+		color: #D9654E;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_content {
+		margin-top: 24px;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_content p {
+		font-size: 14px;
+		line-height: 18px;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_content a {
+		color: #D9654E;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_content p img {
+		margin: 20px auto; 
+		display: block;
+		width: 580px; height: auto;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_image img { margin: auto; display: block; width: 580px; height: auto; }
+		
+		.tag_wrap, note_wrap {
+		margin-top: 16px;
+		}
+		
+		.tag_wrap ul li {
+		float: left; margin-right: 5px;
+		}
+		
+		.tag_wrap ul li a, .note_wrap a { 
+		text-decoration: none;
+        font-size: 14px;
+		}
+		
+		.tag_wrap ul li a:hover, .tag_wrap ul li a:focus, .note_wrap a:hover, .note_wrap a:focus { 
+		text-decoration: none;
+		color: #D9654E;
+		}
+		
+		.tag_wrap ul li a {
+		float: left;
+		margin-right: 5px; 
+		color: #000;
+		}
+		
+		.note_wrap a {
+		color: #D9654E; 
+		}
+		
+		</style>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
+		<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    </head>
+    <body>
+    <div class="tumblr_wrap">
+
+	<div class="tumblr_nav"><!--was page nav-->
+        <h1><strong>{Title}</strong><a href="/"><img src="http://www.beveltrunkshows.com/welcome/wp-content/uploads/2012/11/logo-blog-A.png" alt="" role="presentation"/></a>
+        <a href="http://www.beveltrunkshows.com/welcome/bevel/#designersWanted"><img src="http://www.beveltrunkshows.com/welcome/wp-content/uploads/2012/11/logo-blog-B.png" alt="" role="presentation"></a>    
+        </h1>
+        
+        <div class="nav_main">
+			<ul>
+				<li><a href="">trunk shows</a></li>
+				<li><a href="http://www.beveltrunkshows.com/welcome/bevel/#howItWorks" target="_blank">how it works</a></li>
+				<li><a href="/" class="current">blog</a></li>
+			</ul>
+		</div><!--nav_main-->
+	</div><!--tumblr_nav-->
+
+	<div class="tumblr_wrapper">
+	
+		<div class="tumblr_content">
+		
+        <ol id="posts">
+            {block:Posts}
+                {block:Text}
+                    <li class="post text">
+                    
+                   	<div class="tumblr_post">
+                        	
+						{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+
+						<div class="post_content">{Body}</div><!--post_content-->
+					
+						<div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->	
+                    </div><!--tumblr_post-->
+                    </li>
+                {/block:Text}
+
+                {block:Photo}
+                    <li class="post photo">
+                    <div class="tumblr_post">
+						{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+							
+                        <div class="post_image"><img src="{PhotoURL-500}" alt="{PhotoAlt}"/></div><!--post_image-->
+						
+						<div class="post_content">
+							{block:Caption}
+								<div class="caption">{Caption}</div>
+							{/block:Caption}
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div> 
+                    </li>
+                {/block:Photo}
+
+                {block:Photoset}
+                    <li class="post photoset">
+                    <div class="tumblr_post">
+                    	{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+						
+                        <div class="post_image">{Photoset-500}</div>
+
+                        <div class="post_content">
+							{block:Caption}
+								<div class="caption">{Caption}</div>
+							{/block:Caption}
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>    
+                    </li>
+                {/block:Photoset}
+
+                {block:Quote}
+                    <li class="post quote">
+                    <div class="tumblr_post">
+                    	{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+						
+                        <div class="post_content">
+                        "{Quote}"
+
+                        {block:Source}
+                            <div class="source">{Source}</div>
+                        {/block:Source}
+                         </div><!--post_content-->
+                         
+                         <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>     
+                    </li>
+                {/block:Quote}
+
+                {block:Link}
+                    <li class="post link">
+                    <div class="tumblr_post">
+                    	{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+						
+                    	<div class="post_content">
+                        <a href="{URL}" class="link" {Target}>{Name}</a>
+
+                        {block:Description}
+                            <div class="description">{Description}</div>
+                        {/block:Description}
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>    
+                    </li>
+                {/block:Link}
+
+                {block:Chat}
+                    <li class="post chat">
+                    <div class="tumblr_post">
+                        {block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+                            <h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+                        {/block:Title}
+                        
+						<div class="post_content">
+                        <ul class="chat">
+                            {block:Lines}
+                                <li class="{Alt} user_{UserNumber}">
+                                    {block:Label}
+                                        <span class="label">{Label}</span>
+                                    {/block:Label}
+
+                                    {Line}
+                                </li>
+                            {/block:Lines}
+                        </ul>
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>    
+                    </li>
+                {/block:Chat}
+
+                {block:Video}
+                    <li class="post video">
+                    <div class="tumblr_post">
+                    	{block:Date}
+							<div class="post_date"><p>{DayOfWeek}, {Month} {DayOfMonth}, {Year}</p></div>
+						{/block:Date}
+						
+						{block:Title}
+							<h2 class="post_title"><a href="{Permalink}">{Title}</a></h2>
+						{/block:Title}
+						
+                    	<div class="post_image">{Video-500}</div>
+						
+						<div class="post_content">
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>    
+                    </li>
+                {/block:Video}
+
+                {block:Audio}
+                    <li class="post audio">
+                    <div class="tumblr_post">	
+                        <div class="post_image">{AudioPlayerBlack}</div>
+						
+						<div class="post_content">
+                        {block:Caption}
+                            <div class="caption">{Caption}</div>
+                        {/block:Caption}
+                        </div><!--post_content-->
+                        
+                        <div class="tag_wrap">
+						{block:HasTags}
+							<ul class="tags">
+								{block:Tags}
+									<li>
+										<a href="{TagURL}">#{Tag}</a>
+									</li>
+								{/block:Tags}
+							</ul>
+						{/block:HasTags}
+						</div><!--tag_wrap-->
+						
+						<div class="note_wrap">
+						{block:NoteCount} 
+							{NoteCountWithLabel}
+						{/block:NoteCount}
+                        </div><!--note_wrap-->
+                    </div>    
+                    </li>
+                {/block:Audio}
+            {/block:Posts}
+        </ol>
+
+
+		<div class="bottom_nav">	
+            {block:PreviousPage}
+                <a href="{PreviousPage}">&#171; Previous</a>
+            {/block:PreviousPage}
+
+            {block:NextPage}
+                <a href="{NextPage}">Next &#187;</a>
+            {/block:NextPage}
+        </div><!--bottom_nav-->
+        
+        </div><!--tumblr_content-->
+
+		<div class="sidebar">
+			<p>
+			Independent designers.<br/>
+			Exclusive designs.<br/>
+			One trunk show.
+			</p>
+			<div class="social_icons">
+				<a href="/" class="btn_social btn_tumblr">Tumblr</a>
+				<a href="http://pinterest.com/beveltrunkshows/" target="_blank" class="btn_social btn_pinterest">Pinterest</a>
+				<a href="https://twitter.com/BevelTrunkShows"  target="_blank" class="btn_social btn_twitter">Twitter</a>
+				<a href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" class="btn_social btn_facebook" target="_blank">Facebook</a>
+				<div class="clear"></div>
+			</div><!--social icons-->
+			
+			<div id="recent_posts">
+			    <p>
+                <a href="http://www.beveluncut.com/tagged/Another-Bevel-Day">
+                Another Bevel Day</a></p>
+                
+                <p>
+                <a href="http://www.beveluncut.com/tagged/You-Asked-We-Answered">
+                You Asked; We Answered</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/The-Studio-View">
+                The Studio View</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/Bevel-Hosts">
+                Bevel Hosts</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/Scouting">
+                Scouting</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/The-Goods">
+                The Goods</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/The-Banter">
+                The Banter</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/Nostalgia">
+                Nostalgia</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/I-Spy-Trunk">
+                I Spy Trunk</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/Craftsmanship">
+                Craftsmanship</a></p>
+                
+                <p><a href="http://www.beveluncut.com/tagged/From-Locale-to-Local">
+                From Locale to Local</a></p>
+
+			</div><!--recent_posts-->
+		</div><!--sidebar-->
+	
+	<div class="clear"></div>
+	</div><!--tumblr_wrapper-->
+	
+	<div class="tumblr_footer">
+		<div class="footer_links">
+		<ul>
+			 <li><a target="_blank" href="http://www.beveltrunkshows.com/welcome/about/">About</a></li>
+			 <li><a target="_blank" href="http://www.beveltrunkshows.com/welcome/about/#contactUs">Contact</a></li>
+			 <li><a target="_blank" href="">Help</a></li>
+			 <li><a target="_blank" href="http://www.beveltrunkshows.com/privacy-policy">Privacy</a></li>
+			 <li><a target="_blank" href="http://www.beveltrunkshows.com/terms">Terms</a></li>
+		</ul>
+		</div><!--footer-links-->
+		<div class="social_icons">
+			<ul>
+				<li><a href="/" class="btn_social btn_tumblr">Tumblr</a></li>
+				<li><a href="http://pinterest.com/beveltrunkshows/" class="btn_social btn_pinterest" target="_blank">Pinterest</a></li>
+				<li><a href="https://twitter.com/BevelTrunkShows" class="btn_social btn_twitter">Twitter</a></li>
+				<li><a href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" class="btn_social btn_facebook" target="_blank">Facebook</a></li>
+			<ul>
+		<div class="clear"></div>
+		</div><!--social icons-->
+	</div><!--tumblr_footer-->
+
+<div class="clear"></div>
+</div><!--tumblr_wrap-->
+   
+    </body>
+</html>

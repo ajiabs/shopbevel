@@ -1,0 +1,110 @@
+<config>
+	<tabs>
+		<pixvote translate="label" module="pixvote">
+			<label>Design Submissions</label>
+			<sort_order>10</sort_order>
+		</pixvote>
+	</tabs>	
+	<sections>
+		<pixvote translate="label" module="pixvote">
+			<label>Configuration</label>
+			<tab>pixvote</tab>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <sort_order>10</sort_order>
+            <groups>
+				<general>
+                    <label>Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<default_profile_image>
+                            <label>Default profile image</label>
+                            <frontend_type>image</frontend_type>
+							<backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">pixvote</upload_dir>
+                            <base_url type="media" scope_info="1">pixvote</base_url>
+                            <comment>Default profile image</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </default_profile_image>
+						<default_profile_image_large>
+                            <label>Default profile image large</label>
+                            <frontend_type>image</frontend_type>
+							<backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">pixvote</upload_dir>
+                            <base_url type="media" scope_info="1">pixvote</base_url>
+                            <comment>Large version of the default profile image(300x300)</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </default_profile_image_large>
+						<vote_update_frequency>
+                            <label>Vote update frequency</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>Amount of time to wait before checking for vote update</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </vote_update_frequency>
+						
+						<name_exclude_list>
+                            <label>Name exclude list</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>comma-seperated names to exclude from designer formating(F. Lastname)</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </name_exclude_list>
+						
+<!--						<vote_update_frequency>
+                            <label>Amazon Access Key</label>
+                            <frontend_type>password</frontend_type>
+                            <comment>aws access key</comment>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </aws_access_key>
+						<aws_secrect_key>
+                            <label>Amazon Secrect Key</label>
+                            <frontend_type>password</frontend_type>
+                            <comment>aws secrect key</comment>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </aws_secrect_key>
+                        <aws_url>
+                            <label>Amazon S3 url</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>URL for amazon S3</comment>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </aws_url>
+						  <aws_bucket>
+                            <label>S3 bucket</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>bucket for entry images</comment>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </aws_bucket>-->
+                    </fields>
+				</general>
+			</groups>
+		</pixvote>
+	</sections>
+</config>

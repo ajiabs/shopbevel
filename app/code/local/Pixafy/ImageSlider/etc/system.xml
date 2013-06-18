@@ -1,0 +1,5 @@
+<config>
+	<sections>
+		<imageslider translate="label" module="imageslider"></imageslider>
+	</sections>
+</config>

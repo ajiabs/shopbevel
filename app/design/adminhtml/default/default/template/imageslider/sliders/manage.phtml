@@ -1,0 +1,11 @@
+<div class="content-header">
+<table cellspacing="0">
+	<tr>
+        <td style="width:50%;"><h3 class="icon-head head-products"><?php echo $this->__('Manage Sliders') ?></h3></td>
+        <td class="a-right">
+            <button type="button" class="scalable add" onclick="setLocation('<?php echo $this->getUrl('imageslider/manage/add') ?>')" style=""><span><?php echo $this->__('Add Slider') ?></span></button>
+        </td>
+	</tr>
+</table>
+</div>
+<?php echo $this->getChildHtml('grid') ?>

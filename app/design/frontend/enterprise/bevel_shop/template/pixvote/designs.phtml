@@ -1,0 +1,187 @@
+<?php
+	$_challenge = $this->getChallenge();
+	$_images = $this->getImages();
+	$_commentCount = $this->getCommentCount();
+	$_comments = $this->getComments();
+	$_authors = $this->getAuthors();
+	$_designers = $this->getDesigners();
+	$_designs = $this->getDesigns();
+	$_votes = $this->getVotes();
+	$_helper = $this->helper("pixvote");
+	$_now = Mage::getModel('core/date')->timestamp(time());
+	$_time = date("Y-m-d H:i:s",$_now);
+	$_bevelHelper = $this->helper('bevel/data');
+	$_userVotes = $this->getUserVotes();
+	$_isFirstVote = $this->getIsFirstVote();
+	//$_featDesign = $this->getFeaturedDesign();
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+	if($this->getPageTotal()):
+?>
+
+<script type="text/javascript">
+	$j(function () {
+		OPERATING = false;
+        FINISHED = false;
+		VOTE_FRONTNAME = "<?php echo $_helper->FRONT_NAME?>";
+		setPaginationVars(<?php echo $this->designs_per_page.', '.'1'.','.$this->getPageTotal().', "'.$this->getPaginationUrl().'"'?>);
+    });
+
+	$j(window).scroll(function()
+	{
+		///$("#product_window").css('top', $(window).scrollTop() + "px");
+		if(checkScrollBottom() && PAGE < TOTAL && !OPERATING && !FINISHED)
+		{
+			//Ajax call for next page
+			ajaxPaginate();
+		}
+	});
+</script>
+
+<?php
+	endif;
+
+	if(is_array($_challenge)):
+
+		//echo $this->getChildHtml('bevelfeatureddesign');
+	else:
+?>
+<!--	<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$_challenge->getImage()?>" />-->
+<?php
+	endif;
+?>
+<div class="vote-page-title">
+	<h2><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('vote-page-title')->toHtml() ?></h2>
+	<?php if ( !$_isLoggedIn ): ?>
+		<a href="javascript:void(0)" class="btn-teal" onclick="showLogin()">Cast Your Vote</a>
+	<?php endif; ?>
+</div>
+
+
+<!-- FILTER SECTION -->
+<!--<div class="vote-filter-container">
+	<?php $_currentUrl = $this->helper('core/url')->getCurrentUrl()?>
+	<a href="<?php echo $_currentUrl.'?type='.Pixafy_Pixvote_Block_Designs::TAG_POPULAR?>" class="filter-btn">#popular</a>
+	<a href="<?php echo $_currentUrl.'?type='.Pixafy_Pixvote_Block_Designs::TAG_STAFF_PICKS?>" class="filter-btn">#staff picks</a>
+	<a href="<?php echo $_currentUrl.'?type='.Pixafy_Pixvote_Block_Designs::TAG_RECENT?>" class="filter-btn">#recent</a>
+	<a href="<?php echo $_currentUrl.'?type='.Pixafy_Pixvote_Block_Designs::TAG_TRENDING?>" class="filter-btn">#trending</a>
+</div>-->
+
+<!-- END FILTER SECTION -->
+<script>
+	/* set up our vote item fb share object that will store all needed info
+	 * sharing a vote on facebook
+	 */
+	var VOTE_ITEM_INFO = {};
+</script>
+
+<div id="vote-item-collection" class="section-cntnt cntnt-vote clear-box">
+
+
+<?php
+	if(!is_array($_challenge)):
+		$_today = new DateTime($_time);
+		$_endTime= new DateTime($_challenge->getVoteEndTime());
+		$_timeLeft = $_today->diff($_endTime);
+		$_days = $_timeLeft->format("%d");
+		$_hours = $_timeLeft->format("%h");
+		$_minutes = $_timeLeft->format("%i");
+		$_isExpired = $_helper->checkIfExpired($_challenge->getVoteEndTime());
+		$_isAll = false;
+	else:
+		$_isAll = true;
+	endif;
+	foreach($_designs as $_design):
+		$_currentChallenge = $_isAll ? $_challenge[$_design->getChallengeId()] : $_challenge;
+		if($_isAll)
+		{
+			$_today = new DateTime($_time);
+			$_endTime= new DateTime($_currentChallenge->getVoteEndTime());
+			$_timeLeft = $_today->diff($_endTime);
+			$_days = $_timeLeft->format("%d");
+			$_hours = $_timeLeft->format("%h");
+			$_minutes = $_timeLeft->format("%i");
+			$_isExpired = $_helper->checkIfExpired($_currentChallenge->getVoteEndTime());
+		}
+	/*
+		$_today = new DateTime($_time);
+		$_endTime= new DateTime($_design->getVoteEndTime());
+		$_timeLeft = $_today->diff($_endTime);
+		$_days = $_timeLeft->format("%d");
+		$_hours = $_timeLeft->format("%h");
+		$_minutes = $_timeLeft->format("%i");
+	*/
+?>
+<!-- VOTE ITEMS SECTION -->
+
+<?php
+		$_data = array('pixvote_helper' => $_helper,
+				'current_design' => $_design,
+				'images' => $_images[$_design->getId()],
+				'designer' => $_designers[$_design->getCustomerId()]
+				);
+		$_designBlock = $this->getLayout()->createBlock('Mage_Core_Block_Template','view_related_designs');
+		switch($_design->getStatusId()):
+			case $_helper->ENTRY_STATUS_IN_VOTING:
+			case $_helper->ENTRY_STATUS_IN_EXPIRED:
+				$_designBlock->setTemplate($_helper->TEMPLATE_DESIGN_VOTE);
+				$_data['comments'] = $_comments[$_design->getId()];
+				$_data['authors'] = $_authors;
+				$_data['comment_count'] = $_commentCount[$_design->getId()];
+				$_data['challenge'] = $_currentChallenge;
+				$_data['user_votes'] = $_userVotes;
+				$_data['votes'] = $_votes[$_design->getId()];
+				$_data['today'] = $_today;
+				$_data['is_first_vote'] = $_isFirstVote;
+			break;
+			default:
+				$_designBlock->setTemplate($_helper->TEMPLATE_DESIGN_PROFILE);
+			break;
+		endswitch;
+
+		$_designBlock->setData($_data);
+		echo $_designBlock->toHtml();
+		endforeach;
+	?>
+</div>
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+	$j(function() {
+		var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+		$j( '.comment-input' ).on( 'focus', function() {
+			showLogin( message );
+		});
+	});
+
+</script>
+<?php endif; ?>
+
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+
+	function updateDesignId(id)
+	{
+		DESIGN_ID = id;
+		$j("#login-design-id").val(DESIGN_ID);
+		$j("#register-design-id").val(DESIGN_ID);
+	}
+
+	$j(function() {
+		$j( '.comment-input' ).on( 'click', function() {
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+			showSignUp( message );
+			updateDesignId($j(this).data("design-id"));
+		});
+	});
+	$j(function() {
+		$j("body").on("click", ".vote-btn", function()
+		{
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+			showSignUp( message );
+			updateDesignId($j(this).data("design-id"));
+		});
+	});
+</script>
+<?php endif; ?>
+<!-- END VOTE ITEMS SECTION -->
+
+<?php echo $this->getChildHtml($_helper->FIRST_VOTE_MODAL_BLOCK_NAME)?>

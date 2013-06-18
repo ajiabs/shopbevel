@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<layout>
+	<adminhtml_entry_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+			<action method="addJs"><script>pixafy/entries.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_entry_edit" name="entryedit"/>
+        </reference>
+		<reference name="left">
+            <block type="pixvote/adminhtml_entry_edit_tabs" name="entryedit_tabs"/>
+        </reference>
+	</adminhtml_entry_edit>
+	<adminhtml_entry_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_entry" name="entryindex"/>
+        </reference>
+	</adminhtml_entry_index>
+	
+	<adminhtml_challenges_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_challenges_edit" name="challengeedit"/>
+        </reference>
+		<reference name="left">
+            <block type="pixvote/adminhtml_challenges_edit_tabs" name="challengeedit_tabs"/>
+        </reference>
+	</adminhtml_challenges_edit>
+	<adminhtml_challenges_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_challenges" name="challengeindex"/>
+        </reference>
+	</adminhtml_challenges_index>
+	
+		<adminhtml_itemtypes_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_itemtypes_edit" name="itemtypeedit"/>
+        </reference>
+	</adminhtml_itemtypes_edit>
+	<adminhtml_itemtypes_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_itemtypes" name="itemtypeindex"/>
+        </reference>
+	</adminhtml_itemtypes_index>
+	
+	<adminhtml_designers_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designers" name="designersindex"/>
+        </reference>
+	</adminhtml_designers_index>
+	
+	<adminhtml_designers_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designers_edit" name="designersedit"/>
+        </reference>
+	</adminhtml_designers_edit>
+	
+	<adminhtml_designtips_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designtips" name="designtipsindex"/>
+        </reference>
+	</adminhtml_designtips_index>
+	
+	<adminhtml_designtips_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designtips_edit" name="designtipsedit"/>
+        </reference>
+	</adminhtml_designtips_edit>
+	
+	<adminhtml_designsources_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designsources" name="designsourcesindex"/>
+        </reference>
+	</adminhtml_designsources_index>
+	
+	<adminhtml_designsources_edit>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_designsources_edit" name="designsourcesedit"/>
+        </reference>
+	</adminhtml_designsources_edit>
+	
+	<adminhtml_votes_index>
+		<update handle="editor"/>
+        <reference name="content">
+              <block type="pixvote/adminhtml_votes" name="challengevotes"/>
+        </reference>
+	</adminhtml_votes_index>
+	<adminhtml_votes_view>
+		<update handle="editor"/>
+		<reference name="head">
+			<action method="addJs"><script>pixafy/jquery.js</script></action>
+		</reference>
+        <reference name="content">
+            <block type="pixvote/adminhtml_votes_edit" name="challengevotesview"/>
+        </reference>
+		<reference name="left">
+            <block type="pixvote/adminhtml_votes_edit_tabs" name="challengevotesview_tabs"/>
+        </reference>
+	</adminhtml_votes_view>
+	<adminhtml_tracking_index>
+		<update handle="editor"/>
+        <reference name="content">
+            <block type="pixvote/adminhtml_tracking" name="trackingindex"/>
+        </reference>
+	</adminhtml_tracking_index>
+</layout>

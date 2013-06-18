@@ -1,0 +1,484 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<?php
+	$_pixvoteHelper = $this->helper("pixvote");
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+	$onVotePage = Mage::registry($_pixvoteHelper->CURRENT_SUBMISSION) || Mage::registry($_pixvoteHelper->CURRENT_VOTE_CHALLENGE_KEY);
+	$onSubmitPage = Mage::registry($_pixvoteHelper->CURRENT_CHALLENGE_KEY)  || ($this->getRequest()->getModuleName() == "cms" && stripos(Mage::getSingleton('cms/page')->getIdentifier(), 'submit') !== false);
+	$voteCountNum = Mage::getModel("core/config_data")->load($_pixvoteHelper->VOTE_COUNT_PATH,"path")->getValue();
+	$_storeCredit = $_pixvoteHelper->getStoreCredit();
+	if(!$this->helper("customer")->isLoggedIn() && ($displayTime = intval($this->helper("bevel/shopbevel")->getLoginDisplayTime())))
+	{
+?>
+		<script type="text/javascript">
+			$j(function()
+			{
+				POPUP_LIMIT = <?php echo Mage::getStoreConfig('bevel/general/popup_frequency');?>;
+				POPUP_DISPLAY_TIME = <?php echo $displayTime?>;
+				setPopupInterval();
+			})
+		</script>
+<?php
+	}
+
+    if($this->helper("customer")->isLoggedIn()) { ?>
+        <script type="text/javascript">
+            var global_customer_object = {
+                id          : <?php echo $customer->getId(); ?>,
+                last_name   : <?php echo json_encode($customer->getLastname()); ?>,
+                first_name  : <?php echo json_encode($customer->getFirstname()); ?>,
+                email       : <?php echo json_encode($customer->getEmail()); ?>,
+                is_designer : <?php echo json_encode($customer->getIs_designer()); ?>
+            };
+        </script>
+    <?php } ?>
+		<script type="text/javascript">
+			$j(function()
+			{
+				VOTE_FRONTNAME = "<?php echo $_pixvoteHelper->FRONT_NAME?>";
+				VOTE_UPDATE_FREQUENCY = <?php echo Mage::getStoreConfig($_pixvoteHelper->VOTE_UPDATE_FREQUENCY_PATH)?>;
+				VOTE_UPDATE_OPERATING = false;
+				setVoteCheckInterval();
+			});
+		</script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<div class="overlay-container">
+
+   <div class="overlay-box msgpreview"  >
+		<div  >
+			<a class="btn-close" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+			 
+		</div> 
+ 		<div id="jqmsgPreview"><img src="<?php echo $this->getSkinUrl('images/bx_loader.gif'); ?>" alt="" /></div>
+		 
+	</div>
+   
+
+
+	<div class="overlay-box feedback-box">
+		<a class="btn-close" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+		<?php echo $this->getChildHtml('contactsForm')?>
+	</div>
+
+	<div class="overlay-box vote-box">
+		<a class="btn-close" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+		<!-- <a class="btn-fb-vote" href="<?php //echo Mage::getStoreConfig('bevel/general/vote_url'); ?>" target="_blank">See entries on Facebook</a> -->
+		<!-- <p class="txt-voting-in-session">
+			<?php echo $this->__('Voting begins in '); ?>
+			<span class="countdown"></span>
+			<?php echo $this->__('.'); ?>
+		</p> -->
+		<p class="txt-voting">
+			<?php echo $this->__('Voting begins '); ?>
+			<span class="countdown"></span>
+			<a href="<?php echo $this->getBaseUrl(); ?>shop" class="btn-teal return-to-shop">Return To Shop</a>
+		</p>
+	</div>
+
+	<div class="overlay-box sign-in-box">
+		<div class="top-banner">
+			<a class="btn-close" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+			<img src="<?php echo $this->getSkinUrl('images/header-logo-new2.png'); ?>" alt="" />
+		</div><!-- .top-banner -->
+
+		<div class="overlay-cntnt">
+			<div class="overlay-signup-social overlay">
+				<h3 class="overlay-title">
+					<?php
+
+						if($onVotePage):
+							echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId($_pixvoteHelper->STATIC_BLOCK_SIGNUP_POPUP_VOTE)->toHtml() );
+						elseif($onSubmitPage):
+							echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId($_pixvoteHelper->STATIC_BLOCK_SIGNUP_POPUP_SUBMISSION)->toHtml() );
+						else:
+							echo $this->__('Create an account at Shopbevel');
+						endif;
+					?>
+				</h3>
+				<div class="txt-blurb">
+					<?php
+
+							//Load the appropriate static blcok
+							if($onSubmitPage):
+									$_blockId = $_pixvoteHelper->STATIC_BLOCK_POPUP_SUBMISSION;
+							elseif($onVotePage):
+									$_blockId = $_pixvoteHelper->STATIC_BLOCK_POPUP_VOTE;
+							else:
+									$_blockId = $_pixvoteHelper->STATIC_BLOCK_POPUP_GENERAL;
+							endif;
+							echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId($_blockId)->toHtml() );
+
+					?>
+				</div>
+
+				<p class="txt-connect-with"><?php echo $this->__('Connect with'); ?></p>
+				<p>
+					<a class="btn-signup-facebook" href="javascript:void(0);"><?php echo $this->__('Connect with Facebook'); ?></a>
+					<?php /*<a class="btn-signup-twitter" href="javascript:void(0);"><?php echo $this->__('Connect with Twitter'); ?></a>*/ ?>
+				</p>
+
+				<p class="txt-your-email"><?php echo $this->__('or, sign up with your'); ?> <a class="btn-switch" href="javascript:void(0);"><?php echo $this->__('email address'); ?>.</a></p>
+
+				<div class="dotted-lines-h"></div>
+				<p class="txt-already-with-us txt-smlr"><?php echo $this->__('Already have an account?'); ?> <a class="btn-switch" href="javascript:void(0);"><?php echo $this->__('Log In.'); ?></a></p>
+				<div class="dotted-lines-h"></div>
+
+				<?php /*
+				<a class="btn-rua-designer" data-is-designer="1" href="javascript:void(0);">
+					<?php echo $this->__('Check here if you are a designer.'); ?>
+					<br/>
+					<?php echo $this->__('We\'ll let you know when we are accepting submissions next.'); ?>
+				</a>
+				*/ ?>
+			</div><!-- .overlay-signup-social -->
+
+			<div class="overlay-signup-own overlay no-show">
+				<h3 class="overlay-title"><?php echo $this->__('Create an account at Shopbevel'); ?></h3>
+				<div class="txt-blurb"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('login-box-blurb')->toHtml() ?></div>
+
+				<?php echo $this->getChildHtml('customerSignup')?>
+
+				<div class="dotted-lines-h"></div>
+				<p class="txt-already-with-us txt-smlr"><?php echo $this->__('Already have an account?'); ?> <a class="btn-switch" href="javascript:void(0);"><?php echo $this->__('Log In.'); ?></a></p>
+				<div class="dotted-lines-h"></div>
+			</div><!-- .overlay-signup-own -->
+
+			<div class="overlay-sign-in overlay no-show">
+				<h3 class="overlay-title"><?php echo $this->__('Sign in to Shopbevel'); ?></h3>
+
+				<p class="txt-login-with"><?php echo $this->__('Login with'); ?></p>
+				<p class="txt-center"><a class="fb-login-btn" href="javascript:void(0);">Login with Facebook</a></p>
+
+				<p class="txt-center">or, use your email address</p>
+
+				<?php echo $this->getChildHtml('customerLogin')?>
+
+				<div class="dotted-lines-h"></div>
+				<p class="txt-not-with-us txt-smlr"><?php echo $this->__('Don\'t have an account?'); ?> <a class="btn-switch" href="javascript:void(0);"><?php echo $this->__('Sign Up.'); ?></a></p>
+				<div class="dotted-lines-h"></div>
+			</div><!-- .overlay-sign-in -->
+		</div><!-- .overlay-cntnt -->
+	</div><!-- .sign-in-box -->
+</div><!-- .overlay-container -->
+
+<div class="header-container">
+	<div class="header clear-box">
+		<div class="header-left clear-box">
+			<div class="fb-like" data-href="http://www.shopbevel.com" data-send="false" data-layout="button_count" data-width="200" data-show-faces="false" data-font="arial"></div>
+			<div class="vote-count-box home">
+				<p class="vote-count-wrapper"><span class="counter counter-analog" data-direction="up" data-format="999999" data-start="<?php echo $voteCountNum?>" data-stop="<?php echo $voteCountNum?>"><?php echo $voteCountNum?></span> Votes</p>
+			</div>
+			<script>
+				$j('.counter').counter({});
+			</script>
+		</div><!-- .header-left -->
+		<div class="header-center">
+			<a href="<?php echo $this->getUrl('home'); ?>">
+				<h1 class="logo">
+					<strong><?php echo $this->getLogoAlt(); ?></strong>
+				</h1>
+			</a>
+		</div><!-- .header-center -->
+		<div class="header-right">
+			<?php //echo $this->getChildHtml('accountLinks') ?>
+			<?php //echo $this->getChildHtml('topLinks') ?>
+
+			<div class="alerts">
+				<a href="<?php echo Mage::getBaseUrl(); ?>faq/#returns"><p><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('promo-status')->toHtml(); ?></p></a>
+			</div><!-- alerts -->
+			<div class="account-container clear-box">
+				<div class="store-credit" <?php if( $_storeCredit ): ?> style="display:block;" <?php endif; ?>>
+					<p>$<span id="credit-amt"><?php echo $_storeCredit?></span> GIFT</p>
+				</div>
+				<div class="site-connect-box">
+					<?php if($this->helper('customer')->isLoggedIn()){ ?>
+				
+						<a class="btn-sign-in-head" href="<?php echo Mage::getBaseUrl(); ?>messages" >Contest Tool</a>
+							<span class="grey">|</span>
+						<a class="btn-sign-out-head" href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>">Sign Out</a>
+					<?php } else { ?>
+						<a class="btn-sign-in-head" href="javascript:void(0);" onclick="showSignUp();">Sign Up</a>
+						<span class="grey">|</span>
+						<a class="btn-sign-in-head" href="javascript:void(0);" onclick="showLogin();">Sign In</a>
+						
+						<span class="grey">|</span>
+						<a class="btn-sign-in-head" href="javascript:void(0);" onclick="showContestTool();">Contest Tool</a>
+						
+					<?php } ?>
+						
+				</div>
+
+				<p class="txt-sign-in">
+					<?php if($this->helper('customer')->isLoggedIn()):?>
+						<a class="lnk-user" href="<?php echo Mage::getBaseUrl(); ?>customer/account">My Account</a>
+					<?php else: ?>
+						<?php //echo $this->__('Hello, how is your day?'); ?>
+					<?php endif; ?>
+				</p>
+				<?php echo $this->getChildHtml('topCart'); ?>
+
+				<?php /*
+				<p class="txt-countdown"><span class="number-slice"></span>
+					<?php
+						//Get time limit, first product added to cart
+						$date = new DateTime(Mage::getModel('core/variable')->loadByCode('countdown')->getValue('plain'));
+					?>
+					<script type="text/javascript">
+						$j(function () {
+							target = new Date("<?php echo $date->format('F d, Y H:i:s');?>");
+
+							//Modify for time zone
+							target.setHours(target.getHours() - (target.getTimezoneOffset()/60));
+							$j('.countdown').countdown({until: target, format: 'D', compact : true, layout:"{dn}"});
+						});
+					</script>
+					<span class="countdown"></span>
+				</p>
+				<p class="txt-voting-blurb"><?php echo $this->__('Days until the next voting begins!'); ?></p>
+				<a class="link-whats-new" href="http://www.beveluncut.com" target="_blank"><?php echo $this->__('What\'s New'); ?></a>
+				*/ ?>
+
+				<!-- <div class="promo-status">
+
+				</div> -->
+			</div><!-- .account-container -->
+		</div><!-- .header-right -->
+
+		<span class="header-arrow"></span>
+	</div><!-- .header -->
+	<div class="header-main-nav clear-box">
+		<?php
+		$isHome = current(explode('?',$this->helper('core/url')->getCurrentUrl())) ==  Mage::getBaseUrl() || stripos($this->helper('core/url')->getCurrentUrl(),Mage::getBaseUrl().'home') !== false ;
+//		var_dump($this->getRequest()->getModuleName());
+//		exit;
+		?>
+			<ul class="main-nav">
+				<?php
+					$shopActive = "";
+					$voteActive = "";
+					$submitActive = "";
+					$howActive = "";
+					$active = " current";
+					if(!$isHome):
+						if(Mage::registry('current_product') || Mage::registry('current_category')):
+							$shopActive = $active;
+						elseif($onVotePage):
+							$voteActive = $active;
+						elseif($onSubmitPage):
+							$submitActive = $active;
+						elseif($this->getRequest()->getModuleName() == "cms" && in_array(Mage::getSingleton('cms/page')->getIdentifier(),array("meet-us","about-us"))):
+							$howActive = $active;
+						endif;
+					endif;
+				?>
+				<li>
+					<a class="top-main-link link-shop<?php echo $shopActive?>" href="<?php echo Mage::getBaseUrl(); ?>shop/"><span class="icon"></span><?php echo $this->__('Shop'); ?></a>
+
+					<?php
+						$children = Mage::getModel('catalog/category')->getCategories(Mage::getStoreConfig('bevel/general/collection_category_id'));
+						$helper   = Mage::helper('catalog/category');
+					?>
+					<?php /*
+					<div class="sub-menu-container">
+						<ul class="sub-menu clear-box">
+							<?php foreach ($children as $category): ?>
+								<li>
+									<a href="<?php echo $helper->getCategoryUrl($category);?>"><?php echo $category->getName(); ?></a>
+								</li>
+							<?php endforeach;?>
+						</ul>
+					</div>
+					*/ ?>
+				</li>
+				<li>
+					<a class="top-main-link link-vote<?php echo $voteActive?>" id="main-vote-link" href="<?php echo Mage::getBaseUrl(); ?>vote"><span class="icon"></span><?php echo $this->__('Vote'); ?></a>
+				</li>
+				<li>
+					<a class="top-main-link link-design<?php echo $submitActive?>" id="main-vote-link" href="<?php echo Mage::getBaseUrl(); ?>submit-about"><span class="icon"></span><?php echo $this->__('Design'); ?></a>
+				</li>
+                <li>
+					<a class="top-main-link link-meet<?php echo $howActive?>" href="<?php echo Mage::getBaseUrl(); ?>about-us"><span class="icon"></span><?php echo $this->__('How It Works'); ?></a>
+				</li>
+				<!-- <li>
+					<a class="top-main-link link-blog" target="_blank" href="http://shopbevel.tumblr.com"><span class="icon"></span><?php echo $this->__('Blog'); ?></a>
+				</li> -->
+				<!-- <li>
+					<a href="<?php echo Mage::getBaseUrl(); ?>submit-about">
+						<img class="masthead-submit" src="<?php echo $this->getSkinUrl('images/submit-masthead-btn.png'); ?>" />
+					</a>
+				</li> -->
+			</ul><!-- end main nav -->
+				<?php
+					if(!$isHome /*&& !$isPress*/):
+				?>
+					<div class="header-sub-nav">
+						<?php
+							if($shopActive):
+						?>
+
+					<ul class="sub-nav shop ">
+
+					<li>Shop:</li>
+					<?php echo $this->getChildHtml('shopnav');?>
+					</ul>
+					<?php
+						elseif($voteActive):
+					?>
+					<ul class="sub-nav vote">
+						<?php
+							$_challenges = $_pixvoteHelper->getAvailableChallenges();
+							if(count($_challenges)):
+						?>
+							<li>Vote:</li>
+							<li>
+								<a href="<?php echo Mage::getBaseUrl(); ?>vote">All</a>
+							<li/>
+						<?php
+							endif;
+							foreach($_challenges as $_challenge):
+						?>
+							<li>
+								 <a href="<?php echo $_pixvoteHelper->getChallengeVoteUrl($_challenge->getName())?>"><?php echo $_challenge->getName()?></a>
+							<li/>
+						<?php
+							endforeach;
+							if(!count($_challenges)):
+						?>
+							<li>
+								<?php echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId($_pixvoteHelper->STATIC_BLOCK_VOTE_SUBHEADER)->toHtml() )?>
+							<li/>
+						<?php
+							endif;
+						?>
+					</ul>
+					<?php
+						elseif($howActive):
+					?>
+					<ul class="sub-nav works">
+						<li>How It Works:</li>
+						<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('subnav-howitworks')->toHtml() ?>
+						<li><a href="<?php echo Mage::getUrl("about-us")?>#our-model" id="om-link">How It Works</a></li>
+						<li>&bull;</li>
+						<li><a href="<?php echo Mage::getUrl("about-us")?>#our-story" id="os-link">About Us</a></li>
+						<li>&bull;</li>
+						<li><a href="<?php echo Mage::getUrl("about-us")?>#our-designers" id="od-link">Designers</a></li>
+						<li>&bull;</li>
+						<li><a href="<?php echo Mage::getUrl("about-us")?>#our-product" id="op-link">Products</a></li>
+						<li>&bull;</li>
+						<li><a href="<?php echo  Mage::getUrl("about-us")?>#our-price" id="opr-link">Pricing</a></li>
+					</ul>
+						<script type="text/javascript">
+						$j(function(){
+							if(window.location.hash)
+							{
+								highlghtNav($j("a[href='" + window.location.href + "']"));
+							}
+							else
+							{
+								highlghtNav($j("#om-link"));
+							}
+						})
+						</script>
+					<?php
+						elseif($submitActive):
+					?>
+						<ul class="sub-nav submit">
+						<li>Submit:</li>
+						<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('subnav-submit')->toHtml() ?>
+						<li <?php echo Mage::getSingleton('cms/page')->getIdentifier() ==  'submit-about' ? 'class="active"' : ''?>><a href="<?php echo Mage::getUrl("submit-about")?>">How to Submit</a></li>
+						<li>&bull;</li>
+						<li <?php echo Mage::getSingleton('cms/page')->getIdentifier() ==  'submit-design' ? 'class="active"' : ''?>><a href="<?php echo Mage::getUrl("submit-design")?>">Submit A Design</a></li>
+						<?php
+							if(Mage::registry($_pixvoteHelper->CURRENT_CHALLENGE_KEY)):
+						?>
+							<li>&bull;</li>
+							<li class="active"><a href="">Design Challenges</a></li>
+						<?php
+							endif;
+						?>
+						</ul>
+					<?php
+						endif;
+					?>
+			</div><!-- end sub nav -->
+			<?php
+				endif;
+			?>
+
+		</div>
+</div><!-- .header-container -->
+
+<?php
+	//Get Vote date
+	$date = new DateTime(Mage::helper('bevel/shopbevel')->getVoteDate());
+?>
+<script type="text/javascript">
+	$j(function () {
+		target = new Date("<?php echo $date->format('F d, Y H:i:s');?>");
+
+		//Modify for time zone
+		target.setHours(target.getHours() - (target.getTimezoneOffset()/60));
+		$j('.countdown').countdown({onExpiry:voteExpired, alwaysExpire:true, until: target, format: 'D', layout:"in {dn} {dl}"});
+	});
+
+	function voteExpired() {
+		jQuery('.countdown ').html("now!");
+		//jQuery('.txt-voting-in-session').html("Votes are in. See the winners.");
+		jQuery('.btn-fb-vote').addClass('the-winners');
+	}
+
+	//functions for get/setting a cookie
+	function setCookie(c_name,value,exdays, path)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toUTCString())
+		+ ((path == null) ? "" : "; path=" + path) + "; domain=" + Mage.Cookies.domain;
+
+		document.cookie=c_name + "=" + c_value;
+	}
+
+
+	function getCookie(c_name)
+	{
+		return Mage.Cookies.get(c_name);
+	}
+
+</script>

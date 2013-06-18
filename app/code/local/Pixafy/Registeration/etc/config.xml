@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Pixafy_Registeration>
+            <version>1.0.0</version>
+        </Pixafy_Registeration>
+    </modules>
+<!--
+	<adminhtml>
+			<menu>
+				<registeration translate="title" module="registeration">
+				<title>Wait List</title>
+				<sort_order>99999</sort_order>
+				<children>
+						<example translate="title" module="registeration">
+							<title>Manage Waitlist</title>
+							<sort_order>1</sort_order>
+							<action>registeration/adminhtml_waitlist/index</action>
+						</example>
+						</children>
+				</registeration>
+			</menu>
+        <layout>
+            <updates>
+                <registeration>
+                    <file>registeration.xml</file>
+                </registeration>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <registeration>
+                            <title>Wait List</title>
+                            <children>
+                                <example translate="title" module="registeration">
+                                    <title>Manage Waitlist</title>
+                                </example>
+                            </children>
+                        </registeration>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <admin>
+		<routers>
+			<registeration>
+				<use>admin</use>
+				<args>
+					<module>Pixafy_Registeration</module>
+					<frontName>registeration</frontName>
+				</args>
+			</registeration>
+		</routers>
+    </admin>
+	-->
+    <global>
+		 <blocks>
+            <registeration>
+				<class>Pixafy_Registeration_Block</class>
+            </registeration>
+        </blocks>
+		<helpers>
+            <registeration>
+				<class>Pixafy_Registeration_Helper</class>
+			</registeration>
+        </helpers>
+		<models>
+            <registeration>
+                <class>Pixafy_Registeration_Model</class>
+				<resourceModel>registeration_mysql4</resourceModel>
+            </registeration>
+            <registeration_mysql4>
+                <class>Pixafy_Registeration_Model_Mysql4</class>
+				 <entities>
+                    <waitlist>
+                        <table>registeration_waitlist</table>
+                    </waitlist>
+					<invitelink>
+                        <table>registeration_invitelink</table>
+                    </invitelink>
+                </entities>
+            </registeration_mysql4>
+        </models>
+		<resources>
+            <registeration_setup>
+                <setup>
+                    <module>Pixafy_Registeration</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </registeration_setup>
+            <registeration_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </registeration_write>
+            <registeration_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </registeration_read>
+        </resources>
+
+    </global>
+	
+    <frontend>
+		<layout>
+			<updates>
+				<registeration>
+					<file>registeration.xml</file>
+				</registeration>
+			</updates>
+		</layout>		
+        <routers>
+            <registeration>
+                <use>standard</use>
+                <args>
+                    <module>Pixafy_Registeration</module>
+                    <frontName>registeration</frontName>
+                </args>
+            </registeration>
+        </routers>
+    </frontend>
+
+</config>

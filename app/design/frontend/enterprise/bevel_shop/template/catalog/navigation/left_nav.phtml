@@ -1,0 +1,62 @@
+<div class="sidebar_nav">
+<ul>
+<?php
+$obj = new Mage_Catalog_Block_Navigation();
+$store_cats	= $obj->getStoreCategories();
+$current_cat 	= $obj->getCurrentCategory();
+$current_cat	= (is_object($current_cat) ? $current_cat->getId() : '');
+
+ 
+/*foreach ($store_cats as $cat) {
+	if ($cat->getName() == $current_cat) {
+		echo '<li class="current"><a href="'.$this->getCategoryUrl($cat).'">'.$cat->getName()."</a>\n<ul>\n";
+		foreach ($obj->getCurrentChildCategories() as $subcat) {
+			echo '<li><a href="'.$this->getCategoryUrl($subcat).'">'.$subcat->getName()."</a></li>\n";
+		}
+		echo "</ul>\n</li>\n";
+	} else {
+		//echo '<li><a href="'.$this->getCategoryUrl($cat).'">'.$cat->getName()."</a></li>\n";
+	}
+}
+*/
+?>
+
+<div class="block collections-nav-box">
+	<div class="block-title">
+		<?php echo $this->__('Shop') ?>
+	</div>
+
+	<ul id="nav_category" class="nav_category collections-nav">
+		<?php foreach ($this->getStoreCategories() as $_category): ?>
+			<?php 
+					echo '<li class="item-parent">'.$_category->getName().'</li>';
+					$_children = $_category->getChildren();
+					foreach($_children as $_child):
+						echo $this->drawItem($_child);
+					endforeach;
+			?>
+		<?php endforeach ?>
+	</ul>
+</div>
+
+<?php echo $this->getChildHtml('topLeftLinks') ?>
+</ul>
+</div><!--sidebar_nav-->
+
+<script type="text/javascript">
+$j(document).ready(function(){
+
+	$j('#nav_category li.level0 ul.level0').hide();
+	$j('#nav_category li.level0.active ul.level0').show();
+	
+	$j('#nav_category li.level0').click(function() { 
+		$j(this).children('ul.level0').show();
+		$j(this).children('ul.level0').addClass('open-menu');
+	});
+	
+	if ( $j('ul').hasClass('open-menu') ) { 
+	
+	}
+
+});
+</script>

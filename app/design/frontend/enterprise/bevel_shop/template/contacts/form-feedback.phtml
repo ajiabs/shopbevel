@@ -1,0 +1,119 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<?php
+    //Prepare form data
+    $formData = array();
+    if (isset($_GET['formData']))
+        $formData = json_decode(base64_decode($_GET['formData']), true);
+
+    if (isset($formData['name']))
+        $userName = $formData['name'];
+    else
+        $userName = $this->htmlEscape($this->helper('contacts')->getUserName());
+
+    if ($userName == '')
+        $userName = $this->__('Name');
+
+
+    if (isset($formData['email']))
+        $userEmail = $formData['email'];
+    else
+        $userEmail = $this->htmlEscape($this->helper('contacts')->getUserEmail());
+    if ($userEmail == '')
+        $userEmail = $this->__('Email Address');
+
+    $userComment = '';
+    if (isset($formData['comment']))
+        $userComment = $formData['comment'];
+
+?>
+<div id="messages_product_view"><?php /*echo $this->getMessagesBlock()->getGroupedHtml() */?></div>
+<div class="page-title">
+	<h1><?php echo Mage::helper('contacts')->__('Leave a comment') ?></h1>
+</div>
+<form action="<?php echo Mage::getUrl('contacts/index/post'); ?>" id="contactForm" method="post">
+	<div class="fieldset">
+		<h2 class="legend no-show"><?php echo Mage::helper('contacts')->__('Contact Information') ?></h2>
+		<ul class="form-list">
+			<li class="fields">
+				<div class="field">
+					<label for="name" class="required no-show"><?php echo Mage::helper('contacts')->__('Name') ?><em>*</em></label>
+					<div class="input-box">
+						<input name="name" id="name"
+                            title="<?php echo Mage::helper('contacts')->__('Name') ?>"
+                            class="input-text ipt-bvl required-entry"
+                            type="text"
+							value="<?php echo $userName; ?>"
+                            onblur="inputrecall(this, 'Name');"
+                            onclick="inputclear(this, 'Name');"
+                            onfocus="inputclear(this, 'Name');"
+                        />
+					</div>
+				</div>
+				<div class="field">
+					<label for="email" class="required no-show"><?php echo Mage::helper('contacts')->__('Email') ?><em>*</em></label>
+					<div class="input-box">
+						<input name="email" id="email"
+                               title="<?php echo Mage::helper('contacts')->__('Email') ?>"
+                               class="input-text ipt-bvl required-entry validate-email"
+                               type="text"
+							   value="<?php echo $userEmail; ?>"
+                               onblur="inputrecall(this, 'Email Address');"
+                               onclick="inputclear(this, 'Email Address');"
+                               onfocus="inputclear(this, 'Email Address');"
+                        />
+					</div>
+				</div>
+			</li>
+			<li class="wide">
+				<label for="comment" class="required"><?php echo Mage::helper('contacts')->__('Comment') ?><em>*</em></label>
+				<div class="input-box">
+					<textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text ipt-bvl" cols="5" rows="3"><?php echo $userComment; ?></textarea>
+				</div>
+				<div id="captcha-feedback">
+				</div>
+                <?php if (isset($formData['wrong_captcha'])) { ?>
+                        <div class="validation-advice" id="advice-validate-captcha" style="">
+                            Entered value doesn't match
+                        </div>
+                <?php } ?>
+			</li>
+		</ul>
+	</div>
+	<div class="buttons-set">
+		<p class="required"><em>*</em><?php echo Mage::helper('contacts')->__(' Required Fields') ?></p>
+		<input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+		<button type="submit" title="<?php echo Mage::helper('contacts')->__('Submit') ?>" class="button btn-teal"><?php echo Mage::helper('contacts')->__('Submit') ?></button>
+	</div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+	var contactForm = new VarienForm('contactForm', true);
+	var CAPTCHA_PUBLIC = "<?php echo Mage::helper('bevel/shopbevel')->getCaptchaKey('public') ?>";
+//]]>
+</script>

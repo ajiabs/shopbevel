@@ -1,0 +1,427 @@
+<?php
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+?>
+<div class="challenges-section">
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-design-title')->toHtml() ?>
+
+	<a href="#faq-section" class="need-help btn-teal">
+		Need help?
+	</a>
+	<div class="challenges-wrapper clear-box">
+		<div class="challenge">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dscb-1')->toHtml() ?>
+		</div>
+		<div class="challenge">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dscb-2')->toHtml() ?>
+		</div>
+		<div class="challenge">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dscb-3')->toHtml() ?>
+		</div>
+		<div class="challenge">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dscb-4')->toHtml() ?>
+		</div>
+	</div>
+
+	<div class="dotted-lines-h"></div>
+</div>
+
+
+<div class="faq-section pixafy-accordian-group" data-accordian-id="faq" id="faq-section">
+	<h2 class="faq-title">Need help submitting?</h2>
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dsFAQ')->toHtml() ?>
+</div>
+
+<div class="form-submission-section group" id="form-submission-section">
+	<h2>Submit Design</h2>
+	<div class="form-wrapper group">
+		<div class="form-left">
+			<?php
+				$this->loadSubmissionInfo();
+				$itemTypes = $this->getItemTypes();
+				$challenges = $this->getChallenges();
+				$colors = $this->getColors();
+				$sources = $this->getSources();
+			?>
+			<div class="form-item title">
+				<label for="entry[name]">Title <span class="rule">(max 3 words)</span></label>
+				<input type="text" name="entry[name]" id="entry-name"/>
+			</div>
+
+			<div class="form-item price">
+				<p class="tooltip-container"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-price-tooltip')->toHtml() ?></p>
+				<span class="pixafy-tooltip about-price">about price</span>
+				<label for="entry[price]">Suggested Retail Price <span class="rule">(USD)</span></label>
+				<input type="text" name="entry[price]" id="entry-price" />
+			</div>
+
+			<div class="form-item story">
+				<label for="entry[description]">Design Story <span class="rule">(max 130 characters)</span></label>
+				<textarea name="entry[description]" id="entry-desc"></textarea>
+				<span class="char-count-container" id="story-counter">0</span>
+			</div>
+
+
+
+
+			<div class="form-item item">
+				<label for="entry[item_type_id]">Item Type</label>
+				<div class="select-style">
+					<select name="entry[item_type_id]" id="entry-item">
+						<option value="null">Choose...</option>
+					<?php
+						foreach($itemTypes as $itemType):
+					?>
+						<option value="<?php echo $itemType->getId()?>"><?php echo $itemType->getName()?></option>
+					<?php
+						endforeach;
+					?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-item challenge">
+				<label for="entry[challenge_id]">Challenge Type</label>
+				<div class="select-style">
+					<select name="entry[challenge_id]" id="entry-challenge">
+						<option value="null">Choose...</option>
+					<?php
+						foreach($challenges as $challenge):
+					?>
+						<option <?php echo $challenge->getRequireSchool() ? 'data-is-school="true"' : ''?> value="<?php echo $challenge->getId()?>"><?php echo $challenge->getName()?></option>
+					<?php
+						endforeach;
+					?>
+					</select>
+				</div>
+				<input type="text" name="entry[school]" id="entry-school" placeholder="School Name"/>
+			</div>
+			<div class="form-item color">
+				<label for="entry[color]">Color</label>
+				<div class="select-style">
+					<select name="entry[color]" id="entry-color">
+						<option value="null">Choose...</option>
+						<option value="0">N/A</option>
+					<?php
+						foreach($colors as $color):
+					?>
+						<option value="<?php echo $color['value']?>"><?php echo $color['label']?></option>
+					<?php
+						endforeach;
+					?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-item sources">
+				<label for="entry[source_id]">How did you find us?</label>
+				<div class="select-style">
+					<select name="entry[source_id]" id="entry-sources">
+						<option value="null">Choose...</option>
+					<?php
+						foreach($sources as $source):
+					?>
+						<option value="<?php echo $source->getId()?>"><?php echo $source->getValue()?></option>
+					<?php
+						endforeach;
+					?>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-item check">
+				<div class="check-wrapper">
+					<div class="check-style">
+						<input type="checkbox" name="entry[terms]" class="design-submit-checkbox" id="entry-terms" />
+					</div>
+					<label>I agree to the Shopbevel <a href="<?php echo Mage::getUrl("terms")?>" target="_blank">terms &amp; conditions.</a></label>
+				</div>
+				<div class="check-wrapper">
+					<div class="check-style">
+						<input type="checkbox" name="entry[confirm]" class="design-submit-checkbox" id="entry-confirm" />
+					</div>
+					<label>I confirm that the submitted design is my own.</label>
+				</div>
+			</div>
+
+			<div class="form-item submit">
+				<input type="button" id='submit-entry' class="btn-teal" value="Submit"/>
+			</div>
+
+		</div>
+
+		<div class="form-right">
+
+			<div class="form-item materials">
+				<label for="entry[materials]">Materials <span class="rule">(max 130 characters)</span></label>
+				<textarea name="entry[materials]" id="entry-materials"></textarea>
+				<span class="char-count-container" id="materials-counter">0</span>
+			</div>
+
+			<div class="form-item images">
+				<label>Images <span class="rule">(1 image required)</span></label>
+				<div class="image-form-wrapper">
+					<?php
+						for($i = 1; $i <= $this->helper("pixvote")->SUBMISSION_IMAGE_LIMIT; $i++):
+					?>
+					<form id="image-form-<?php echo $i?>" METHOD="POST" action="<?php echo Mage::getUrl($this->helper("pixvote")->FRONT_NAME.'/challenges/submitImage')?>" enctype="multipart/form-data">
+						<div class="thumb-holder">
+							<p>Image <?php echo $i ?></p>
+						</div>
+							<button class="sudo-file-btn" type="button">UPLOAD</button>
+							<input data-image-id="<?php echo $i?>" class="entry-images" type="file"  id="image_<?php echo $i?>" name="entry-images[]"/>
+					</form>
+					<?php
+						endfor;
+					?>
+				</div>
+			</div>
+			<div class="form-item submit-email check">
+				<div class="check-wrapper">
+					<div class="check-style email">
+						<input type="checkbox" name="entry[will_email_images]" value="1" class="design-submit-checkbox" id="entry-email-images" />
+					</div>
+					<label>I'm sending my images to <a href="mailto:submit@shopbevel.com">submit@shopbevel.com</a></label>
+				</div>
+			</div>
+
+		</div><!-- end form right -->
+		<div class="group"></div>
+		<div class="group"></div>
+	</div><!-- end form wrapper -->
+	<div class="force-clear"></div>
+</div><!-- end form section -->
+
+<script type="text/javascript">
+
+
+	$j(function(){
+		$j(".entry-images").change(function( e ){
+
+			$j(this).parent().ajaxSubmit({
+				success:uploadResult,
+				error:uploadResult,
+				dataType:'json',
+				data:{"id" : $j(this).data('image-id')}
+			});
+
+			e.preventDefault();
+			e.stopPropagation();
+		});
+
+		<?php if ( $_isLoggedIn ): ?>
+
+			$j('.sudo-file-btn').click(function(e) {
+				e.preventDefault();
+				$j( this ).siblings( 'input' ).trigger( 'click' );
+			});
+
+		<?php endif; ?>
+
+		<?php if ( $_isLoggedIn ): ?>
+			$j("#submit-entry").click(function(){
+				if( validateDesignSubmissionForm() ) {
+
+					var container = $j( '.form-submission-section' ).find( '.form-wrapper');
+					container.css( 'height', 800 + 'px' ).children().fadeOut( 300 );
+					$j('<div>', {
+						'class' : 'submit-design-loader'
+					}).appendTo(container);
+
+					//Validation code here
+					params = {};
+					$j("[name *='entry']").each(function()
+					{
+						if($j(this).is(":checkbox") && !$j(this).is(":checked"))
+						{
+							return true;
+						}
+						var elmentName = $j(this).attr("name");
+						var start = elmentName.indexOf("[") + 1;
+						var end = elmentName.indexOf("]");
+						name = elmentName.substring(start, end);
+						params[name] = jQuery(this).val();
+					});
+					$j.post(getUrl("<?php echo $this->helper("pixvote")->FRONT_NAME?>/challenges/submit"),
+						{entry:params},
+						submitEntryResult,
+						'json'
+					);
+				}
+			});
+		<?php endif; ?>
+
+
+		/* check for faq hash in url, if present scroll to faq section */
+		setTimeout(function() {
+			var hash = window.location.hash;
+			if ( hash === '#faq-section' ) {
+
+				var topPos = $j( '#faq-section' ).offset().top - 200;
+
+				/* ie conditional */
+				var isMSIE = /*@cc_on!@*/0;
+
+				if (isMSIE) {
+					$j( document ).animate({
+						scrollTop: topPos
+					}, 0);
+				} else {
+					$j( 'html, body' ).animate({
+						scrollTop: topPos
+					}, 0);
+				}
+			}
+		}, 1000);
+
+		<?php if ( !$_isLoggedIn ): ?>
+			var message = '<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId("submit-design-login")->toHtml() ?>';
+
+			var inputArr = [
+				$j( '#entry-name' ),
+				$j( '#entry-price' ),
+				$j( '#entry-desc' ),
+				$j( '#entry-materials' )
+			];
+
+
+			$j.each( inputArr, function() {
+				$j( this ).on( 'focus', function() {
+					showSignUp( message );
+				});
+			});
+
+			var clickArr = [
+				$j( '#entry-item' ),
+				$j( '#entry-challenge' ),
+				$j( '#entry-color' ),
+				$j( '#submit-entry' ),
+				$j( '.check-style' ),
+				$j( '.sudo-file-btn' )
+			];
+
+			$j.each( clickArr, function() {
+				$j( this ).on( 'click', function( e ) {
+					showSignUp( message );
+					e.preventDefault();
+				});
+			});
+
+		<?php endif; ?>
+
+		$j( '#entry-school' ).placeholderText({
+			color: '#aaaaaa'
+		});
+
+		$j( '#entry-challenge' ).on( 'change', toggleSchoolField );
+
+	});
+
+	function toggleSchoolField() {
+		var schoolInput = $j( '#entry-school' );
+		var selectedOption = $j( '#entry-challenge' ).find( 'option:selected' );
+
+		if ( selectedOption.attr( 'data-is-school' ) === 'true' ) {
+			if ( schoolInput.css( 'display' ) !== 'block' || 'inline' ) {
+				schoolInput.fadeIn( 300 );
+			}
+		} else {
+			if ( schoolInput.css( 'display' ) === 'block' || 'inline' ) {
+				schoolInput.fadeOut( 300 );
+			}
+		}
+	}
+
+	function submitEntryResult(data)
+	{
+		if(data.hasOwnProperty("error"))
+		{
+			var container = $j( '.form-submission-section' ).find( '.form-wrapper');
+			container.find( '.submit-design-loader').remove();
+
+			clearDesignSubmissionForm();
+
+			var errorMessage = container.find( '.design-form-error' );
+			if ( errorMessage.length === 0 ) {
+				$j( '<p/>', {
+					'class' : 'design-form-error-main',
+					text : 'Oops! There seems to be an issue with submitting your form. Please try again later!'
+				}).prependTo( container );
+			}
+
+			container.children().fadeIn( 300 );
+			container.css( 'height', 'auto' );
+
+		}
+		else
+		{
+
+			var container = $j( '.form-submission-section' ).find( '.form-wrapper');
+			container.find( '.submit-design-loader').remove();
+
+			container.find( '.design-form-error').remove();
+
+			clearDesignSubmissionForm();
+
+			var successMessage = container.find( '.success-box' );
+			if ( successMessage.length === 0 ) {
+				var successBox = $j( '<div/>', {
+					'class' : 'success-box'
+				}).prependTo( container );
+
+
+                $j('<div/>').append(
+                    $j('<script/>', {'type' : 'text/javascript' }).text(
+                        "var fb_param = {}; \
+                        fb_param.pixel_id = '6008739925977'; \
+                        fb_param.value = '0.00'; \
+                        (function(){ \
+                            var fpw = document.createElement('script'); \
+                            fpw.async = true; \
+                            fpw.src = '//connect.facebook.net/en_US/fp.js'; \
+                            var ref = document.getElementsByTagName('script')[0]; \
+                            ref.parentNode.insertBefore(fpw, ref); \
+                        })();"
+                    ),
+                    $j('<noscript/>').html('<img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/offsite_event.php?id=6008739925977&amp;value=0" />')
+                ).appendTo( successBox);
+
+                $j(document).trigger('shopBevel_designSubmitted', {
+                    'email_images' : $j('#entry-email-images').is(':checked')
+                });
+
+                $j( '<p/>', {
+					'class' : 'txt-thank-you',
+					text : 'Thank you for submitting! We’ll be in touch shortly.'
+				}).appendTo( successBox );
+
+			}
+
+			//container.children().fadeIn( 300 );
+			container.css( 'height', 'auto' );
+
+            //Redirect user if prop exists
+            if(data.hasOwnProperty("redirect_url"))	{
+                setTimeout('window.location = "'+data.redirect_url+'"', 2000);
+            }
+			
+		}
+	}
+	function uploadResult(data)
+	{
+		if(data.hasOwnProperty("error"))
+		{
+			//TODO:Style error to appear on page
+			alert(data.error)
+			if(data.error.indexOf("login") != -1)
+			{
+				designerSignup();
+			}
+		}
+		else
+		{
+			//TODO: Style to appear correctly
+			var img = "<img src='" + data.image + "'/>";
+			$j("#image-form-" + data.id).find( '.thumb-holder' ).empty().append( img );
+		}
+	}
+</script>

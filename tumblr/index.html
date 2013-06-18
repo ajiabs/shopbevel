@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+	<meta name="description" content=""/>
+	<meta name="viewport" content="width=device-width">
+	
+	<title>Bevel</title>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" ></script>
+	<link href='http://fonts.googleapis.com/css?family=Lekton' rel='stylesheet' type='text/css'>
+	
+	<style type="text/css">
+		/*RESET*/
+		html, body, div, span, applet, object, iframe,
+		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+		a, abbr, acronym, address, big, cite, code,
+		del, dfn, em, font, img, ins, kbd, q, s, samp,
+		small, strike, strong, sub, sup, tt, var,
+		b, u, i, center,
+		dl, dt, dd, ol, ul, li,
+		fieldset, form, label, legend,
+		table, caption, tbody, tfoot, thead, tr, th, td {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			font-size: 100%;
+			vertical-align: baseline;
+			background: transparent;
+		}
+		body {
+			line-height: 1;
+		}
+		ol, ul {
+			list-style: none;
+		}
+		blockquote, q {
+			quotes: none;
+		}
+		blockquote:before, blockquote:after,
+		q:before, q:after {
+			content: '';
+			content: none;
+		}
+		
+		/* remember to define focus styles! */
+		:focus {
+			outline: 0;
+		}
+		
+		/* remember to highlight inserts somehow! */
+		ins {
+			text-decoration: none;
+		}
+		del {
+			text-decoration: line-through;
+		}
+		
+		/* tables still need 'cellspacing="0"' in the markup */
+		table {
+			border-collapse: collapse;
+			border-spacing: 0;
+		}
+		/*END OF RESET*/
+		
+		/*GENERAL*/
+		.clear {
+		clear: both;
+		}
+		
+		body { 
+		font-family: 'Lekton', sans-serif;
+		font-size: 12px;
+		line-height: 18px;
+		background-color: #fff;
+		}
+		.tumblr_wrap {
+		width: 990px; 
+		margin: auto; 
+		display: block;
+		}
+		/*NAVS/FOOTER*/
+		.tumblr_wrap .tumblr_nav { 
+		width: 100%; 
+		text-align: center; 
+		padding: 28px 0 0; 
+		position: relative; 
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 { 
+		width: 100%; 
+		position: absolute; 
+		margin-left: 45px; 
+		top: 9px; 
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 strong { 
+		text-indent: -9999px; 
+		font-size: 0; 
+		line-height: 0; 
+		*text-indent: 0; 
+		*color: #fff; 
+		}
+		
+		.tumblr_wrap .tumblr_nav h1 span, h1 a { 
+		text-indent: 0; 
+		}
+		
+		.tumblr_wrap .tumblr_nav .nav_main { 
+		border-bottom: 1px solid #999; 
+		margin-top: 39px; 
+		padding-bottom: 13px; 
+		}
+		
+		.tumblr_wrap .tumblr_footer {
+		border-top: 1px solid #999;
+		}
+		
+		.tumblr_wrap .tumblr_footer .footer_links, .tumblr_wrap .tumblr_footer .social_icons { 
+		margin: 15px auto 0; 
+		text-align: center; 
+		width: 100%; 
+		display: block; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul, .tumblr_wrap .tumblr_footer ul { 
+		display: inline-block; 
+		*display: inline; 
+		*zoom:1; 
+		width: auto; 
+		margin: auto; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li, .tumblr_wrap .tumblr_footer ul li { 
+		float: left; 
+		margin: 0 10px; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li a, .tumblr_wrap .tumblr_footer ul li a { 
+		text-transform: lowercase; 
+		color: #000; 
+		text-decoration: none; 
+		font-size: 14px; 
+		}
+		
+		.tumblr_wrap .tumblr_nav ul li a:hover, .tumblr_wrap .tumblr_nav ul li a.current, 
+		.tumblr_wrap .tumblr_footer .footer_links ul li a:hover, .tumblr_wrap .tumblr_footer .footer_links ul li a.current { 
+		color: #D34F35; 
+		}
+		/*SIDEBAR*/
+		.tumblr_wrap .sidebar {  
+		width: 150px; 
+		text-align: right; 
+		float: right;
+		}
+		
+		.tumblr_wrap .sidebar .recent_posts { 
+		text-align: left; 
+		border-top: 1px solid #d9d9d9; 
+		padding-top: 25px; 
+		}
+		
+		.tumblr_wrap .sidebar ul li a { 
+		text-decoration: none; 
+		color: #000; 
+		font-size: 14px; 
+		line-height: 18px; 
+		}	
+		
+		/*SOCIAL ICONS*/
+		.sidebar .social_icons { 
+		padding: 108px 0 22px; 
+		}
+		
+		.btn_social { 
+		float: right; 
+		margin-right: 10px; 
+		width: 30px; 
+		height: 30px; 
+		text-indent: 9999px; 
+		text-decoration: none; 
+		border: none; 
+		display: block; 
+		background: url('images/social-sprite.png') no-repeat; 
+		}
+		
+		.social_icons .btn_social:first-child { 
+		margin-right: 0; 
+		}
+		
+		.social_icons .btn_social.btn_facebook { 
+		background-position: 0 0; 
+		}
+		
+		.social_icons .btn_social.btn_twitter { 
+		background-position: -30px 0; 
+		}
+		
+		.social_icons .btn_social.btn_pinterest { 
+		background-position: -60px 0; 
+		}
+		
+		.social_icons .btn_social.btn_tumblr { 
+		background-position: -90px 0;
+		 }
+		 
+		/*POST*/
+		.tumblr_wrapper {
+		position: relative;
+		}
+		
+		.tumblr_wrapper .tumblr_content { 
+		margin-left: 204px; 
+		width: 580px; 
+		float: left; 
+		}
+	
+		.tumblr_wrapper .tumblr_content .tumblr_post { 
+		width: 580px; 
+		margin: auto; 
+		display: block; 
+		padding: 59px 0 45px; 
+		border-top: 1px dotted #d9d9d9; 
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post:first-child { 
+		border-top: none; 
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_date {
+		padding: 0 0 21px;
+		text-align: center;
+		color: black;
+		font-size: 14px;
+		line-height: 14px;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post h2.post_title {
+		letter-spacing: 2px;
+		color: black;
+		font-size: 16px;
+		line-height: 18px;
+		text-transform: uppercase;
+		text-align: left;
+		text-decoration: none;
+		margin: 18px 0 24px;
+		border: none;
+		}
+		
+		.tumblr_wrapper .tumblr_content .tumblr_post .post_content p {
+		font-size: 13px;
+		line-height: 17px;
+		}
+		
+	</style>
+</head>
+<body>
+
+<div class="tumblr_wrap">
+
+	<div class="tumblr_nav"><!--was page nav-->
+		<h1><strong>BEVEL</strong><a href=""><img src="images/logo-blog.png" alt="" role="presentation"/></a></h1><!--logo-->
+		<div class="nav_main">
+			<ul>
+				<li><a href="">trunk shows</a></li>
+				<li><a href="">how it works</a></li>
+				<li><a href="">blog</a></li>
+			</ul>
+		</div><!--nav_main-->
+	</div><!--tumblr_nav-->
+	
+	<div class="tumblr_wrapper">
+	
+		<div class="tumblr_content">
+			
+			<div class="tumblr_post">
+		
+				<div class="post_date">Thursday, October 18, 2012</div><!--post_date-->
+				
+				<div class="post_image"><img src="images/img_featured.jpg"/></div><!--post_date-->
+			
+				<h2 class="post_title">This is a Fake Title</h2><!--post title-->
+				
+				<div class="post_content">
+					<p>Body content nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+				</div><!--post_content-->
+			
+			</div><!--tumblr_post-->
+			
+			<div class="tumblr_post">
+		
+				<div class="post_date">Thursday, October 18, 2012</div><!--post_date-->
+				
+				<div class="post_image"><img src="images/img_featured.jpg"/></div><!--post_date-->
+			
+				<h2 class="post_title">This is a Fake Title</h2><!--post title-->
+				
+				<div class="post_content">
+					<p>Body content nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+				</div><!--post_content-->
+			
+			</div><!--tumblr_post-->
+		
+		</div><!--tumblr_content-->
+
+		<div class="sidebar">
+			<div class="social_icons">
+				<a href="" class="btn_social btn_tumblr">Tumblr</a>
+				<a href="" class="btn_social btn_pinterest">Pinterest</a>
+				<a href="" class="btn_social btn_twitter">Twitter</a>
+				<a href="" class="btn_social btn_facebook">Facebook</a>
+				<div class="clear"></div>
+			</div><!--social icons-->
+			
+			<div class="recent_posts">
+				<ul>
+					<li><a href="">test</a></li>
+					<li><a href="">test</a></li>
+					<li><a href="">test</a></li>
+					<li><a href="">test</a></li>
+				</ul>
+			</div><!--recent_posts-->
+		</div><!--sidebar-->
+	
+	<div class="clear"></div>
+	</div><!--tumblr_wrapper-->
+	
+	<div class="tumblr_footer">
+		<div class="footer_links">
+		<ul>
+			 <li><a href="">About</a></li>
+			 <li><a href="">Contact</a></li>
+			 <li><a href="">Help</a></li>
+			 <li><a href="">Privacy</a></li>
+			 <li><a href="">Terms</a></li>
+		</ul>
+		</div><!--footer-links-->
+		<div class="social_icons">
+			<ul>
+				<li><a href="" class="btn_social btn_tumblr">Tumblr</a></li>
+				<li><a href="" class="btn_social btn_pinterest">Pinterest</a></li>
+				<li><a href="" class="btn_social btn_twitter">Twitter</a></li>
+				<li><a href="" class="btn_social btn_facebook">Facebook</a></li>
+			<ul>
+		<div class="clear"></div>
+		</div><!--social icons-->
+	</div><!--tumblr_footer-->
+
+<div class="clear"></div>
+</div><!--tumblr_wrap-->
+
+</body>
+</html>

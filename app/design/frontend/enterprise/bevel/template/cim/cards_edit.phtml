@@ -1,0 +1,114 @@
+<div class="page-title">
+    <h1><?php 
+            $profileXml = $this->getProfileXml();
+            $profile = $this->getProfile();
+			if ($profile == null) {
+				$profile = Mage::getModel('cim/paymentprofiles');
+	            echo Mage::helper('customer')->__('New Payment Method - Add');		
+			} else {
+				echo Mage::helper('customer')->__('Payment Method - Edit');
+			}
+        ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form id="edit-card" action="" method="POST">
+	
+	<input type="hidden" name="id" value="<?php echo Mage::getSingleton('core/encryption')->encrypt($profile->getId()) ?>" />
+	
+	<ul class="form-list save-card-form">
+	<li class="fields">
+    	<div class="field">
+    	<label>First name</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[firstname]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->firstName;?>"/>
+	    	</div>
+    	</div>
+    	<div class="field">
+    		<label>Last name</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[lastname]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->lastName;?>"/>
+	    	</div>
+    	</div>
+    </li>
+    <li class="fields">
+    	<div class="field">
+	    	<label>Address</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[street]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->address;?>"/>
+	    	</div>
+    	</div>
+    	<div class="field">
+	    	<label>City</label>
+	    	<div class="input-box">
+		    	<input class="input-text required-entry" name="card[city]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->city;?>"/>
+	    	</div>
+    	</div>
+    </li>
+    <li class="fields">
+    	<div class="field">
+	    	<label>State</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[region]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->state;?>"/>
+	    	</div>
+    	</div>
+    	<div class="field">
+	    	<label>Zip Code</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[postcode]" type="text" value="<?php echo $profileXml->paymentProfile->billTo->zip;?>"/>
+	    	</div>
+    	</div>
+    </li>
+    <li class="fields">
+    	<div class="field">
+	    	<label>Card Number</label>
+	    	<div class="input-box">
+	    		<input class="input-text required-entry" name="card[cc_number]" type="text" value="<?php echo $profileXml->paymentProfile->payment->creditCard->cardNumber;?>"/>
+	    	</div>
+    	</div>
+    	<div class="field">
+    		<label>Expiration Month</label>
+    		<div class="input-box">
+	            <select name="card[cc_exp_month]">
+	                <option value="XX">Month</option>
+	                <?php
+	                    foreach($this->helper("cim")->MONTHS as $num => $month):
+	                        $selected = $profile->getCcExpMonth() == $num ? "selected" : "";
+	                ?>
+	                    <option <?php echo $selected?> value="<?php echo $num?>"><?php echo $num .' - '.$month;?></option>
+	                <?php
+	                    endforeach;
+	                ?>
+	            </select>    			
+    		</div>
+    	</div>
+    </li>
+    <li class="fields">
+    	<div class="field">
+    		<label>Expiration Year</label>
+    		<div class="input-box">
+	            <select name="card[cc_exp_year]">
+	                <option value="XX">Year</option>
+	               <?php
+	                     $year = date("Y");
+	                     for($i = 0; $i <= $this->helper("cim")->YEAR_LIMIT; $i++):
+	                        $newYear = $year + $i;
+	                        $selected = $profile->getCcExpYear() == $newYear ? "selected" : "";
+	                 ?>
+	                       <option <?php echo $selected?> value="<?php echo $newYear?>"><?php echo $newYear?></option>
+	                <?php
+	                    endfor;
+	                ?>
+	            </select>
+            </div>
+    	</div>
+    </li>
+   </ul>
+   <div class="save-card-btn-container">
+	<button onclick="form.submit()" class="button" type="button"><span><span>Save</span></span></button>
+   </div>
+
+</form>
+<script type="text/javascript">
+    decorateTable('my-profiles-table');
+    var varForm = new VarienForm("edit-card");
+</script>

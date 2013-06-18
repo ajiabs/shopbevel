@@ -1,0 +1,404 @@
+<?php
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+	$_design = $this->getSelectedDesign();
+	$_challenge = $this->getChallenge();
+	$_images = $this->getImages();
+	$_commentCount = $this->getCommentCount();
+	$_comments = $this->getComments();
+	$_authors = $this->getAuthors();
+	$_designers = $this->getDesigners();
+	$_designer = $_designers[$_design->getCustomerId()];
+	$_otherDesigns = $this->getOtherDesigns();
+	$_designIds = $this->getDesignIds();
+	$_votes = $this->getVotes();
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_now = Mage::getModel('core/date')->timestamp(time());
+	$_time = date("Y-m-d H:i:s",$_now);
+	$_bevelHelper = $this->helper('bevel/data');
+	$_userVotes = $this->getUserVotes();
+	$_today = new DateTime($_time);
+	$_prevNextDesigns = $_pixvoteHelper->getPrevNextDesign($_challenge->getId(), $_design->getId(), $_otherDesigns);
+	$_isExpired = $_pixvoteHelper->checkIfExpired($_challenge->getVoteEndTime()) || $_design->getStatusId() == $_pixvoteHelper->ENTRY_STATUS_IN_EXPIRED;
+	extract($_prevNextDesigns);
+	$_targetCopy = $_pixvoteHelper->CHALLENGE_COPY_TARGET;
+	$_profileUrl = $_pixvoteHelper->getProfileUrl($_designer);
+	$_isFirstVote = $this->getIsFirstVote();
+
+	//Share info
+	$url = urlencode($this->helper('core/url')->getCurrentUrl());
+	$text = urlencode($_bevelHelper->generateShareText($_design->getName()));
+
+	$_endTime= new DateTime($_challenge->getVoteEndTime());
+	$_timeLeft = $_today->diff($_endTime);
+	$_days = $_timeLeft->format("%d");
+	$_hours = $_timeLeft->format("%h");
+	$_minutes = $_timeLeft->format("%i");
+?>
+<script type="text/javascript">
+	$j(function () {
+		VOTE_FRONTNAME = "<?php echo $_pixvoteHelper->FRONT_NAME?>";
+	});
+
+	/* set up our vote item fb share object that will store all needed info
+	 * sharing a vote on facebook
+	 */
+	var VOTE_ITEM_INFO = {};
+</script>
+
+
+<div class="cookie-trail clear-box">
+	<a class="btn-prev-prdct back-btn" href="javascript:window.history.back()">Back</a>
+
+	<?php
+		if(!empty($_nextDesign)):
+	?>
+			<a class="btn-next-prdct" href="<?php echo Mage::getUrl($_pixvoteHelper->getDesignUrl($_nextDesign,$_challenge))?>">Next Item</a>
+	<?php
+		endif;
+		if(!empty($_prevDesign)):
+	?>
+			<a class="btn-prev-prdct" href="<?php echo Mage::getUrl($_pixvoteHelper->getDesignUrl($_prevDesign,$_challenge))?>">Previous Item</a>
+	<?php
+		endif;
+	?>
+
+</div><!-- .cookie-trail -->
+<div class="vote-item-wrapper">
+	<div class="designer-info">
+		<div class="main-info">
+			<a href="<?php echo $_profileUrl; ?>">
+				<div class="vote-dsgnr-info">
+					<div class="vote-dsgnr-pic">
+						<img src='<?php echo $_pixvoteHelper->getProfileImage($_designer)?>'/>
+					</div>
+					<div class="vote-dsgnr-desc">
+						<p class="txt-title">Designer</p>
+						<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designer->getName());?></p>
+						<p class="txt-locale"><?php echo $_designer->getLocation();?></p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="about-designer">
+			<h2>ABOUT DESIGNER:</h2>
+			<?php echo $_designer->getDescription(); ?>
+		</div>
+		<div class="about-design">
+			<h2>ABOUT DESIGN:</h2>
+			<?php echo $_design->getDescription(); ?>
+		</div>
+		<!-- <a href="<?php echo $_profileUrl; ?>" class="btn-teal view-profile">See Profile</a> -->
+	</div><!-- designer info -->
+
+	<div class="product-cntnt clear-box">
+		<div class="pix-dscrp">
+
+			<div class="product-img-box">
+				<?php
+					$_isFirst = true;
+					foreach($_images[$_design->getId()] as $key => $_image):
+						$resizedImage = $this->helper("pixvote")->getResizedImage($_image, 'getUrl', $_pixvoteHelper->DESIGN_ITEM_IMAGE_WIDTH,  null);
+					?>
+					<img class="gallery-images-big <?php echo $_isFirst ? 'active' : ''; ?>" id="big-image-<?php echo $_image->getId()?>" <?php echo !$_isFirst ? 'style=display:none' : ''?>  src="<?php echo $resizedImage;//Mage::getUrl().$_image->getUrl();?>" alt="<?php ?>"/>
+				<?php
+					//$_images[$_design->getId()]->removeItemByKey($key);
+					if($_isFirst):
+						$image = urlencode(Mage::getBaseUrl("media").$_image->getUrl());
+						$_isFirst = false;
+					endif;
+					//break;
+					endforeach;
+				?>
+			</div>
+
+			<div id="images">
+				<?php
+					//remaining image displayed here
+					foreach($_images[$_design->getId()] as $key => $_image):
+						$_resizedImage = $this->helper("pixvote")->getResizedImage($_image, 'getUrl',$_pixvoteHelper->DESIGN_ITEM_IMAGE_SMALL_WIDTH,  null);
+					?>
+				<a href="javascript:void(0)" data-image-id="<?php echo $_image->getId()?>" class="gallery-images"><img src="<?php echo $_resizedImage;?>" alt="<?php ?>"/></a>
+				<?php
+					//break;
+					endforeach;
+				?>
+			</div>
+
+		</div><!-- .pix-dscrp -->
+
+		<div class="info-buy">
+			<?php //if ( $_isLoggedIn ): ?>
+			<?php if ( false ): ?>
+				<span class="tooltip-container flag-tooltip">Click to flag for review</span>
+				<span class="review-flag pixafy-modal-trigger" data-modal-container="review-modal">flag for review</span>
+			<?php endif; ?>
+				<div class="info-n-dsgnr">
+					<div class="desc">
+						<div class="item-title">
+							<h2><?php echo $_design->getName()?></h2>
+							<p class="bevel-price">$<?php echo $_design->getBevelPrice()?></p>
+						</div>
+						<?php /*
+						<div class="vote-dsgnr-info clear-box">
+							<a href="<?php echo $this->helper("pixvote")->getProfileUrl($_designers[$_design->getCustomerId()])?>">
+								<div class="vote-dsgnr-pic">
+									<img src='<?php echo $this->helper("pixvote")->getProfileImage($_designers[$_design->getCustomerId()])?>' />
+								</div>
+								<div class="vote-dsgnr-desc">
+									<p class="txt-title">Designer</p>
+									<p class="txt-dsgnr-name">
+											<?php echo $_pixvoteHelper->formatName($_designers[$_design->getCustomerId()]->getName());?></p>
+									<p class="txt-locale"><?php echo $_design->getLocation()?></p>
+								</div>
+							</a>
+						</div>
+						*/ ?>
+					</div>
+
+					<div class="vote-info">
+						<?php $_voted = array_key_exists($_design->getId(),$_userVotes); ?>
+
+						<?php
+							$_isVotable = ($_design->getStatusId() == $_pixvoteHelper->ENTRY_STATUS_IN_VOTING && !$_voted && !$_isExpired ? true : false );
+						?>
+
+						<button class="btn-teal <?php if ( $_isVotable ){ echo 'vote-btn';} else { echo 'grey'; } ?> <?php if ( $_isLoggedIn ) {echo 'logged-in';} ?> <?php if ( !$_voted ) {echo 'new-vote';} ?> <?php if ( $_isFirstVote ) {echo 'first-vote';} ?>" data-design-id="<?php echo $_design->getId()?>">VOTE</button>
+						<span class="vote-count">Total Votes (<span><?php echo ($_votes[$_design->getId()]) ? : '0'; ?></span>)</span>
+						<span class="following-alert">VOTED!</span>
+					</div>
+
+					<div class="check-wrapper">
+						<div class="check-style big">
+							<input type="checkbox" name="will_purchase" class="will-purchase-checkbox" id="will_purchase" />
+						</div>
+						<label>I will order this design when it is produced by Shopbevel</label>
+					</div>
+				</div><!-- .info-n-dsgnr -->
+
+				<div class="submitted-for"><p><span>Submitted For: </span><?php
+						$_challengeName = str_replace($_targetCopy, '', $_challenge->getName()).' '.$_targetCopy;
+						echo $_challengeName;
+				?></p>
+				</div>
+
+				<div class="share-package">
+					<?php if(!$_voted || ($_userVotes[$_design->getId()] < $_pixvoteHelper->VOTE_LIMIT)):?>
+						<p class="txt-share">Share To Double Your Vote</p>
+					<?php endif;?>
+					<textarea readonly="readonly" onclick="$j(this).select()" class="share-url"><?php echo $this->helper('core/url')->getCurrentUrl(); ?></textarea>
+
+					<a data-design="<?php echo $_design->getId()?>" data-fb="1" data-name="<?php echo addslashes($_design->getName())?>" data-image="<?php echo urldecode($image)?>" data-url="<?php echo $this->helper('core/url')->getCurrentUrl()?>" href="http://www.facebook.com/sharer.php?u=<?php echo $url?>" class="share-link first" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-facebook-small.png') ?>" alt="Like this product on Facebook"></a>
+					<a href="https://twitter.com/share?text=<?php echo $text?>&url=<?php echo $url?>" class="share-link" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-twitter-small.png') ?>" alt="Tweet this product on Twitter"></a>
+					<a href="http://pinterest.com/pin/create/button/?url=<?php echo $url?>&media=<?php echo $image?>" class="share-link" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-pinterest-small.png') ?>" alt="Pin this product on Pinterest"></a>
+				</div><!-- .share-package -->
+
+				<h2 class="comment-title">Comment (<span class="count-box-<?php echo $_design->getId();?>"><?php echo $_commentCount[$_design->getId()];?></span>)</h2>
+				<div style="" class="vote-comments-container vote-display" id="comment-area-<?php echo $_design->getId();?>">
+					<ul class="comments-list list-<?php echo $_design->getId(); ?> see-all">
+						<?php
+							foreach($_comments[$_design->getId()] as $_comment):
+						?>
+							<li class="comments-list-item clear-box">
+								<div class="comment-image">
+									<img src="<?php echo $this->helper("pixvote")->getProfileImage($_authors[$_comment->getCustomerId()])?>" alt="author image">
+								</div>
+								<div class="comment-text">
+									<span class="author"><?php echo $_authors[$_comment->getCustomerId()]->getName();?> </span>
+									<span class="text"><?php echo $_comment->getComment()?></span>
+								</div>
+							</li>
+						<?php
+							endforeach;
+						?>
+					</ul>
+
+					<div class="post-comment-container">
+						<div class="top">
+							<div class="commenter-image">
+								<img src="<?php echo $this->helper("pixvote")->getProfileImage( $this->helper("customer")->getCustomer())?>" />
+							</div>
+							<div class="comment-input">
+								<input <?php echo  !$_isLoggedIn ? 'disabled="disabled"' : ''?> type="text" name="comment-input input-<?php echo $_design->getId(); ?>" class="comment-input input-<?php echo $_design->getId(); ?>" id="comment-input-<?php echo $_design->getId(); ?>" placeholder="<?php echo  !$_isLoggedIn ? 'Signup to add a comment...' : 'Add a comment...'?>">
+							</div>
+						</div>
+						<div class="comment-view-all">
+
+							<?php
+								if( $_commentCount[$_design->getId()] > 1):
+							?>
+
+								<a class="view-comments-display" href="javascript:void(0)" data-design-id="<?php echo $_design->getId();?>">See all comments</a>
+							<?php
+								endif;
+							?>
+						</div>
+						<div class="post-comment">
+							<a href="javascript:void(0)" class="vote-comment-btn btn-<?php echo $_design->getId(); ?>" data-design-id="<?php echo $_design->getId();?>">Comment</a>
+						</div>
+					</div>
+				</div>
+		</div><!-- .info-buy -->
+		<script>
+			/*
+			 * set up our info for facebook sharing the vote
+			 */
+			VOTE_ITEM_INFO[ '<?php echo $_design->getId();?>' ] = {
+				name: '<?php echo $_design->getName(); ?>',
+				url: '<?php echo $this->helper("core/url")->getCurrentUrl()?>',
+				image: '<?php echo $_images[$_design->getId()]->getFirstItem(); ?>',
+				designer_image: '<?php echo $_pixvoteHelper->getProfileImage($_designer)?>',
+				designer_name: '<?php echo $_pixvoteHelper->formatName($_designer->getName());?>',
+				designer_loc: '<?php echo $_designer->getLocation();?>'
+			};
+		</script>
+
+
+	</div>
+	<div class="other-items-wrapper">
+		<h2 class="other-items-title">Other entries to vote on</h2>
+		<div id="main-vote-collection" class="section-cntnt cntnt-vote clear-box">
+
+			<?php
+
+				unset($_designIds[$_design->getId()]);
+				shuffle($_designIds);
+				$_limit = $this->getViewPageDesignLimit();
+				$_count = 1;
+				foreach($_designIds as $_id):
+				$_design = $_otherDesigns->getItemById($_id);
+	//			$_today = new DateTime($_time);
+	//			$_endTime= new DateTime($_design->getVoteEndTime());
+	//			$_timeLeft = $_today->diff($_endTime);
+	//			$_days = $_timeLeft->format("%d");
+	//			$_hours = $_timeLeft->format("%h");
+	//			$_minutes = $_timeLeft->format("%i");
+				$_data = array('pixvote_helper' => $_pixvoteHelper,
+						'current_design' => $_design,
+						'images' => $_images[$_design->getId()],
+						'designer' => $_designers[$_design->getCustomerId()]
+						);
+				$_designBlock = $this->getLayout()->createBlock('Mage_Core_Block_Template','view_related_designs');
+				switch($_design->getStatusId()):
+					case $_pixvoteHelper->ENTRY_STATUS_IN_VOTING:
+					case $_pixvoteHelper->ENTRY_STATUS_IN_EXPIRED:
+						$_designBlock->setTemplate($_pixvoteHelper->TEMPLATE_DESIGN_VOTE);
+						$_data['comments'] = $_comments[$_design->getId()];
+						$_data['authors'] = $_authors;
+						$_data['comment_count'] = $_commentCount[$_design->getId()];
+						$_data['votes'] = $_votes[$_design->getId()];
+						$_data['challenge'] = $_challenge;
+						$_data['user_votes'] = $_userVotes;
+						$_data['today'] = $_today;
+						$_data['is_first_vote'] = $_isFirstVote;
+					break;
+					default:
+						$_designBlock->setTemplate($_pixvoteHelper->TEMPLATE_DESIGN_PROFILE);
+					break;
+				endswitch;
+
+				$_designBlock->setData($_data);
+				echo $_designBlock->toHtml();
+			?>
+
+			<!-- VOTE ITEMS SECTION -->
+
+
+			<?php
+				if($_count == $_limit)
+				{
+					break;
+				}
+				$_count++;
+				endforeach;
+			?>
+		</div>
+		<!-- END VOTE ITEMS SECTION -->
+	</div>
+
+	<?php echo $this->getChildHtml($_pixvoteHelper->FIRST_VOTE_MODAL_BLOCK_NAME)?>
+
+	<!-- FLAG FOR REVIEW MODAL -->
+	<div class="designer-form-modal" id="review-modal">
+		<div class="top-banner">
+			<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+		</div><!-- .top-banner -->
+
+		<div class="page-title">
+			<h1>Flag for review</h1>
+		</div>
+		<form id="review-form" method="POST" action="">
+			<div class="fieldset">
+					<h2 class="legend no-show">Comment About Item</h2>
+					<ul class="form-list">
+						<li class="wide">
+							<label for="comment" class="required">Comment<em>*</em></label>
+							<div class="input-box">
+								<textarea name="flag[description]" id="comment-review" title="Comment" class="required-entry input-text ipt-bvl" cols="5" rows="3"></textarea>
+								<input type="hidden" name="flag[id]"value="<?php echo $_design->getId(); ?>">
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="buttons-set">
+					<p class="required"><em>*</em> Required Fields</p>
+					<button type="submit" title="Submit" class="button btn-teal">Submit</button>
+				</div>
+		</form>
+	</div>
+	<!-- END FLAG FOR REVIEW MODAL -->
+
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+	$j(function() {
+		$j( '.comment-input' ).on( 'click', function() {
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").on("click", ".vote-btn", function()
+		{
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").find( '.post-comment' ).children( 'a' ).removeClass( 'vote-comment-btn' );
+	});
+</script>
+<?php endif; ?>
+
+<script>
+	$j(function() {
+		var hash = window.location.hash;
+		if ( hash === '#see-all-comments' ) {
+			$j( '.view-comments-display' ).trigger( 'click' );
+		}
+	});
+</script>
+
+<script>
+	(function( $ ) {
+		$(function() {
+			$( '#review-modal' ).pixafyModal({
+				transition: 'fade',
+				exit: function() {
+					$( '#comment-review' ).val('');
+				}
+			});
+
+			var flag = $( '.review-flag' );
+
+			flag.on( 'mouseenter', toggleFlagTooltip );
+			flag.on( 'mouseleave', toggleFlagTooltip );
+
+		});
+
+		function toggleFlagTooltip() {
+			var tooltip = $( '.flag-tooltip' );
+			if ( tooltip.css( 'display' ) === 'block' ) {
+				tooltip.fadeOut( 300 );
+			} else {
+				tooltip.fadeIn( 300 );
+			}
+		}
+	})( jQuery );
+</script>

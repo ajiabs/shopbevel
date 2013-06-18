@@ -1,0 +1,1895 @@
+<?php
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+	$_designer = $this->getDesigner();
+	$_designs = $this->getDesigns();
+	$_images = $this->getImages();
+	$_commentCount = $this->getCommentCount();
+	$_comments = $this->getComments();
+	$_challenges = $this->getChallenges();
+	$_authors = $this->getAuthors();
+	$_userVotes = $this->getUserVotes();
+	$_votes = $this->getVotes();
+	$_isDesigner = $this->getIsDesigner();
+	$_isFollowing = $this->getIsFollowing();
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_textSubmitUrl = Mage::getUrl($_pixvoteHelper->FRONT_NAME.'/designers/save');
+	$_imageSubmitUrl = Mage::getUrl($_pixvoteHelper->FRONT_NAME.'/designers/saveProfileImage');
+	$_studioImageSubmitUrl = Mage::getUrl($_pixvoteHelper->FRONT_NAME.'/designers/saveStudioImage');
+	$_followUrl = Mage::getUrl($_pixvoteHelper->FRONT_NAME.'/designers/follow');
+	$_studioImages = $this->getStudioImages();
+	$_countries = $this->getCountries();
+	$_regions = $this->getRegions();
+	$_isCompleted = $this->getIsProfileComplete();
+	$_firstView = $this->getIsFirstView();
+	$_inactive = '';
+	$_isFirstVote = $this->getIsFirstVote();
+	if($_firstView) {
+		$_inactive = 'inactive';
+	}
+	?>
+
+<script>
+	/* set up our vote item fb share object that will store all needed info
+	 * sharing a vote on facebook
+	 */
+	var VOTE_ITEM_INFO = {};
+</script>
+
+<?php
+	$profilePic = ( $_pixvoteHelper->getProfileImage($_designer, true) ) ? : $this->getSkinUrl('images/profile-default.png');
+
+	if ( $_isDesigner ) {
+		$location = ( $_designer->getLocation() ) ? : '<a href="javascript:void(0)" id="default-location-btn">Please add your location.</a>';
+	} else {
+		$location = ( $_designer->getLocation() ) ? : '';
+	}
+
+	$storyPlaceholder = 'I fell into the jewelry world through a career in public relations. While at work, an editor picked up one of my pieces for a magazine shoot. It made it in and so launched my first collection. Since then, it has been adventure: building my website, fulfilling custom orders for celebs like Kelly Ripa, and designing private label for Cynthia Rowley.';
+
+	$story = ( $_designer->getDescription() ) ? : '';
+
+	$specialtiesDefault = '<a href="javascript:void(0)" class="pixafy-modal-trigger" data-modal-container="specialties-modal">+add specialties</a>';
+
+	$specialties = ( $_designer->getSpecialties() ) ? : $specialtiesDefault;
+
+	$websiteDefault = '<a href="javascript:void(0)" class="pixafy-modal-trigger' . $inactive . '" data-modal-container="website-modal" id="profile-website-anchor">+add website</a>';
+
+	$website = ( $_designer->getWebsiteUrl() ) ? '<a href="' . $_designer->getWebsiteUrl() . '" target="_blank" id="profile-website-anchor">Visit my website</a>' : $websiteDefault;
+
+	$_moodboardUrl = ( $_designer->getMoodboardUrl() ) ? : $_pixvoteHelper->DEFAULT_MOODBOARD;
+ ?>
+
+
+<div class="cookie-trail clear-box">
+	<a class="btn-prev-prdct back-btn" href="javascript:void(0)" onClick="javascript: history.go(-1)">Back</a>
+</div><!-- .cookie-trail -->
+
+
+<div class="designer-profile-info-wrapper clear-box">
+	<?php if($_isDesigner):?>
+	<p class="options-wrapper">
+		<a href="javascript:void(0)" class="options-link" id="edit-toggle">Edit Profile</a> | <a href="javascript:void(0)" class="options-link" id="share-toggle">Share Profile</a>
+
+		<button class="btn-teal done-edit-toggle" id="done-edit-toggle">DONE</button>
+		<div class="designer-form" id="share-profile">
+			<a href="http://www.facebook.com/sharer.php?u=<?php echo Mage::helper("core/url")->getCurrentUrl(); ?>" data-fb="1" data-url="<?php echo Mage::helper("core/url")->getCurrentUrl(); ?>" class="share-link first" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-facebook.png') ?>" alt="Like this product on Facebook"></a>
+			<a href="https://twitter.com/share?text=<?php echo $story; ?>&url=<?php echo Mage::helper("core/url")->getCurrentUrl(); ?>" class="share-link" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-twitter.png') ?>" alt="Tweet this product on Twitter"></a>
+			<button class="btn-teal done-share-toggle" id="done-share-toggle">DONE</button>
+		</div>
+	</p>
+	<?php
+		endif;
+	?>
+	<div class="profile-image-wrapper">
+		<div class="image-wrapper">
+			<img src="<?php echo $profilePic; ?>" alt="" id="profile-pic" class="<?php echo $_inactive; ?>" />
+			<span class="camera-edit-button" id="edit-profile-pic-btn"></span>
+			<a href="javascript:void(0)" id="profile-pic-modal-trigger" class="pixafy-modal-trigger hidden" data-modal-container="profile-pic-modal">Display Profile Picture Form</a>
+		</div>
+	</div>
+	<div class="info-wrapper">
+		<p class="label">Designer</p>
+
+
+		<h2 class="name"><span class="pencil-edit-button" id="edit-name-btn"></span><span class="name-container <?php echo $_inactive; ?>"><?php echo $_designer->getName(); ?></span></h2>
+		<?php if($_isDesigner):?>
+		<form id="edit-name" class="designer-form" method="POST" action="<?php echo $_textSubmitUrl?>">
+			<label class="designer-form-label">Name</label>
+			<input type="text" class="name-form-field" id="profile-fn" name="designer[firstname]" placeholder="First Name" value="<?php echo $_designer->getFirstname()?>">
+			<input type="text" class="name-form-field" id="profile-ln" name="designer[lastname]" placeholder="Last Name" value="<?php echo $_designer->getLastname()?>">
+			<div class="button-section">
+				<button class="btn-teal save-form">SAVE</button>
+				<button class="btn-grey cancel-save">CANCEL</button>
+			</div>
+		</form>
+		<?php endif;?>
+		<p class="location"><span class="pencil-edit-button" id="edit-location-btn"></span><span class="location-container <?php echo $_inactive; ?>"><?php
+			/*if($_designer->getDesignerCity()):
+				echo $_designer->getDesinerCity();
+			endif;
+
+			if($_designer->getDesignerState()):
+				echo ', '.$_designer->getDesignerState();
+			endif;
+
+			if($_designer->getDesignerZip()):
+				echo ' '.$_designer->getDesignerZip();
+			endif;*/
+			echo $location;
+		?></span></p>
+		<?php if($_isDesigner):?>
+		<form id="edit-location" class="designer-form" method="POST" action="<?php echo $_textSubmitUrl?>">
+			<label class="designer-form-label">Location</label>
+			<input type="text" class="location-form-field" id="profile-city" name="designer[designer_city]" placeholder="City" value="<?php echo $_designer->getDesignerCity()?>">
+			<div class="select-style city">
+				<select class="location-form-field" id="profile-state" name="designer[designer_state]">
+					<option class="city-option" value="">State</option>
+					<?php
+						foreach($_regions as $_region):
+					?><option <?php echo ($_region['region_id'] == $_designer->getDesignerState()) ? 'selected' : '' ?> value="<?php echo $_region['region_id'] ?>" ><?php echo $_region['name'] ?></option>
+					<?php
+						endforeach;
+					?>
+				</select>
+			</div>
+			<div class="select-style country">
+				<select class="location-form-field" id="profile-country" name="designer[designer_country]">
+					<option class="country-option" value="">Country</option>
+					 <?php
+						foreach($_countries as $_country):
+					?>
+						<option <?php echo ($_country['country_id'] == $_designer->getDesignerCountry() || ($_country['country_id'] == $_pixvoteHelper->DEFAULT_COUNTRY && !$_designer->getDesignerCountry())) ? 'selected' : '' ?> value="<?php echo $_country['country_id'] ?>" ><?php echo $_country['name'] ?></option>
+					<?php
+						endforeach;
+					?>
+				</select>
+			</div>
+			<input type="text" class="location-form-field" id="profile-zip" name="designer[designer_zip]" placeholder="Zip Code" value="<?php echo $_designer->getDesignerZip()?>">
+			<div class="button-section">
+				<button class="btn-teal save-form">SAVE</button>
+				<button class="btn-grey cancel-save">CANCEL</button>
+			</div>
+		</form>
+		<?php endif;?>
+
+		<?php if( $_isDesigner || $story !== '' ): ?>
+			<p class="story"><span class="pencil-edit-button" id="edit-story-btn"></span>
+				<strong>About Designer: </strong><span class="story-container <?php echo $_inactive; ?>">
+				<?php
+					echo $story;
+				?>
+				</span>
+			</p>
+		<?php endif; ?>
+
+		<?php if($_isDesigner):?>
+		<form id="edit-story" class="designer-form" method="POST" action="<?php echo $_textSubmitUrl?>">
+			<label>About Designer</label><span class="rule">(max 350 characters)</span>
+			<textarea class="story-form-field" id="profile-story" name="designer[description]" placeholder="<?php echo $storyPlaceholder; ?>"><?php
+				echo $_designer->getDescription();
+			?></textarea>
+			<span class="char-count-container" id="profile-story-counter">0</span>
+			<div class="button-section">
+				<button class="btn-teal save-form">SAVE</button>
+				<button class="btn-grey cancel-save">CANCEL</button>
+			</div>
+		</form>
+
+		<script>
+			$j(function() {
+				if ( is_ie( 9 ) ) {
+					$j( '#profile-story' ).placeholderText( '<?php echo $storyPlaceholder; ?>', '#dddddd' );
+				}
+			});
+		</script>
+		<?php endif;?>
+	</div>
+	<div class="follow-wrapper">
+			<?php
+				//if(!$_isDesigner):
+					if($_isFollowing):
+			?>
+					<p class="following-alert">You are currently following this designer</p>
+
+			<?php
+					else:
+			?>
+						<a class="btn-teal follow" href="javascript:void(0)" id="follow" data-designer="<?php echo $_designer->getId()?>">Follow</a>
+			<?php
+					endif;
+				//endif;
+			?>
+			<ul>
+				<li><a href="#presentation-section" id="my-designs-link">My Designs</a></li>
+				<li>|</li>
+				<li><a href="#presentation-section" id="my-studio-link">My Studio</a></li>
+				<li>|</li>
+				<li><a href="#presentation-section" id="my-moodboard-link">My Moodboard</a></li>
+			</ul>
+		</div>
+	<div class="social-wrapper">
+
+		<p class="specialties">
+
+			<span class="pencil-edit-button pixafy-modal-trigger" id="edit-specialties-btn" data-modal-container="specialties-modal"></span>
+			<?php if ( ( !$_isDesigner) && ( $specialties !== $specialtiesDefault ) ): ?>
+				<strong>Specialties: </strong><span class="specialties-container <?php echo $_inactive; ?>"><?php echo $specialties; ?></span></p>
+			<?php elseif ( $_isDesigner ): ?>
+				<strong>Specialties: </strong><span class="specialties-container <?php echo $_inactive; ?>"><?php echo $specialties; ?></span>
+			<?php endif; ?>
+
+		</p>
+
+		<p class="website">
+
+			<span class="pencil-edit-button pixafy-modal-trigger" id="edit-website-btn" data-modal-container="website-modal"></span>
+			<?php if ( ( !$_isDesigner) && ( $website !== $websiteDefault ) ): ?>
+
+				<?php echo $website; ?>
+
+			<?php elseif ( $_isDesigner ): ?>
+
+				<?php echo $website; ?>
+
+			<?php endif;?>
+
+		<ul class="social-links">
+			<span class="pencil-edit-button pixafy-modal-trigger" id="edit-social-btn" data-modal-container="social-modal"></span>
+			<?php
+				$_defaultUrl = "javascript:void(0)";
+				$_fbUrl = $_pixvoteHelper->formatUrl($_designer->getFbUrl()) ?: $defaultUrl;
+				$_twitterUrl = $_pixvoteHelper->formatUrl($_designer->getTwitterUrl()) ?: $defaultUrl;
+				$_pinterestUrl = $_pixvoteHelper->formatUrl($_designer->getPinterestUrl()) ?: $defaultUrl;
+				$_websiteUrl = $_pixvoteHelper->formatUrl($_designer->getWebsiteUrl()) ?: $defaultUrl;
+
+				if ( $_pinterestUrl === 'http://' || 'https://' ) {
+					$_pinterestUrl = $_defaultUrl;
+				}
+
+				if ( $_twitterUrl === 'http://' || 'https://' ) {
+					$_twitterUrl = $_defaultUrl;
+				}
+
+				if ( $_fbUrl === 'http://' || 'https://' ) {
+					$_fbUrl = $_defaultUrl;
+				}
+			?>
+			<?php if ( ( !$_isDesigner ) && ( $_pinterestUrl !== $defaultUrl ) ): ?>
+
+				<li><a href="<?php echo $_pinterestUrl; ?>" id="pin-anchor" target="_blank"><img class="<?php echo $_inactive; ?>" src="<?php echo $this->getSkinUrl('images/btn-pinterest.png') ?>" alt="" /></a></li>
+
+			<?php elseif ( $_isDesigner ): ?>
+
+				<li><a href="<?php echo $_pinterestUrl; ?>" id="pin-anchor" <?php if($_pinterestUrl !== $_defaultUrl){ echo 'target="_blank"';} ?>><img src="<?php echo $this->getSkinUrl('images/btn-pinterest.png') ?>"  class="<?php echo $_inactive; ?>" alt="" /></a></li>
+
+
+			<?php endif; ?>
+
+			<?php if ( ( !$_isDesigner) && ( $_twitterUrl !== $defaultUrl ) ): ?>
+
+				<li><a href="<?php echo $_twitterUrl?>" id="tw-anchor" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-twitter.png') ?>" alt="" class="<?php echo $_inactive; ?>" /></a></li>
+
+			<?php elseif ($_isDesigner): ?>
+
+				<li><a href="<?php echo $_twitterUrl?>" id="tw-anchor" <?php if($_twitterUrl !== $_defaultUrl){ echo 'target="_blank"';} ?>><img src="<?php echo $this->getSkinUrl('images/btn-twitter.png') ?>" alt="" class="<?php echo $_inactive; ?>" /></a></li>
+
+			<?php endif; ?>
+
+			<?php if ( ( !$_isDesigner) && ( $_fbUrl !== $defaultUrl ) ): ?>
+
+				<li><a href="<?php echo $_fbUrl?>" id="fb-anchor" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-facebook.png') ?>" alt="" class="<?php echo $_inactive; ?>" /></a></li>
+
+			<?php elseif ($_isDesigner): ?>
+
+				<li><a href="<?php echo $_fbUrl?>" id="fb-anchor" <?php if($_fbUrl !== $_defaultUrl){ echo 'target="_blank"';} ?>><img src="<?php echo $this->getSkinUrl('images/btn-facebook.png') ?>" alt="" class="<?php echo $_inactive; ?>" /></a></li>
+
+			<?php endif; ?>
+		</ul>
+	</div>
+</div>
+
+<div class="profile-presentation-wrapper" id="presentation-section">
+	<?php if ( $_isDesigner ): ?>
+	<a href="<?php echo Mage::getBaseUrl(); ?>/submit-design/#faq-section" class="btn-teal" id="dp-submit-design-btn">SUBMIT DESIGN</a>
+	<?php endif ?>
+	<span class="pencil-edit-button" id="edit-studio-btn"></span>
+	<span class="pencil-edit-button pixafy-modal-trigger" id="edit-moodboard-btn" data-modal-container="moodboard-modal"></span>
+
+	<a href="#tab1" class="pixafy-tab-trigger dp-tab-btn" id="my-designs-tab-trigger" data-tab-container="tab1">
+		My Designs
+	</a>
+
+	<?php if ( $_isDesigner || count( $_studioImages ) > 0 ): ?>
+		<a href="#tab2" class="pixafy-tab-trigger dp-tab-btn" id="my-studio-tab-trigger" data-tab-container="tab2">
+			My Studio
+		</a>
+	<?php endif; ?>
+
+	<?php if( $_isDesigner || $_moodboardUrl !== $_pixvoteHelper->DEFAULT_MOODBOARD ): ?>
+		<a href="#tab3" class="pixafy-tab-trigger dp-tab-btn" id="my-moodboard-tab-trigger" data-tab-container="tab3">
+			My Moodboard
+		</a>
+	<?php endif; ?>
+	<div class="pixafy-tab-container pd-tab" id="tab1">
+		<div class="my-items-slider">
+			<div class="slider-item">
+			<?php
+				$_today = $_pixvoteHelper->getTodayDateTime();
+				$_designCount = 1;
+				$_total = count($_designs);
+				foreach($_designs as $_design):
+					$_data = array('pixvote_helper' => $_pixvoteHelper,
+					'current_design' => $_design,
+					'images' => $_images[$_design->getId()],
+					'designer' => $_designer
+					);
+					$_data['challenge'] = $_challenges[$_design->getChallengeId()];
+					$_designBlock = $this->getLayout()->createBlock('Mage_Core_Block_Template','design_profile');
+					switch($_design->getStatusId()):
+						case $_pixvoteHelper->ENTRY_STATUS_IN_VOTING:
+						case $_pixvoteHelper->ENTRY_STATUS_IN_EXPIRED:
+							$_designBlock->setTemplate($_pixvoteHelper->TEMPLATE_DESIGN_VOTE);
+							$_data['comments'] = $_comments[$_design->getId()];
+							$_data['authors'] = $_authors;
+							$_data['comment_count'] = $_commentCount[$_design->getId()];
+							$_data['votes'] = $_votes[$_design->getId()];
+							$_data['user_votes'] = $_userVotes;
+							$_data['today'] = $_today;
+							$_data['is_first_vote'] = $_isFirstVote;
+						break;
+						default:
+							$_designBlock->setTemplate($_pixvoteHelper->TEMPLATE_DESIGN_PROFILE);
+						break;
+					endswitch;
+
+					$_designBlock->setData($_data);
+					echo $_designBlock->toHtml();
+				if($_designCount % $_pixvoteHelper->ITEMS_PER_SLIDER == 0 && ($_designCount < $_total)):
+			?>
+				</div>
+				<div class="slider-item">
+			<?php
+				endif;
+				$_designCount++;
+				endforeach;
+			?>
+			</div>
+		</div>
+	</div>
+	<?php if ( $_isDesigner || count( $_studioImages ) > 0 ): ?>
+		<div class="pixafy-tab-container pd-tab" id="tab2">
+			<?php
+				$_studioImageCount = 1;
+				$_studioIds = array();
+				$_index = 1;
+				foreach($_studioImages as $_studioImage):
+					 $_resizedImage = $_pixvoteHelper->getResizedImage($_studioImage, 'getUrl', $_pixvoteHelper->STUDIO_IMAGE_WIDTH,  $_pixvoteHelper->STUDIO_IMAGE_HEIGHT);
+			?><div class="studio-image-wrapper">
+				<span class="remove-button" id="remove-studio<?php echo $_index; ?>-pic-btn"></span>
+				<span class="camera-edit-button" id="edit-studio<?php echo $_index; ?>-pic-btn"></span>
+
+				<a href="javascript:void(0)" id="profile-studio<?php echo $_index; ?>-modal-trigger" class="pixafy-modal-trigger hidden" data-modal-container="profile-studio<?php echo $_index; ?>-modal">Display Profile Picture Form</a>
+				<img src="<?php echo $_resizedImage ?>" id="profile-studio<?php echo $_index; ?>-image" />
+			</div>
+			<?php
+					$_studioIds[$_index] = $_studioImage->getId();
+					$_studioImageCount++;
+					$_index++;
+				endforeach;
+			?>
+			<?php
+				//Add remaing slots
+				for($_i = $_studioImageCount; $_i <= $_pixvoteHelper->STUDIO_IMAGE_LIMIT; $_i++):
+			?>
+				<div class="studio-image-wrapper">
+					<span class="remove-button" id="remove-studio<?php echo $_index; ?>-pic-btn"></span>
+					<span class="camera-edit-button" id="edit-studio<?php echo $_index?>-pic-btn"></span>
+					<a href="javascript:void(0)" id="profile-studio<?php echo $_index?>-modal-trigger" class="pixafy-modal-trigger hidden" data-modal-container="profile-studio<?php echo $_index?>-modal">Display Profile Picture Form</a>
+					<img src="<?php echo $this->getSkinUrl('images/studio-default.png') ?>" id="profile-studio<?php echo $_index?>-image" />
+				</div>
+			<?php
+				$_index++;
+				endfor;
+			?>
+		</div>
+	<?php endif; ?>
+
+	<?php if( $_isDesigner || $_moodboardUrl !== $_pixvoteHelper->DEFAULT_MOODBOARD ): ?>
+		<div class="pixafy-tab-container pd-tab" id="tab3">
+			<div class="moodboard-wrapper <?php echo $_inactive; ?>">
+
+			</div>
+		</div>
+	<?php endif; ?>
+</div>
+
+<!-- forms -->
+<?php if($_isDesigner):?>
+
+<div class="designer-form-modal" id="specialties-modal">
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<form id="edit-specialties" class="designer-form modal" method="POST" action="<?php echo $_textSubmitUrl?>">
+		<label class="designer-form-label">Specialites</label><span class="rule">(max 70 characters)</span>
+		<textarea class="specialties-form-field" id="profile-specialties" name="designer[specialties]"><?php echo $_designer->getSpecialties()?></textarea>
+		<span class="char-count-container" id="profile-specialties-counter">0</span>
+		<div class="button-section">
+			<button class="btn-teal save-form">SAVE</button>
+			<button class="btn-grey cancel-save pixafy-modal-dismiss">CANCEL</button>
+		</div>
+	</form>
+</div>
+
+<div class="designer-form-modal" id="social-modal">
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<form id="edit-social" class="designer-form modal" method="POST" action="<?php echo $_textSubmitUrl?>">
+		<label class="designer-form-label">Facebook Profile URL</label>
+		<input type="text" id="profile-facebook" name="designer[fb_url]" class="social-form-field" value="<?php echo $_designer->getFbUrl()?>" />
+
+		<label class="designer-form-label">Twitter Profile URL</label>
+		<input type="text" id="profile-twitter" name="designer[twitter_url]" class="social-form-field" value="<?php echo $_designer->getTwitterUrl()?>"/>
+
+		<label class="designer-form-label">Pinterest Profile URL</label>
+		<input type="text" id="profile-pinterest" name="designer[pinterest_url]" class="social-form-field" value="<?php echo $_designer->getPinterestUrl()?>"/>
+
+		<div class="button-section">
+			<button class="btn-teal save-form">SAVE</button>
+			<button class="btn-grey cancel-save pixafy-modal-dismiss">CANCEL</button>
+		</div>
+	</form>
+</div>
+
+<div class="designer-form-modal" id="website-modal">
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<form id="edit-website" class="designer-form modal" method="POST" action="<?php echo $_textSubmitUrl?>">
+		<label class="designer-form-label">Website URL</label>
+		<input type="text" id="profile-website" name="designer[website_url]" class="website-form-field" value="<?php echo $_designer->getWebsiteUrl()?>"/>
+
+		<div class="button-section">
+			<button class="btn-teal save-form">SAVE</button>
+			<button class="btn-grey cancel-save pixafy-modal-dismiss">CANCEL</button>
+		</div>
+	</form>
+</div>
+
+<div class="designer-form-modal" id="moodboard-modal">
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<form id="edit-moodboard" class="designer-form modal"  method="POST" action="<?php echo $_textSubmitUrl?>">
+		<label class="designer-form-label">Pinterest Moodboard URL</label>
+		<input type="text" id="profile-moodboard" name="designer[moodboard_url]" class="moodboard-form-field" <?php echo $_designer->getMoodboardUrl()?>/>
+
+		<div class="button-section">
+			<button class="btn-teal save-form">SAVE</button>
+			<button class="btn-grey cancel-save pixafy-modal-dismiss">CANCEL</button>
+		</div>
+	</form>
+</div>
+
+
+<div class="designer-form-modal" id="profile-pic-modal">
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<form id="edit-profile-pic" class="designer-form modal" method="POST" action="<?php echo $_imageSubmitUrl; ?>">
+		<label class="designer-form-label">Profile Picture</label>
+		<input type="file" id="profile-picture" name="profile-picture[]" class="profile-form-field" />
+
+		<div class="button-section">
+			<button class="btn-teal save-form pixafy-modal-dismiss">DONE</button>
+		</div>
+	</form>
+</div>
+
+<?php if ( $_firstView ): ?>
+	<div class="designer-form-modal" id="get-started">
+		<div class="top-banner">
+			<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);">close</a>
+
+		</div><!-- .top-banner -->
+		<div class="get-started-wrapper overlay-cntnt">
+			<h3 class="overlay-title">Get Started On Your Designer Profile</h3>
+			<img src="<?php echo $this->getSkinUrl('images/get-started-pic.png'); ?>" />
+		</div>
+	</div>
+<?php endif; ?>
+
+<?php /* studio picture forms */
+$_i = 1;
+$_len = $_pixvoteHelper->STUDIO_IMAGE_LIMIT;
+
+	while( $_i <= $_len) {
+		$_studioId = isset($_studioIds[$_i]) ? '<input type="hidden" name="studio-id" value="'.$_studioIds[$_i].'"/>' : '';
+		$form = '<div class="designer-form-modal" id="profile-studio' . $_i . '-modal">' .
+			'<div class="top-banner">' .
+				'<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);">close</a>' .
+			'</div><!-- .top-banner -->' .
+			'<form id="edit-studio' . $_i . '-pic" class="designer-form modal" method="POST" action="' . $_studioImageSubmitUrl . '">' .
+				'<label class="designer-form-label">Update Studio Picture</label>' .
+				'<input type="file" id="profile-studio' . $_i . '" name="profile-studio[]" class="studio-form-field studio-image" />' .
+				'<input type="hidden" value="edit-studio' . $_i . '-pic" name="id" />' .$_studioId.
+				'<div class="button-section">' .
+					'<button class="btn-teal save-form pixafy-modal-dismiss">DONE</button>' .
+				'</div>' .
+			'</form>' .
+		'</div>';
+		echo $form;
+		$_i++;
+	}
+?>
+
+	<?php for( ; $i < $len; ): ?>
+		<div class="designer-form-modal" id="profile-studio<?php echo $i; ?>-modal">
+			<div class="top-banner">
+				<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);">close</a>
+			</div><!-- .top-banner -->' .
+			<form id="edit-studio<?php echo $i; ?>-pic" class="designer-form modal" method="POST" action="<?php echo $_studioImageSubmitUrl; ?>">
+				<label class="designer-form-label">Update Studio Picture</label>
+				<input type="file" id="profile-studio<?php echo $i; ?>" name="profile-studio[]" class="studio-form-field studio-image" />
+				<input type="hidden" value="edit-studio<?php echo $i; ?>-pic" name="id" />
+				<input type="hidden" value="<?php echo $i; ?>" name="studio-id" />
+				<div class="button-section">
+					<button class="btn-teal save-form">SAVE</button>
+					<button class="btn-grey cancel-save pixafy-modal-dismiss">CANCEL</button>
+				</div>
+			</form>
+		</div>
+		<?php $i++; ?>
+	<?php endfor; ?>
+
+<!-- end forms -->
+
+<?php endif;?>
+
+<?php echo $this->getChildHtml($_pixvoteHelper->FIRST_VOTE_MODAL_BLOCK_NAME)?>
+<script>
+var VOTE_FRONTNAME = "<?php echo $this->helper("pixvote")->FRONT_NAME?>";
+;(function( $ ) {
+	'use strict';
+
+	initPubSub();
+
+	$(function() {
+
+		<?php
+			 //set moodboard url
+			if( $_isDesigner || $_moodboardUrl !== $_pixvoteHelper->DEFAULT_MOODBOARD ):
+		?>
+				getMoodBoardImages( '<?php echo $_moodboardUrl; ?>' );
+		<?php
+			endif;
+		?>
+
+		<?php if ( ( $_firstView) && ( $_isDesigner ) ): ?>
+			setTimeout(function() {
+				$( '#get-started' ).pixafyModal({
+					onload: 'true',
+					transition: 'fade',
+					exit: function() {
+						toggleEdit();
+					}
+				});
+			}, 300);
+		<?php endif; ?>
+
+		$("#follow").click(function(){
+			$.post('<?php echo $_followUrl?>',
+				{
+					'id' : $(this).data("designer")
+				},
+				followResult,
+				'json'
+			);
+		});
+
+		/* edit button event listeners */
+		$("#profile-picture,.studio-image").change(function( e ){
+			$(this).parent().ajaxSubmit({
+				//url:"<?php echo $_imageSubmitUrl;?>",
+				//type:"POST",
+				success:uploadResult,
+				error:uploadResult,
+				dataType:'json'
+			});
+
+			e.preventDefault();
+			e.stopPropagation();
+		});
+
+		$("#profile-country").change(function(){
+			$.post(getUrl(VOTE_FRONTNAME + "/designers/regions"), {country: $(this).val()}, regionsResult, 'json');
+		})
+
+		$( '#edit-toggle' ).on( 'click', function() {
+			toggleEdit();
+		});
+
+		$( '#done-edit-toggle' ).on( 'click', function() {
+			toggleEdit();
+			hideForms();
+		});
+
+		$( '#share-toggle' ).on( 'click', function() {
+			$( '#share-profile' ).slideDown( 300 );
+		});
+
+		$( '#done-share-toggle' ).on( 'click', function() {
+			$( '#share-profile' ).slideUp( 300 );
+		});
+
+
+		/* form event listeners */
+
+		$( '.save-form' ).on( 'click', function( e ) {
+			var self = $( this );
+			var form = self.parent( '.button-section' ).parent( '.designer-form' );
+
+			processForm( form );
+
+			e.preventDefault();
+		});
+
+		$( '.cancel-save' ).on( 'click', function( e ) {
+			var self = $( this );
+			var form = self.parent( '.button-section' ).parent( '.designer-form' );
+
+			var modalParent = self.parents( '.pixafy-modal-wrapper' );
+
+			if ( modalParent.length === 0 ) {
+				form.fadeOut( 300, function() {
+					wipeForm( form );
+				});
+			}
+
+			e.preventDefault();
+		});
+
+		$( '.pencil-edit-button' ).on( 'click', function() {
+			var self = $( this );
+			var id = self.attr( 'id' ).replace( '-btn', '' );
+			var form = $( '#' + id );
+			form.fadeIn( 300 );
+		});
+
+		$( '#default-location-btn' ).on( 'click', function() {
+			$( '#edit-location' ).fadeIn( 300 );
+		});
+
+		$( '#default-story-btn' ).on( 'click', function() {
+			$( '#edit-story' ).fadeIn( 300 );
+		});
+
+
+		/* init modals */
+
+		var modals = [
+			$( '#social-modal' ),
+			$( '#specialties-modal' ),
+			$( '#website-modal' ),
+			$( '#moodboard-modal' ),
+			$( '#profile-pic-modal' ),
+			$( '#profile-studio1-modal' ),
+			$( '#profile-studio2-modal' ),
+			$( '#profile-studio3-modal' ),
+			$( '#profile-studio4-modal' ),
+			$( '#profile-studio5-modal' ),
+			$( '#profile-studio6-modal' )
+		];
+
+		$.each( modals, function() {
+			this.pixafyModal({
+				transition: 'fade',
+				exit: function() {
+					wipeForm ( this.find( 'form' ) );
+				}
+			});
+		});
+
+
+		/* init picture form events */
+
+		$( '#edit-profile-pic-btn' ).on( 'click', function() {
+			var isMSIE = /*@cc_on!@*/0;
+
+			if (isMSIE) {
+				$( '#profile-pic-modal-trigger' ).trigger( 'click' );
+			} else {
+				$( '#profile-picture' ).trigger( 'click' );
+			}
+		});
+
+		var studioUpdateBtns = [
+			$( '#edit-studio1-pic-btn' ),
+			$( '#edit-studio2-pic-btn' ),
+			$( '#edit-studio3-pic-btn' ),
+			$( '#edit-studio4-pic-btn' ),
+			$( '#edit-studio5-pic-btn' ),
+			$( '#edit-studio6-pic-btn' )
+		];
+
+		$.each( studioUpdateBtns, function( index ) {
+			index++;
+			this.on( 'click', function() {
+				var isMSIE = /*@cc_on!@*/0;
+
+				if (isMSIE) {
+					$( '#profile-studio' + index + '-modal-trigger' ).trigger( 'click' );
+				} else {
+					$( '#profile-studio' + index ).trigger( 'click' );
+				}
+			});
+		});
+
+
+
+		var studioRemoveBtns = [
+			$( '#remove-studio1-pic-btn' ),
+			$( '#remove-studio2-pic-btn' ),
+			$( '#remove-studio3-pic-btn' ),
+			$( '#remove-studio4-pic-btn' ),
+			$( '#remove-studio5-pic-btn' ),
+			$( '#remove-studio6-pic-btn' )
+		];
+
+		$.each( studioRemoveBtns, function( index ) {
+			index++;
+			this.on( 'click', function() {
+				var input = $( '#profile-studio' + index );
+				input.val( '' );
+				input.trigger( 'change' );
+			});
+		});
+
+
+		$( '#edit-moodboard-btn' ).scrollToSection({
+			section: '#presentation-section',
+			offset: -200,
+			duration: 0,
+			complete: function() {
+				$j( '#my-moodboard-tab-trigger' ).trigger( 'click' );
+			}
+		});
+
+		$( '#edit-studio-btn' ).scrollToSection({
+			section: '#presentation-section',
+			offset: -200,
+			duration: 0,
+			complete: function() {
+				$j( '#my-studio-tab-trigger' ).trigger( 'click' );
+			}
+		});
+
+		$( '#edit-designs-btn' ).on( 'click', function() {
+			window.location = '<?php echo Mage::getBaseUrl(); ?>/submit-design/#faq-section';
+		});
+
+
+		/* quick link events */
+
+		$( '#my-designs-link' ).scrollToSection({
+			section: '#presentation-section',
+			offset: -200,
+			duration: 0,
+			complete: function() {
+				$j( '#my-designs-tab-trigger' ).trigger( 'click' );
+			}
+		});
+
+		$( '#my-studio-link' ).scrollToSection({
+			section: '#presentation-section',
+			offset: -200,
+			duration: 0,
+			complete: function() {
+				$j( '#my-studio-tab-trigger' ).trigger( 'click' );
+			}
+		});
+
+		$( '#my-moodboard-link' ).scrollToSection({
+			section: '#presentation-section',
+			offset: -200,
+			duration: 0,
+			complete: function() {
+				$j( '#my-moodboard-tab-trigger' ).trigger( 'click' );
+			}
+		});
+
+		hideSubNav();
+
+	}); /* end document ready */
+
+
+	/* subscriptions */
+
+	$.subscribe( 'moodboard/results', function( e, data ) {
+		populateDesignerMoodBoard( data );
+	});
+
+	$.subscribe( 'moodboard/populated', function() {
+		//$j( '.pd-tab#tab3' ).find( '.moodboard-wrapper' ).verticalAlign( 'center' );
+	});
+
+
+
+	/* follow results function */
+
+	function followResult(data)
+	{
+		if(data.hasOwnProperty("error"))
+		{
+			showLogin();
+		}
+		else
+		{
+			$("#follow").replaceWith('<p class="following-alert">You are currently following this designer</p>');
+		}
+	}
+
+
+
+	/* moodboard function declarations */
+
+	function getMoodBoardImages( url ) {
+
+		//make call to function on backend that retrieves moodboard page html
+		$.post(
+			getUrl( VOTE_FRONTNAME + '/view/moodBoard/'),
+			{
+				'url' : url
+			},
+			moodBoardDataReturned,
+			'json'
+		);
+	}
+
+	function moodBoardDataReturned( data ) {
+
+		//check for error, alert user of error
+		if ( data.hasOwnProperty( 'error' ) ) {
+			var container = $( '.pd-tab#tab3' );
+
+			$( '<p/>', {
+				'class' : 'mood-board-error',
+				text : 'Hmmmm.... seems there was a problem retrieving this mood board.'
+			}).appendTo( container );
+		} else {
+
+			//if no error let our listener know the results are in and pass them along
+			$.publish( 'moodboard/results', data );
+		}
+	}
+
+	function populateDesignerMoodBoard( data ) {
+		$( '.mood-board-error' ).remove();
+
+		//cache the html from the pinterest moodboard page
+		var html = data.html;
+
+		//snag the pinned images and store them
+		var images = html.match( /<.+class="PinImageImg".+>/g );
+
+		//create our container to store the html and grep through
+		var resultsContainer = $( '<p/>', {
+			'class' : 'mood-board-results-container'
+		}).html( images.join( '\n' ) ).appendTo( 'body' );
+
+		var compiledImages = resultsContainer.find( '.PinImageImg' );
+		compiledImages = compiledImages.slice(0, 18);
+
+
+		//since this in no longer needed remove it
+		resultsContainer.remove();
+
+
+		//get the moodboard container
+		var moodBoard = $( '.pd-tab#tab3' ).find( '.moodboard-wrapper' ).empty();
+
+
+		//append the images to the moodboard and remove the pinterest class
+		$.each( compiledImages, function() {
+			var image = $( this );
+
+			image.appendTo( moodBoard )
+			.removeClass( 'PinImageImg' )
+			.removeAttr( 'style' )
+			.removeAttr( 'data-componenttype' );
+		});
+
+
+		//build the columns for the moodboard and show the moodboard
+		moodBoard.columns({
+			columns : 6,
+			duration : 400
+		}).css( 'overflow', 'visible' );
+
+		$.publish( 'moodboard/populated' );
+	}
+
+	function hideSubNav() {
+		var subNav = $( '.header-sub-nav' ).remove();
+	}
+
+	/* pub sub declaration */
+
+	function initPubSub() {
+
+		//create our instance of jQuery
+		var o = $( {} );
+
+
+		//link our jquery functions to our sudo function names
+		$.each({
+
+			//associate our keys and values to iterate through
+			trigger: 'publish',
+			on:      'subscribe',
+			one:     'subscribeOnce',
+			off:     'unsubscribe'
+			}, function( key, val ){
+
+				//attach our new function to the jQuery object using the array notation
+				$[val] = function() {
+
+				//when new function is called, call original function and pass any arguments along
+				o[key].apply( o, arguments );
+			};
+		});
+	}
+
+
+
+	/* show/hide form and edit btns declarations */
+
+	function toggleEdit() {
+		var pencils = $( '.pencil-edit-button' );
+		var cameras = $( '.camera-edit-button' );
+		var removeButtons = $( '.remove-button' );
+		var doneButton = $( '#done-edit-toggle' );
+
+		if( pencils.first().css( 'display' ) !== 'none' ) {
+			pencils.fadeOut( 100 );
+			cameras.fadeOut( 100 );
+			doneButton.fadeOut( 100 );
+			removeButtons.fadeOut( 100 );
+		} else {
+			pencils.fadeIn( 100 );
+			cameras.fadeIn( 100 );
+			doneButton.fadeIn( 100 );
+			removeButtons.fadeIn( 100 );
+		}
+	}
+
+	function hideForms() {
+		var forms = $( '.designer-form' );
+		$.each( forms, function() {
+			var self = $( this );
+			var modalParent = self.parents( '.pixafy-modal-wrapper' );
+			if ( modalParent.length > 0 ) {
+				$( '.pixafy-modal-dismiss' ).trigger( 'click' );
+			} else {
+				self.fadeOut( 300, function() {
+					wipeForm( self );
+				});
+			}
+		});
+	}
+
+
+
+	/* form submission and update process functions */
+
+	function processForm( form ) {
+		switch ( form.attr( 'id' ) ) {
+			case 'edit-name':
+				if( processNameForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-location':
+				if( processLocationForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-story':
+				if( processStoryForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-specialties':
+				if( processSpecialtiesForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-social':
+				if( processSocialForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-website':
+				if( processWebsiteForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+
+			case 'edit-moodboard':
+				if( processMoodboardForm( form ) )
+				{
+					submitForm( form );
+				}
+			break;
+		}
+	}
+
+	function submitForm( form )
+	{
+		form.ajaxSubmit
+		({
+			success:submitResult,
+			error:submitResult,
+			dataType:'json',
+			data:{"id" : form.attr( 'id' )}
+		});
+	}
+
+	function submitResult( data )
+	{
+		if(data.hasOwnProperty("error"))
+		{
+			alert( data.error );
+		}
+		else
+		{
+			switch ( data.id ) {
+				case 'edit-name':
+					updateNameArea();
+				break;
+
+				case 'edit-location':
+					updateLocationArea();
+				break;
+
+				case 'edit-story':
+					updateStoryArea();
+				break;
+
+				case 'edit-specialties':
+					updateSpecialtiesArea();
+				break;
+
+				case 'edit-social':
+					updateSocialArea();
+				break;
+
+				case 'edit-website':
+					updateWebsiteArea();
+				break;
+
+				case 'edit-moodboard':
+					updateMoodboardArea();
+				break;
+			}
+		}
+	}
+
+	function updateNameArea() {
+		var name = $( 'h2.name' ).find( '.name-container' ).text( $( '#profile-fn' ).val() + ' ' + $( '#profile-ln' ).val() ).removeClass( 'inactive' );
+		hideForms();
+	}
+
+	function updateLocationArea() {
+		var state = $( '#profile-state' ).find( 'option:selected' ).text();
+		var location = '';
+
+		if ( state === 'State' ) {
+			location = $( 'p.location' ).find( '.location-container' )
+					.text( $( '#profile-city').val() + ', ' + $( '#profile-country' ).val() )
+					.removeClass( 'inactive' );
+		} else {
+			location =  $( 'p.location' ).find( '.location-container' )
+					.text( $( '#profile-city').val() + ', ' + $( '#profile-state' ).val() )
+					.removeClass( 'inactive' );
+		}
+
+		location = $( 'p.location' ).find( '.location-container' ).text(  $( '#profile-city').val() + ', ' +
+					$( '#profile-state' ).find( 'option:selected' ).text()
+				).removeClass( 'inactive' );
+		hideForms();
+	}
+
+	function updateStoryArea() {
+		var story = $( 'p.story' ).find( '.story-container').text( $( '#profile-story' ).val() ).removeClass( 'inactive' );
+		hideForms();
+	}
+
+	function updateSpecialtiesArea() {
+		var spec = $( 'p.specialties' ).find( '.specialties-container' ).text( $( '#profile-specialties' ).val() ).removeClass( 'inactive' );
+		hideForms();
+	}
+
+	function updateSocialArea() {
+		var fb = $( '#profile-facebook' );
+		var tw = $( '#profile-twitter' );
+		var pin = $( '#profile-pinterest' );
+
+		var fbAnchor = $( '#fb-anchor' );
+		var twAnchor = $( '#tw-anchor' );
+		var pinAnchor = $( '#pin-anchor' );
+
+		if ( checkEmpty( fb ) ) {
+			fbAnchor.attr( 'href', fb.val() || 'javascript:void(0)' );
+			fbAnchor.children( 'img' ).removeClass( 'inactive' );
+		}
+
+		if ( checkEmpty( tw ) ) {
+			twAnchor.attr( 'href', tw.val() || 'javascript:void(0)' );
+			twAnchor.children( 'img' ).removeClass( 'inactive' );
+		}
+
+		if ( checkEmpty( pin ) ) {
+			pinAnchor.attr( 'href', pin.val() || 'javascript:void(0)' );
+			pinAnchor.children( 'img' ).removeClass( 'inactive' );
+		}
+
+		hideForms();
+	}
+
+	function updateWebsiteArea() {
+		var webUrl = $( '#profile-website' );
+
+		var webLink = $( '#profile-website-anchor' );
+
+		webLink.removeClass( 'pixafy-modal-trigger' );
+
+		webLink.text( 'Visit my website' ).removeClass( 'inactive' );
+
+		webLink.attr( 'href', webUrl.val() || 'javascript:void(0)' );
+		hideForms();
+	}
+
+	function updateMoodboardArea() {
+		var mb = $( '#profile-moodboard' );
+
+		getMoodBoardImages( mb.val() );
+
+		var mbw = $( '.moodboard-wrapper' );
+		mbw.removeClass( 'inactive' );
+
+		hideForms();
+	}
+
+	/* picture submit and update process functions */
+
+	function uploadResult( data )
+	{
+		switch ( data.id ) {
+			case 'edit-studio1-pic':
+				updateStudioPic( data, 1 );
+			break;
+
+			case 'edit-studio2-pic':
+				updateStudioPic( data, 2 );
+			break;
+
+			case 'edit-studio3-pic':
+				updateStudioPic( data, 3 );
+			break;
+
+			case 'edit-studio4-pic':
+				updateStudioPic( data, 4 );
+			break;
+
+			case 'edit-studio5-pic':
+				updateStudioPic( data, 5 );
+			break;
+
+			case 'edit-studio6-pic':
+				updateStudioPic( data, 6 );
+			break;
+
+			default:
+				updateProfilePic( data );
+			break;
+
+		}
+	}
+
+	function updateProfilePic( data ) {
+		var imgSrc = data.image || '<?php echo $this->getSkinUrl("images/studio-default.png") ?>';
+		$( '#profile-pic' ).attr( 'src', imgSrc ).removeClass( 'inactive' );
+		$( '#profile-pic' ).css( 'z-index', 10 );
+	}
+
+	function updateStudioPic( data, num ) {
+		var form = $( '#' + data.id );
+		var hInput = form.find( 'input[name="studio-id"]' );
+
+		if ( hInput.length < 1 ) {
+			var newInput = $( '<input type="hidden" name="studio-id" value="' + data['studio-id'] + '" />' );
+			form.append( newInput );
+		} else {
+			hInput.val( data['studio-id'] );
+		}
+
+
+		var img = $( '#profile-studio' + num + '-image' );
+		var imgSrc = data.image || '<?php echo $this->getSkinUrl("images/studio-default.png") ?>';
+		img.attr( 'src', imgSrc );
+	}
+
+	function wipeForm( form ) {
+		switch ( form.attr( 'id' ) ) {
+			case 'edit-name':
+				wipeNameForm( form );
+			break;
+
+			case 'edit-location':
+				wipeLocationForm( form );
+			break;
+
+			case 'edit-story':
+				wipeStoryForm( form );
+			break;
+
+			case 'edit-specialties':
+				wipeSpecialtiesForm( form );
+			break;
+
+			case 'edit-social':
+				wipeSocialForm( form );
+			break;
+
+			case 'edit-website':
+				wipeWebsiteForm( form );
+			break;
+
+			case 'edit-moodboard':
+				wipeMoodboardForm( form );
+			break;
+		}
+	}
+
+
+
+	/* form processing functions */
+
+	function processNameForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var fn = form.find( '#profile-fn' );
+		var ln = form.find( '#profile-ln' );
+
+		var fnError = {};
+		var lnError = {};
+
+		if ( !checkLength( fn, 1 ) ) {
+
+			fn.parent().find( 'p.designer-form-error.fn' ).remove();
+
+			fnError = $( '<p/>', {
+				'class' : 'designer-form-error fn'
+			});
+
+
+			errors.push( 'fn' );
+			fn.css( 'border-color', 'red' );
+
+			fnError.text( 'Please only enter one first name.' ).insertAfter( ln );
+
+		} else if ( !checkEmpty( fn ) ) {
+			fn.parent().find( 'p.designer-form-error.fn' ).remove();
+
+			fnError = $( '<p/>', {
+				'class' : 'designer-form-error fn'
+			});
+
+			errors.push( 'fn' );
+			fn.css( 'border-color', 'red' );
+
+			fnError.text( 'Please add a first name.' ).insertAfter( ln );
+
+		} else {
+
+			fn.parent().find( 'p.designer-form-error.fn' ).remove();
+			fn.css( 'border-color', borderColor );
+			if ( $j.inArray( 'fn', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'fn' != value;
+				});
+			}
+		}
+
+		if ( !checkLength( ln, 1 ) ) {
+
+			ln.parent().find( 'p.designer-form-error.ln' ).remove();
+
+			lnError = $( '<p/>', {
+				'class' : 'designer-form-error ln'
+			});
+
+			errors.push( 'ln' );
+			ln.css( 'border-color', 'red' );
+
+			lnError.text( 'Please only enter one last name.' ).insertAfter( ln );
+
+		} else if ( !checkEmpty( ln ) ) {
+
+			ln.parent().find( 'p.designer-form-error.ln' ).remove();
+
+			lnError = $( '<p/>', {
+				'class' : 'designer-form-error ln'
+			});
+
+			errors.push( 'ln' );
+			ln.css( 'border-color', 'red' );
+
+			lnError.text( 'Please add a last name.' ).insertAfter( ln );
+
+		} else {
+
+			ln.parent().find( 'p.designer-form-error.ln' ).remove();
+			ln.css( 'border-color', borderColor );
+			if ( $j.inArray( 'ln', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'ln' != value;
+				});
+			}
+		}
+
+		if ( errors.length < 1 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+	function processLocationForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var cityError ={};
+		var stateError ={};
+		var countryError ={};
+		var zipError ={};
+
+
+		var city = form.find( '#profile-city' );
+		var state = form.find( '#profile-state' );
+		var country = form.find( '#profile-country' );
+		var zip = form.find( '#profile-zip' );
+
+
+		if ( !checkEmpty( city ) ) {
+			city.parent().find( 'p.designer-form-error.city' ).remove();
+
+			cityError = $( '<p/>', {
+				'class' : 'designer-form-error city'
+			});
+
+			errors.push( 'city' );
+			city.css( 'border-color', 'red' );
+
+			cityError.text( 'Please enter a city.' ).insertAfter( zip );
+
+		} else {
+
+			city.parent().find( 'p.designer-form-error.city' ).remove();
+			city.css( 'border-color', borderColor );
+			if ( $j.inArray( 'city', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'city' != value;
+				});
+			}
+		}
+
+
+		if ( !state.val() && !state.hasClass("inactive")) {
+			state.parents("form").find( 'p.designer-form-error.state' ).remove();
+
+			stateError = $( '<p/>', {
+				'class' : 'designer-form-error state'
+			});
+
+			errors.push( 'state' );
+			state.css( 'border-color', 'red' );
+
+			stateError.text( 'Please select a state.' ).insertAfter( zip );
+
+		} else {
+
+			state.parents("form").find( 'p.designer-form-error.state' ).remove();
+			state.css( 'border-color', borderColor );
+			if ( $j.inArray( 'state', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'state' != value;
+				});
+			}
+		}
+
+
+		if ( !checkEmpty( zip ) ) {
+			zip.parent().find( 'p.designer-form-error.zip' ).remove();
+
+			zipError = $( '<p/>', {
+				'class' : 'designer-form-error zip'
+			});
+
+			errors.push( 'zip' );
+			zip.css( 'border-color', 'red' );
+
+			zipError.text( 'Please enter a zip code.' ).insertAfter( zip );
+
+		} else {
+
+			zip.parent().find( 'p.designer-form-error.zip' ).remove();
+			zip.css( 'border-color', borderColor );
+			if ( $j.inArray( 'zip', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'zip' != value;
+				});
+			}
+		}
+
+		if ( errors.length < 1 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function processStoryForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var story = form.find( '#profile-story' );
+
+		var storyError = {};
+
+		if ( !checkEmpty( story ) ) {
+			story.parent().find( 'p.designer-form-error.story' ).remove();
+
+			storyError = $( '<p/>', {
+				'class' : 'designer-form-error story'
+			});
+
+			errors.push( 'story' );
+			story.css( 'border-color', 'red' );
+
+			storyError.text( 'Please share a little bit about yourself.' ).insertAfter( story );
+		} else if ( !checkCharCount( story, 350 ) ) {
+			story.parent().find( 'p.designer-form-error.story' ).remove();
+
+			storyError = $( '<p/>', {
+				'class' : 'designer-form-error story'
+			});
+
+			errors.push( 'story' );
+			story.css( 'border-color', 'red' );
+
+			storyError.text( 'Maximum of 350 characters.' ).insertAfter( story );
+		} else {
+			story.parent().find( 'p.designer-form-error.story' ).remove();
+			story.css( 'border-color', borderColor );
+			if ( $j.inArray( 'story', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'story' != value;
+				});
+			}
+		}
+
+		if ( errors.length < 1 ) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	function processSpecialtiesForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var specialties = form.find( '#profile-specialties' );
+
+		var specialtiesError = {};
+
+		if ( !checkEmpty( specialties ) ) {
+			specialties.parent().find( 'p.designer-form-error.specialties' ).remove();
+
+			specialtiesError = $( '<p/>', {
+				'class' : 'designer-form-error specialties'
+			});
+
+			errors.push( 'specialties' );
+			specialties.css( 'border-color', 'red' );
+
+			specialtiesError.text( 'Please share a little bit about yourself.' ).insertAfter( specialties );
+		} else if ( !checkCharCount( specialties, 50 ) ) {
+			specialties.parent().find( 'p.designer-form-error.specialties' ).remove();
+
+			specialtiesError = $( '<p/>', {
+				'class' : 'designer-form-error specialties'
+			});
+
+			errors.push( 'specialties' );
+			specialties.css( 'border-color', 'red' );
+
+			specialtiesError.text( 'Maximum of 50 characters.' ).insertAfter( specialties );
+		} else {
+			specialties.parent().find( 'p.designer-form-error.specialties' ).remove();
+			specialties.css( 'border-color', borderColor );
+			if ( $j.inArray( 'specialties', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'specialties' != value;
+				});
+			}
+		}
+
+		if ( errors.length < 1 ) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	function processSocialForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var fbError = {};
+		var twError = {};
+		var pinError = {};
+
+		var fb = form.find( '#profile-facebook' );
+		var tw = form.find( '#profile-twitter' );
+		var pin = form.find( '#profile-pinterest' );
+
+		if( !checkCharCount( fb, 0 ) ) {
+			if ( !checkContains( fb, 'facebook.com' ) ) {
+				fb.parent().find( 'p.designer-form-error.fb' ).remove();
+
+				fbError = $( '<p/>', {
+					'class' : 'designer-form-error fb'
+				});
+
+				errors.push( 'fb' );
+				fb.css( 'border-color', 'red' );
+
+				fbError.text( 'Oops...that doesn\'t appear to be a Facebook URL' ).insertAfter( pin );
+			} else {
+				fb.parent().find( 'p.designer-form-error.fb' ).remove();
+				fb.css( 'border-color', borderColor );
+				if ( $j.inArray( 'fb', errors ) ) {
+					errors = $j.grep( errors, function( value ) {
+						return 'fb' != value;
+					});
+				}
+			}
+
+			if ( !checkContains( fb, 'http://' ) ) {
+				var fbVal = fb.val();
+
+				fb.val( 'http://' + fbVal );
+			}
+		}
+
+		if ( !checkCharCount( tw, 0 ) ) {
+			if ( !checkContains( tw, 'twitter.com' ) ) {
+				tw.parent().find( 'p.designer-form-error.tw' ).remove();
+
+				twError = $( '<p/>', {
+					'class' : 'designer-form-error tw'
+				});
+
+				errors.push( 'tw' );
+				tw.css( 'border-color', 'red' );
+
+				twError.text( 'Oops...that doesn\'t appear to be a Twitter URL' ).insertAfter( pin );
+			} else {
+				tw.parent().find( 'p.designer-form-error.tw' ).remove();
+				tw.css( 'border-color', borderColor );
+				if ( $j.inArray( 'tw', errors ) ) {
+					errors = $j.grep( errors, function( value ) {
+						return 'tw' != value;
+					});
+				}
+			}
+
+			if ( !checkContains( tw, 'http://' ) ) {
+				var twVal = tw.val();
+
+				tw.val( 'http://' + twVal );
+			}
+		}
+
+		if ( !checkCharCount( pin, 0 ) ) {
+			if ( !checkContains( pin, 'pinterest.com' ) ) {
+				pin.parent().find( 'p.designer-form-error.pin' ).remove();
+
+				pinError = $( '<p/>', {
+					'class' : 'designer-form-error pin'
+				});
+
+				errors.push( 'pin' );
+				pin.css( 'border-color', 'red' );
+
+				pinError.text( 'Oops...this doesn\'t appear to be a Pinterest URL' ).insertAfter( pin );
+			} else {
+				pin.parent().find( 'p.designer-form-error.pin' ).remove();
+				pin.css( 'border-color', borderColor );
+				if ( $j.inArray( 'pin', errors ) ) {
+					errors = $j.grep( errors, function( value ) {
+						return 'pin' != value;
+					});
+				}
+			}
+
+			if ( !checkContains( pin, 'http://' ) ) {
+				var pinVal = pin.val();
+
+				pin.val( 'http://' + pinVal );
+			}
+		}
+
+		if ( errors.length > 0 ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function processWebsiteForm( form ) {
+
+		var web = $( '#profile-website' );
+		var webVal = web.val();
+
+		if ( !checkContains( web, 'http://' ) ) {
+			webVal = 'http://' + webVal;
+			web.val( webVal );
+
+			return true;
+		}
+
+		return true;
+	}
+
+	function processMoodboardForm( form ) {
+		var borderColor = '#b1b1b1';
+		var errors = [];
+
+		var pinError = {};
+
+		var pin = form.find( '#profile-moodboard' );
+
+
+		if ( !checkContains( pin, 'pinterest.com' ) ) {
+			pin.parent().find( 'p.designer-form-error.pin' ).remove();
+
+			pinError = $( '<p/>', {
+				'class' : 'designer-form-error pin'
+			});
+
+			errors.push( 'pin' );
+			pin.css( 'border-color', 'red' );
+
+			pinError.text( 'Oops...this doesn\'t appear to be a Pinterest URL' ).insertAfter( pin );
+		} else {
+			pin.parent().find( 'p.designer-form-error.pin' ).remove();
+			pin.css( 'border-color', borderColor );
+			if ( $j.inArray( 'pin', errors ) ) {
+				errors = $j.grep( errors, function( value ) {
+					return 'pin' != value;
+				});
+			}
+		}
+
+		if ( checkContains( pin, 'https://' ) ) {
+			var pinVal = pin.val();
+
+			pin.val( 'http://' + pinVal );
+		} else if ( !checkContains( pin, 'http://' ) ) {
+			var pinVal = pin.val();
+
+			pin.val( 'http://' + pinVal );
+		}
+
+		if ( errors.length > 0 ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
+	/* form wiping functions */
+
+	function wipeNameForm( form ) {
+		var fn = form.find( '#profile-fn' );
+		var ln = form.find( '#profile-ln' );
+
+		fn.val( '' );
+		ln.val( '' );
+	}
+
+	function wipeLocationForm( form ) {
+		var city = form.find( '#profile-city' );
+		var state = form.find( '#profile-state' );
+		var country = form.find( '#profile-country' );
+		var zip = form.find( '#profile-zip' );
+
+		city.val( '' );
+		zip.val( '' );
+		state.find( 'option' ).first().prop( 'selected', 'selected' );
+		country.find( 'option' ).first().prop( 'selected', 'selected' );
+	}
+
+	function wipeStoryForm( form ) {
+		var story = form.find( '#profile-story' );
+		story.val( '' );
+		form.find( '.char-count-container' ).text ( '0' );
+	}
+
+	function wipeSpecialtiesForm( form ) {
+		var specialties = form.find( '#profile-specialties' );
+		specialties.val( '' );
+		form.find( '.char-count-container' ).text ( '0' );
+	}
+
+	function wipeSocialForm( form ) {
+		var fb = form.find( '#profile-facebook' );
+		var tw = form.find( '#profile-twitter' );
+		var pin = form.find( '#profile-pinterest' );
+
+		fb.val( '' );
+		tw.val( '' );
+		pin.val( '' );
+	}
+
+	function wipeWebsiteForm( form ) {
+		var web = form.find( '#profile-website' );
+
+		web.val( '' );
+	}
+
+	function wipeMoodboardForm( form ) {
+		var pin = form.find( '#profile-pinterest' );
+
+		pin.val( '' );
+	}
+
+
+
+	/* check value functions */
+
+
+	/*
+	 * check to see if the value is empty,
+	 * if empty returns false, else true
+	 */
+	function checkEmpty( el ) {
+		if ( el.val().length < 1 ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * check the word count of an element
+	 * if count is above len return false, else return true
+	 */
+	function checkLength( el, len ) {
+		var val = el.val();
+		var trimmedVal = $.trim(val);
+		var count = trimmedVal.split( ' ' );
+
+		if ( count.length > len ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * check to see if a number is numeric, for passing values see:
+	 * http://api.jquery.com/jQuery.isNumeric/
+	 */
+	function checkNumeric( el ) {
+		if ( !$.isNumeric( el.val() ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * check character count,
+	 * if character count is greater than len return false, else return true
+	 */
+	function checkCharCount( el, len ) {
+		if ( el.val().length > len ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
+	 * check to see if a string contains another string,
+	 * if not return false, else return true
+	 */
+	function checkContains( el, str ) {
+		var val = el.val();
+
+		if( val.indexOf( str ) === -1 ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function regionsResult( data )
+	{
+		$("#profile-state option").not(":first").remove();
+		for(var i = 0; i < data.totalRecords; i++)
+		{
+			var item = data.items[i];
+			$("#profile-state").append("<option value='" + item.region_id + "'>" + item.name + "</option>")
+		}
+
+		var targetClass = "inactive"
+		if(data.totalRecords)
+		{
+			$("#profile-state").removeClass( targetClass )
+		}
+		else
+		{
+			$("#profile-state").addClass( targetClass )
+		}
+	}
+
+})( jQuery, window, document, undefined );
+</script>
+
+
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+	$j(function() {
+		$j( '.comment-input' ).on( 'focus', function() {
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").on("click", ".vote-btn", function()
+		{
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").find( '.post-comment' ).children( 'a' ).removeClass( 'vote-comment-btn' );
+	});
+</script>
+<?php endif; ?>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <optimus_social translate="label" module="social">
+            <label>Social</label>
+            <sort_order>160</sort_order>
+        </optimus_social>
+    </tabs>
+    <sections>
+        <optimus_social_facebook translate="label comment" module="social">
+            <tab>optimus_social</tab>
+            <label>Facebook</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>30</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                
+                <general translate="label comment" module="social">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <facebook_app_id translate="label">
+                            <label>App ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </facebook_app_id>
+            			<facebook_app_secret translate="label">
+                            <label>App Secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </facebook_app_secret>
+                    </fields>
+                </general>
+            </groups>
+        </optimus_social_facebook>
+    </sections>
+</config>

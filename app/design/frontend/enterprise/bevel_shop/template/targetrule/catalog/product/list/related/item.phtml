@@ -1,0 +1,64 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+/** @var $this Enterprise_TargetRule_Block_Catalog_Product_Item */
+$_item = $this->getItem();
+if ($_item):
+	$_shopBevelHelper = $this->helper('bevel/shopbevel');
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_category = $_shopBevelHelper->getProductDesigner($_item);
+?>
+	<?php /* if(!$_item->isComposite() && $_item->isSaleable()): ?>
+		<?php if (!$_item->getRequiredOptions()): ?>
+			<input type="checkbox" class="checkbox related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
+		<?php endif; ?>
+	<?php endif; */ ?>
+	<div class="product-designer">
+		<?php if($_item->getIsMadeByBevel()): ?>
+			<span class="hdr-making-these">We're Making These</span>
+		<?php endif; ?>
+		<div class="prdt-img"><a href="<?php echo $this->getProductUrl($_item) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image'); ?>" alt="<?php echo $this->escapeHtml($_item->getName()); ?>" title="<?php echo $this->escapeHtml($_item->getName()); ?>" /></a></div>
+
+		<div class="prdt-info">
+			<p class="txt-likes"><?php echo intval($_item->getFavCount())?></p>
+			<?php /*
+			<h3 class="prdt-title">
+				<a href="<?php echo $this->getProductUrl($_item) ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a>
+			</h3>
+			*/ ?>
+			<?php echo $this->getPriceHtml($_item, true, '-related') ?>
+		</div>
+<?php
+		/*<div class="dsgnr-box clear-box">
+			<div class="dsgnr-pic"><img src="<?php echo $_shopBevelHelper->getCategoryThumbnail($_category)?>" alt="Designer's Name"></div>
+			<div class="dsgnr-info">
+				<p class="txt-title">Designer</p>
+				<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_category->getDesigner());?></p>
+				<p class="txt-locale"><?php echo $_category->getLocation()?></p>
+			</div>
+		</div><!-- .dsgnr-box -->*/
+?>
+</div><!-- .product-designer -->
+<?php endif;?>

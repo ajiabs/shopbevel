@@ -1,0 +1,532 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+<?php
+	$_helper = $this->helper('catalog/output');
+	$_product = $this->getProduct();
+	$_bevelHelper = $this->helper('bevel/data');
+	$_shopBevelHelper = $this->helper('bevel/shopbevel');
+	$_category = $_product->getCategory();
+	$collectionParentId = Mage::getStoreConfig('bevel/general/collection_category_id');
+	$_trunkshowCategory = (!is_null($_category) && $_category->getParentId() == $collectionParentId) ? $_category
+	: $_shopBevelHelper->getCategoryByParent($_product, $_category, $collectionParentId);
+	$_designerCategory = $_shopBevelHelper->getProductDesigner($_product);
+	$_productLikes = $this->helper('pixlikes')->getUserProductLikes($_product->getId());
+	$_productLiked = array_key_exists($_product->getId(),$_productLikes);
+	$_resizeWidth = $_shopBevelHelper->_resizeWidth;
+	$_resizeHeight = $_shopBevelHelper->_resizeHeight;
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_profileUrl = $_pixvoteHelper->checkForDesignerProfile($_designerCategory);
+	//$_designer = $_pixvoteHelper->checkForDesigner($_designerCategory);
+	$_challenge = $_pixvoteHelper->checkForChallenge($_product);
+	//get previous and next product
+	$_prevNextProducts = Mage::helper("bevel/trunkShows")->getPrevNextProduct($_trunkshowCategory, $_product->getId());
+	extract($_prevNextProducts);
+	$_inProductionCategoryId = Mage::getStoreConfig($_pixvoteHelper->IN_PRODUCTION_CATEGORY_ID_PATH);
+	Mage::register($_pixvoteHelper->REGISTRY_IN_PRODUCTION_CATEGORY, $_inProductionCategoryId);
+	$_isPreorder = in_array($_inProductionCategoryId,$_product->getCategoryIds());
+	$_targetCopy = $_pixvoteHelper->CHALLENGE_COPY_TARGET;
+?>
+
+<script type="text/javascript">
+	var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+
+<script>
+/*
+ * handle placement of price, percent off, and add to cart button
+ * based on what page we are on, configurable or simple product view
+ */
+(function( $ ) {
+	$(function() {
+		var optionsBottom = $( '.product-options-bottom' );
+		var pPrice = $( '.prdt-pricing' );
+
+		// if configurable view
+		if ( optionsBottom.length > 0 ) {
+
+			// create the add-to-box div and append the btn and insert after options
+			var btn = $( 'button.btn-cart' );
+			var addToBox = $( '<div/>', {
+				'class' : 'add-to-box'
+			})
+				.append( btn )
+				.insertAfter( optionsBottom );
+		}
+
+		// move the price up in to the header by the item title
+		var price = pPrice.find( 'span.price' ).text();
+		var newPriceHolder = $j( '.item-title' ).find( 'p.bevel-price' );
+		newPriceHolder.text( price );
+
+		// if pre order move the percent off up there as well
+		var percentOff = pPrice.find( 'span.prdt-sale-price' );
+		if ( percentOff.length > 0 ) {
+			newPriceHolder.prepend( percentOff )
+				.css( 'text-align', 'right' );
+
+			$( '.info-buy' )
+				.find( '.item-title' )
+				.find( 'h2' )
+				.css( 'width', 65 + '%' );
+
+			percentOff.css({
+				'display': 'block',
+				'text-align': 'left'
+			});
+		}
+		newPriceHolder.append( percentOff );
+		pPrice.find( 'span.price' ).remove();
+	});
+})( jQuery );
+</script>
+
+<?php /*
+$cats = $_product->getCategoryIds();
+foreach ($cats as $category_id) {
+    $_cat = Mage::getModel('catalog/category')->load($category_id) ;
+    echo $_cat->getName();
+}*/
+?>
+
+<div class="cookie-trail clear-box">
+
+
+<!--	<a class="btn-next-prdct" href="">Next Item</a>-->
+	<?php
+		if(!empty($_nextProduct))
+		{
+	?>
+			<a class="btn-next-prdct" href="<?php echo $_nextProduct->getProductUrl()?>">Next Item</a>
+	<?php
+		}
+		if(!empty($_prevProduct))
+		{
+	?>
+			<a class="btn-prev-prdct" href="<?php echo $_prevProduct->getProductUrl()?>">Previous Item</a>
+	<?php
+		}
+	?>
+
+	<a class="btn-prev-prdct back-btn" href="javascript:history.back()">Back</a>
+</div><!-- .cookie-trail -->
+<div class="vote-item-wrapper">
+	<div class="designer-info">
+		<div class="main-info">
+			<a href="<?php echo $_profileUrl; ?>">
+				<div class="vote-dsgnr-info">
+					<div class="vote-dsgnr-pic">
+						<img src='<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>'/>
+					</div>
+					<div class="vote-dsgnr-desc">
+						<p class="txt-title">Designer</p>
+						<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner());?></p>
+						<p class="txt-locale"><?php echo $_designerCategory->getLocation()?></p>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="about-designer">
+			<?php if($_designerCategory->getDescription()): ?>
+			<h2>ABOUT DESIGNER:</h2>
+			<?php echo $_designerCategory->getDescription(); ?>
+			<?php endif; ?>
+
+		</div>
+		<div class="about-design">
+			<h2>ABOUT DESIGN:</h2>
+			<?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+		</div>
+		<!-- <a href="<?php echo $_profileUrl; ?>" class="btn-teal view-profile">See Profile</a> -->
+	</div><!-- designer info -->
+
+<div class="product-view clear-box">
+	<div class="product-box">
+		<form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+			<div class="no-display">
+				<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+				<input type="hidden" name="related_product" id="related-products-field" value="" />
+			</div>
+
+			<div class="product-cntnt clear-box">
+				<div class="pix-dscrp">
+					<div class="product-img-box">
+						<?php if ( !$_product->isAvailable() ): ?>
+						<span class="hdr-sold-out">Sold Out</span>
+						<?php elseif($_isPreorder): ?>
+							<span class="hdr-pre-order">Preorder</span>
+						<?php elseif($_product->getIsMadeByBevel()): ?>
+							<span class="hdr-making-these">We're Making These</span>
+						<?php endif; ?>
+
+						<?php echo $this->getChildHtml('media') ?>
+					</div>
+
+					<?php if ($_product->getShortDescription()):?>
+						<div class="short-description">
+							<h2><?php echo $this->__('Quick Overview') ?></h2>
+							<div class="std"></div>
+						</div>
+					<?php endif;?>
+				</div><!-- .pix-dscrp -->
+
+				<div class="info-buy">
+					<div class="info-wrap">
+						<div class="info-n-dsgnr">
+							<div class="item-title">
+								<h2><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h2>
+									<p class="bevel-price">$<?php //echo $_design->getBevelPrice()?></p>
+							</div>
+							<?php if($_challenge && $_challenge->getId()): 
+							
+									$_challengeName = str_replace($_targetCopy, '', $_challenge->getName());
+							?>
+							<h4 class="recent-winner-badge">Winner of <?php echo $_challengeName.' '.$_targetCopy?></h4>
+							<?php endif; ?>
+							<!-- <h1 class="hdr-prdt-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1> -->
+							<?php /*
+							<p class="prdt-likes <?php if(!$_productLiked): ?>not-liked<?php endif; ?>">
+								<?php
+									if($_productLiked):
+								?>
+									<span class="icon-likes"></span>
+								<?php
+										//echo intval($_product->getFavCount());
+									else:
+								?>
+								<a href="javascript:void(0)" class="like-products" id="like-product-<?php echo $_product->getId()?>" data-productid="<?php echo $_product->getId()?>"><span class="icon-likes"></span></a>
+								<?php
+									endif;
+								?>
+							</p>
+							*/?>
+							<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+							<?php echo $this->getChildHtml('product_type_data') ?>
+
+							<?php if (!$this->hasOptions()):?>
+								<div class="add-to-box">
+									<?php if($_product->isSaleable()): ?>
+										<?php echo $this->getChildHtml('addtocart') ?>
+										<?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+											<?php /* echo<span class="or"><?php echo $this->__('OR') ?></span> */ ?>
+										<?php endif; ?>
+									<?php endif; ?>
+									<?php //echo $this->getChildHtml('addto') ?>
+								</div>
+								<?php echo $this->getChildHtml('extra_buttons') ?>
+							<?php elseif (!$_product->isSaleable()): ?>
+								<div class="add-to-box">
+									<?php //echo $this->getChildHtml('addto') ?>
+								</div>
+							<?php endif; ?>
+
+							<?php if ($_product->isSaleable() && $this->hasOptions()):?>
+								<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+							<?php endif ?>
+
+							<div class="product-details">
+								<h3>Product Details:</h3>
+								<?php if($_product->getEditionOf()):?>
+								<p class="edition"><span>EDITION: </span><?php echo $_product->getEditionOf()?></p>
+								<?php endif;?>
+								<?php if($_product->getManufacturer()):?>
+								<p class="manufactured-by"><span>MANUFACTURED BY: </span><?php echo $_product->getAttributeText('manufacturer')?></p>
+								<?php endif;?>
+								<?php if($_product->getShipTime()):?>
+								<p class="shipping"><span>SHIPPING: </span><?php echo !$_isPreorder ? 'This item ships in ' : ''?><?php echo $_product->getShipTime()?></p>
+									<?php endif;?>
+								<p class="returns"><span>RETURNS: </span><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('promo-status')->toHtml() ?></p>
+								<?php if($_product->getMaterials()):?>
+								<p class="materials"><span>MATERIALS: </span><?php echo $_product->getMaterials()?></p>
+								<?php endif;?>
+
+								<div class="explain-links">
+									<a href="<?php echo MAGE::getBaseUrl(); ?>faq">
+										see shipping guide
+									</a>
+									<a href="<?php echo MAGE::getBaseUrl(); ?>faq">
+										see return policy
+									</a>
+								</div>
+							</div>
+							<?php
+							/*
+								if(! $_product->getShipTime()):
+
+								<p class="ship-timing"><?php echo !$_isPreorder ? 'This item ships in ' : ''?><?php echo $_product->getShipTime()?></p>
+
+								endif;
+								*/
+							?>
+						</div><!-- .info-n-dsgnr -->
+
+						<?php /*
+						<div class="share-package">
+							<?php
+								$url = urlencode($_product->getProductUrl());
+								$text = urlencode($_bevelHelper->_share_text.$_helper->productAttribute($_product, $_product->getName(), 'name'));
+								$image = urlencode($_product->getImageUrl());
+							?>
+							<p class="txt-share">Share</p>
+
+							<a href="http://www.facebook.com/sharer.php?u=<?php echo $url?>" data-fb="1" data-url="<?php echo $_product->getProductUrl()?>" class="share-link first" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-facebook.png') ?>" alt="Like this product on Facebook"></a>
+							<a href="https://twitter.com/share?text=<?php echo $text?>&url=<?php echo $url?>" class="share-link" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-twitter.png') ?>" alt="Tweet this product on Twitter"></a>
+							<a href="http://pinterest.com/pin/create/button/?url=<?php echo $url?>&media=<?php echo $image?>" class="share-link" target="_blank"><img src="<?php echo $this->getSkinUrl('images/btn-pinterest.png') ?>" alt="Pin this product on Pinterest"></a>
+						</div><!-- .share-package -->
+						*/ ?>
+					</div><!-- .info-wrap -->
+				</div><!-- .info-buy -->
+			</div><!-- .product-cntnt -->
+
+
+
+		</form>
+	</div><!-- .product-box -->
+
+</div>
+
+	<script type="text/javascript">
+	//<![CDATA[
+        $j(document).ready(function() {
+            $j(document).trigger('shopBevel_productPageOpened', {
+                product_id      : <?php echo $_product->getId(); ?>,
+                product_sku     : <?php echo json_encode($_product->getSKU()); ?>,
+                product_name    : <?php echo json_encode($_product->getName()); ?>,
+                designer_id     : <?php echo ($_designerCategory->getDesignerId()) ?: 0; ?>,
+                designer_name   : <?php echo json_encode(($_designerCategory->getDesigner()) ?: ''); ?>,
+                collection_id   : <?php echo ($_trunkshowCategory->getId()) ?: 0; ?>,
+                collection_name : <?php echo json_encode(($_trunkshowCategory->getName()) ?: ''); ?>
+            });
+        });
+
+		document.observe("dom:loaded", function(){
+			//Show Cart if item was just added to cart
+			if($$(".success-msg").size())
+			{
+				Enterprise.TopCart.showCart(3);
+			}
+		});
+
+		var productAddToCartForm = new VarienForm('product_addtocart_form');
+		productAddToCartForm.submit = function(button, url) {
+			if (this.validator.validate()) {
+				var form = this.form;
+				var oldUrl = form.action;
+
+				if (url) {
+				   form.action = url;
+				}
+				var e = null;
+				try {
+					this.form.submit();
+				} catch (e) {
+				}
+				this.form.action = oldUrl;
+				if (e) {
+					throw e;
+				}
+
+				if (button && button != 'undefined') {
+					button.disabled = true;
+				}
+			}
+		}.bind(productAddToCartForm);
+
+		productAddToCartForm.submitLight = function(button, url){
+			if(this.validator) {
+				var nv = Validation.methods;
+				delete Validation.methods['required-entry'];
+				delete Validation.methods['validate-one-required'];
+				delete Validation.methods['validate-one-required-by-name'];
+				// Remove custom datetime validators
+				for (var methodName in Validation.methods) {
+					if (methodName.match(/^validate-datetime-.*/i)) {
+						delete Validation.methods[methodName];
+					}
+				}
+
+				if (this.validator.validate()) {
+					if (url) {
+						this.form.action = url;
+					}
+					this.form.submit();
+				}
+				Object.extend(Validation.methods, nv);
+			}
+		}.bind(productAddToCartForm);
+	//]]>
+	</script>
+</div><!-- .product-view -->
+
+<div class="trunkshow-items-box">
+			<?php
+				$_visiblity = array(
+					Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+					Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+				);
+				$_collectionProducts = $_trunkshowCategory->getProductCollection()->addAttributeToFilter('visibility',array("in" => $_visiblity));
+				if(count($_collectionProducts) > 1):
+
+			?>
+				<h2>Other collection items</h2>
+				<div class="items-wrapper">
+
+				<?php //echo $this->getChildHtml('relatedProducts');
+					endif;
+					//$_collectionProducts = $_trunkshowCategory->getProductCollection();
+					$_collectionCount = 0;
+					$_collectionProducts = $_collectionProducts->getData();
+					$_multiplier = 100;
+					$_limit = 4;
+					shuffle($_collectionProducts);
+					foreach($_collectionProducts as $_collectionProduct):
+						$_collectionProduct = Mage::getModel("catalog/product")->load($_collectionProduct['entity_id']);
+						$_designerCategory = $_shopBevelHelper->getProductDesigner($_collectionProduct);
+						if($_collectionProduct->getId() == $_product->getId()):
+							continue;
+						endif;
+				?>
+
+				<div class="product-designer shop">
+					<?php if ( !$_collectionProduct->isAvailable() ): ?>
+						<span class="hdr-sold-out">Sold Out</span>
+					<?php elseif(in_array($_inProductionCategoryId,$_collectionProduct->getCategoryIds())): ?>
+						<span class="hdr-pre-order">Preorder</span>
+					<?php elseif($_collectionProduct->getIsMadeByBevel()): ?>
+						<span class="hdr-making-these">We're Making These</span>
+					<?php endif; ?>
+					<div class="prdt-img product-grid-slider">
+						<?php /*
+						<a href="<?php echo $_collectionProduct->getProductUrl() ?>">
+							<img src="<?php echo $this->helper('catalog/image')->init($_collectionProduct, 'small_image')->resize($_resizeWidth, $_resizeHeight); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_collectionProduct, 'small_image'), null, true) ?>" title="">
+						</a>
+						*/ ?>
+
+						<?php
+							$_images = Mage::getModel('catalog/product')->load($_collectionProduct->getId())->getMediaGalleryImages();
+							foreach($_images as $_image):
+						?>
+							<div>
+								<a href="<?php echo $_collectionProduct->getProductUrl() ?>">
+									<img src="<?php echo $this->helper('catalog/image')->init($_collectionProduct, 'small_image', $_image->getFile())->resize($_resizeWidth, $_resizeHeight); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_collectionProduct, 'small_image'), null, true) ?>" />
+								</a>
+							</div>
+						<?php endforeach; ?>
+							</div>
+
+							<div class="vote-dsgnr-info clear-box">
+								<?php
+									if($_profileUrl):
+								?>
+									<a href="<?php echo $_profileUrl?>" class="designer-link">
+								<?php
+									endif;
+								?>
+								<div class="vote-dsgnr-pic">
+									 <img src="<?php echo $_shopBevelHelper->getCategoryThumbnail($_designerCategory)?>" ?>
+								</div>
+								<div class="vote-dsgnr-desc">
+									<p class="txt-title">Designer</p>
+
+									<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designerCategory->getDesigner()); ?></p>
+
+									<p class="txt-locale"><?php echo $_designerCategory->getLocation(); ?></p>
+									<?php //echo $this->getPriceHtml($_collectionProduct, true) ?>
+								</div>
+								<?php
+									if($_profileUrl):
+								?>
+									</a>
+								<?php
+									endif;
+								?>
+								<a href="<?php echo $_collectionProduct->getProductUrl() ?>" class="item-link">View Item</a>
+								<p class="bevel-price">
+										<?php
+											$maindollarprice = Mage::helper('core')->currency($_collectionProduct->getPrice());
+
+											//$mainprice = Mage::getModel('catalog/product')->load($_collectionProduct->getId())->getPrice();
+											$mainprice = $_collectionProduct->getPrice();
+											$specialprice = Mage::getModel('catalog/product')->load($_collectionProduct->getId())->getSpecialPrice();
+											$saleamount =  $_multiplier - (($specialprice / $mainprice) * $_multiplier);
+										?>
+										<span class="prdt-main-price"><?php echo $specialprice ? Mage::helper('core')->currency($specialprice): $maindollarprice; ?></span>
+
+										<?php if ($specialprice): ?>
+											<span class="prdt-sale-price">
+												<?php //echo $this->__('('); ?><?php// echo round($saleamount, 0); ?><?php //echo $this->__('% off)'); ?>
+											</span>
+										<?php endif; ?>
+									</p>
+							</div>
+						</div>
+			<?php
+					$_collectionCount++;
+					if( $_collectionCount == $_limit ) break;
+				endforeach;
+			?>
+		</div>
+	</div>
+
+<?php /*
+<div class="product-shop">
+	<?php if ($this->canEmailToFriend()): ?>
+		<p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+	<?php endif; ?>
+
+	<?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+	<?php echo $this->getChildHtml('alert_urls') ?>
+
+	<?php echo $this->getTierPriceHtml() ?>
+	<?php echo $this->getChildHtml('extrahint') ?>
+
+	<?php echo $this->getChildHtml('other'); ?>
+</div>
+
+<?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+	<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+<?php endif;?>
+
+<div class="product-collateral">
+	<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html): ?>
+		<div class="box-collateral <?php echo "box-{$alias}"?>">
+			<?php if ($title = $this->getChildData($alias, 'title')):?>
+				<h2><?php echo $this->escapeHtml($title); ?></h2>
+			<?php endif;?>
+			<?php echo $html; ?>
+		</div>
+	<?php endforeach;?>
+	<?php echo $this->getChildHtml('upsell_products'); ?>
+	<?php echo $this->getChildHtml('product_additional_data'); ?>
+</div>
+*/ ?>

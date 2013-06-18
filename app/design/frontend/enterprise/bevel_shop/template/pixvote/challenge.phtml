@@ -1,0 +1,276 @@
+<?php
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+	$_challenge = $this->getChallenge();
+	$_designers = $this->getDesigners();
+	$_designs = $this->getDesigns();
+	$_images = $this->getImages();
+	$_submissionHeader = $this->getSubmissionHeader();
+	$_pixvoteHelper = $this->helper("pixvote");
+?>
+<div class="challenge-hero-section">
+	<?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('')->toHtml() ?>
+	<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$_challenge->getImage()?>" />
+</div>
+<div class="challenge-main-section-wrapper clear-box">
+	<div class="challenge-main-section clear-box">
+		<div class="challenge-info">
+			<h2>About</h2>
+			<p><?php echo $_challenge->getDescription()?></p>
+
+			<h2>Dates</h2>
+			<?php
+			$_dateFormat = "M. d, Y";
+			$_subStartDate = new DateTime($_challenge->getSubmissionStartTime());
+			$_subEndDate = new DateTime($_challenge->getSubmissionEndTime());
+			$_voteStartDate = new DateTime($_challenge->getVoteStartTime());
+			$_voteEndDate = new DateTime($_challenge->getVoteEndTime());
+		?>
+		<p>Submit: <?php echo $_subStartDate->format($_dateFormat) ?> - <?php echo $_subEndDate->format($_dateFormat) ?></p>
+		<p>Vote: <?php echo $_voteStartDate->format($_dateFormat) ?> - <?php echo $_voteEndDate->format($_dateFormat) ?></p>
+
+
+		<h2>Rules</h2>
+		<p><?php echo $_challenge->getRules()?></p>
+
+		<h2>Judges</h2>
+		<?php
+			//foreach(explode($this->helper("pixvote")->JUDGE_SEPARATOR, $_challenge->getJudges()) as $_judge):
+		?>
+			<p><?php echo $_challenge->getJudges()?></p>
+		<?php
+			//endforeach;
+		?>
+
+
+			<h2>Prize</h2>
+			<p><?php echo $_challenge->getPrize()?></p>
+
+			<a href="<?php echo Mage::getBaseUrl(); ?>submit-design/#faq-section" class="btn-teal challenge-call-to-action">SUBMIT DESIGN</a>
+		</div><!-- end info section -->
+
+		<div class="challenge-mood-board-wrapper">
+			<h2>Moodboard</h2>
+			<div class="challenge-mood-board">
+
+
+			</div>
+		</div><!-- end mood board -->
+	</div><!-- end main section -->
+</div><!-- end main section wrapper -->
+
+<?php
+	if(count($_designs)):
+?>
+
+<div class="recent-entries-section">
+	<h2><?php echo $_submissionHeader?> Submissions</h2>
+	<div class="recent-entries-slider">
+		<div class="slide-item">
+			<?php
+				$_count = 1;
+				$_productsPerSlide = 4;
+				$_total = count($_designs);
+				foreach($_designs as $_design):
+					$_designUrl = $this->helper("pixvote")->getDesignUrl($_design,$_challenge);
+					$_profileUrl = $this->helper("pixvote")->getProfileUrl($_designers[$_design->getCustomerId()]);
+				//	continue;
+			?>
+			<div class="product-designer">
+				<div class="prdt-img">
+					<a href="<?php echo Mage::getUrl($_designUrl)?>">
+						<?php
+						foreach($_images[$_design->getId()] as $_image):
+								$resizedImage = $this->helper("pixvote")->getResizedImage($_image, 'getUrl', $this->helper("pixvote")->DESIGN_IMAGE_WIDTH,  null);
+							?>
+							<img src="<?php echo $resizedImage;?>" alt="<?php ?>"/>
+						<?php
+
+							//Break for now
+							break;
+							endforeach;
+						?>
+					</a>
+				</div>
+				<div class="vote-dsgnr-info clear-box">
+					<a href="<?php echo $this->helper("pixvote")->getProfileUrl($_designers[$_design->getCustomerId()])?>">
+						<div class="vote-dsgnr-pic">
+							<img src='<?php echo $this->helper("pixvote")->getProfileImage($_designers[$_design->getCustomerId()])?>'/>
+						</div>
+					</a>
+					<div class="vote-dsgnr-desc">
+						<p class="txt-title">Designer</p>
+						<a href="<?php echo $_profileUrl?>"><p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designers[$_design->getCustomerId()]->getName());?></p></a>
+						<p class="txt-locale"><?php echo $_designers[$_design->getCustomerId()]->getLocation();?></p>
+						<p class="bevel-price">$<?php echo $_design->getBevelPrice(); ?></p>
+					</div>
+				</div>
+			</div><!-- end product item --> <!-- make 4 of these then another slider item -->
+			<?php
+				if($_count % $_productsPerSlide == 0 && ($_count < $_total)):
+			?>
+				</div>
+				<div class="slide-item">
+			<?php
+				endif;
+				$_count++;
+				endforeach;
+			?>
+		</div><!-- end slider item -->
+	</div><!-- end recent entries slider -->
+</div><!-- end recent entries section -->
+<?php
+	endif;
+?>
+<script>
+
+	var VOTE_FRONTNAME = "<?php echo $this->helper("pixvote")->FRONT_NAME?>";
+	;(function( $ ) {
+		'use strict';
+
+		initPubSub();
+
+		$(function() {
+
+			//uncomment this and add the url that will be pulled from backend for moodboard
+			//every challenge should have a field in the back end for this url
+
+			<?php
+				if($_challenge->getPintrestUrl()):
+			?>
+					getMoodBoardImages( '<?php echo $_challenge->getPintrestUrl() ?>' );
+			<?php
+				endif;
+			?>
+
+		});
+
+		$.subscribe( 'moodboard/results', function( e, data ) {
+			populateMoodBoard( data );
+		});
+
+
+		function getMoodBoardImages( url ) {
+
+			//make call to function on backend that retrieves moodboard page html
+			$.post(
+				getUrl( VOTE_FRONTNAME + '/view/moodBoard/'),
+				{
+					'url' : url
+				},
+				moodBoardDataReturned,
+				'json'
+			);
+		}
+
+		function moodBoardDataReturned( data ) {
+
+			//check for error, alert user of error
+			if ( data.hasOwnProperty( 'error' ) ) {
+				var container = $( '.challenge-mood-board' );
+
+				$( '<p/>', {
+					'class' : 'mood-board-error',
+					text : 'Hmmmm.... seems there was a problem retrieving this mood board.'
+				}).appendTo( container );
+			} else {
+
+				//if no error let our listener know the results are in and pass them along
+				$.publish( 'moodboard/results', data );
+			}
+		}
+
+		function populateMoodBoard( data ) {
+
+
+			//cache the html from the pinterest moodboard page
+			var html = data.html;
+
+			//snag the pinned images and store them
+			var images = html.match( /<.+class="PinImageImg".+>/g );
+
+			//create our container to store the html and grep through
+			var resultsContainer = $( '<p/>', {
+				'class' : 'mood-board-results-container'
+			}).html( images.join( '\n' ) ).appendTo( 'body' );
+
+			var compiledImages = resultsContainer.find( '.PinImageImg' );
+			compiledImages = compiledImages.slice(0, 12);
+
+
+			//since this in no longer needed remove it
+			resultsContainer.remove();
+
+
+			//get the moodboard container
+			var moodBoard = $( '.challenge-mood-board' );
+
+
+			//append the images to the moodboard and remove the pinterest class
+			$.each( compiledImages, function() {
+				var image = $( this );
+
+				image.appendTo( moodBoard )
+				.removeClass( 'PinImageImg' )
+				.removeAttr( 'style' )
+				.removeAttr( 'data-componenttype' );
+			});
+
+
+			//build the columns for the moodboard and show the moodboard
+			moodBoard.columns({
+				columns : 3,
+				duration : 400
+			}).fadeIn( 100 );
+
+			/**
+			 * once this code is set up, remove columns function for moodboard in scripts.js at line 441
+			 * and remove the dummy images from moodboard container
+			 */
+		}
+
+		function initPubSub() {
+
+				//create our instance of jQuery
+				var o = $( {} );
+
+
+				//link our jquery functions to our sudo function names
+				$.each({
+
+					//associate our keys and values to iterate through
+					trigger: 'publish',
+					on:      'subscribe',
+					one:     'subscribeOnce',
+					off:     'unsubscribe'
+					}, function( key, val ){
+
+						//attach our new function to the jQuery object using the array notation
+						$[val] = function() {
+
+						//when new function is called, call original function and pass any arguments along
+						o[key].apply( o, arguments );
+					};
+				});
+			}
+
+	})( jQuery, window, document, undefined);
+</script>
+
+<?php if ( !$_isLoggedIn ): ?>
+<script>
+	$j(function() {
+		$j( '.comment-input' ).on( 'focus', function() {
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").on("click", ".vote-btn", function()
+		{
+			var message = '<?php echo $this->getLayout()->createBlock("cms/block")->setBlockId("submit-vote-login")->toHtml() ?>';
+				showSignUp( message );
+		});
+
+		$j("body").find( '.post-comment' ).children( 'a' ).removeClass( 'vote-comment-btn' );
+	});
+</script>
+<?php endif; ?>

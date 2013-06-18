@@ -1,0 +1,368 @@
+<div class="home-new">
+	<div class="header-container" id="header-top">
+		<div class="header clear-box">
+			<div class="header-left clear-box">
+				<h1 class="logo">
+					<strong><?php echo $this->getLogoAlt(); ?></strong>
+					<a href="<?php echo $this->getUrl(''); ?>"><img src="<?php echo $this->getSkinUrl('images/home-new/logo-bevel.png'); ?>" alt="<?php echo $this->getLogoAlt(); ?>" /></a>
+				</h1>
+
+				<a class="top-main-link link-shop" href="javascript:void(0);"><span class="icon"></span><?php echo $this->__('Shop'); ?></a>
+				<a class="top-main-link link-vote" href="javascript:void(0);"><span class="icon"></span><?php echo $this->__('Vote'); ?></a>
+				<a class="top-main-link link-meet" href="javascript:void(0);"><span class="icon"></span><?php echo $this->__('Meet Us'); ?></a>
+			</div><!-- .header-left -->
+
+			<div class="header-right">
+				<p class="txt-countdown"><span class="number-slice"></span> 
+						<?php
+					//Get time limit, first product added to cart
+					$date = new DateTime(Mage::helper('bevel/shopbevel')->getVoteDate());
+					?>
+			<script type="text/javascript">
+				$j(function () {
+					target = new Date("<?php echo $date->format('F d, Y H:i:s');?>");
+
+					//Modify for time zone
+					target.setHours(target.getHours() - (target.getTimezoneOffset()/60));
+					$j('.countdown').countdown({until: target, format: 'D', compact : true, layout:"{dn}"});
+				});
+			</script>
+			<span class="countdown"></span>
+				</p>
+				<p class="txt-voting-blurb"><?php echo $this->__('Days until the next voting begins!'); ?></p>
+				<a class="link-whats-new" href="http://www.beveluncut.com" target="_blank"><?php echo $this->__('What\'s New'); ?></a>
+			</div><!-- .header-right -->
+			<span class="header-arrow"></span>
+		</div><!-- .header -->
+	</div><!-- .header-container -->
+
+	<div class="main-cntnt">
+		<div class="slider-n-form">
+			<ul class="bxslider clear-box">
+				<li>
+					<div class="slide-box slide-customers">
+						<div class="frm-wrap">
+							<form class="frm-sign-up frm-customers" id="customer-form">
+								<h4 class="hdr-frm-title">Designer Jewelry Made Affordable</h4>
+								<p class="txt-frm-blurb">
+									Vote on 1,000s of jewelry designs and enjoy the bevel price when it's produced. Are you a designer?
+									<a class="btn-slide-over go-to-designers" href="javascript:void(0);">Click here.</a>
+								</p>
+								
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input type="text" name="register[first-name]" class="ipt-text ipt-fname required-entry validate-defaults" placeholder="First Name">	
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="text" name="register[last-name]" class="ipt-text ipt-lname required-entry validate-defaults" placeholder="Last Name">	
+									</div>
+								</div>
+								<input type="text" name="register[email]" class="ipt-text ipt-wide required-entry validate-email" placeholder="Email Address">
+								<input id="customer-submit" type="submit" class="btn-teal btn-sign-up-wide ipt-submit" value="Sign Up for Bevel">
+								
+								<div class="discount-box clear-box">
+									<p class="discount-amount">50%+</p>
+									<p class="txt-discount">Get 50%+ off designer prices when bevel produces</p>
+								</div>
+							</form><!-- .frm-customers -->
+						</div><!-- .frm-wrap -->
+						
+						<div class="success-wrap">
+							<div class="success-box">
+								<h4 class="txt-thank-you">Thanks for signing up!</h4>
+								<p class="txt-follow-us">Check us out on Facebook &amp; Twitter!</p>
+								<div class="icons-box clear-box">
+									<a class="icon-follow icon-fb" href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank">Follow us on Facebook</a>
+									<a class="icon-follow icon-twt" href="https://twitter.com/shopbevel" target="_blank">Follow us on Twitter</a>
+								</div>
+							</div><!-- .success-box -->
+						</div><!-- .success-wrap -->
+					</div><!-- .slide-customers -->
+				</li>
+				<li>
+					<div class="slide-box slide-designers">
+						<div class="frm-wrap">
+							<form class="frm-sign-up frm-designers" id="designer-form" novalidate="novalidate">
+								<h4 class="hdr-frm-title">Designers Wanted</h4>
+								<p class="txt-frm-blurb">
+									Submit your design and get the chance to be produced by Bevel.
+								</p>
+
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input type="hidden" name="register[is-designer]" value="1"/>
+										<input type="text" name="register[first-name]" class="ipt-text ipt-fname required-entry validate-defaults" placeholder="First Name">
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="text" name="register[last-name]" class="ipt-text ipt-lname required-entry" placeholder="Last Name">
+									</div>
+								</div>
+								<input type="text" name="register[email]" class="ipt-text ipt-wide required-entry validate-email" placeholder="Email Address">
+								<input id="designer-submit" type="submit" class="btn-teal btn-sign-up-wide ipt-submit" value="Sign Up for Bevel">
+								
+								<span class="line-spacer"></span>
+								<div class="discount-box clear-box">
+									<p class="discount-amount">15%</p>
+									<p class="txt-discount">Royalty for every piece of jewelry manufactured and sold.</p>
+								</div>
+							</form><!-- .frm-designers -->
+						</div><!-- .frm-wrap -->
+						
+						<div class="success-wrap">
+							<div class="success-box">
+								<h4 class="txt-thank-you">Thanks for signing up!</h4>
+								<p class="txt-follow-us">Check us out on Facebook &amp; Twitter!</p>
+								<div class="icons-box clear-box">
+									<a class="icon-follow icon-fb" href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank">Follow us on Facebook</a>
+									<a class="icon-follow icon-twt" href="https://twitter.com/shopbevel" target="_blank">Follow us on Twitter</a>
+								</div>
+							</div><!-- .success-box -->
+						</div><!-- .success-wrap -->
+						
+					</div><!-- .slide-designers -->
+				</li>
+			</ul>
+		</div><!-- .slider-n-form -->
+
+		<div class="pg-section main-section section-shop">
+			<div class="hdr-wrap clear-box">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-shop-title')->toHtml() ?>
+				<a class="btn-teal btn-sign-up btn-sign-up-top" href="javascript:void(0);"><?php echo $this->__('Sign Up'); ?></a>
+			</div><!-- .hdr-wrap -->
+
+			<div class="section-cntnt cntnt-shop clear-box">
+				<h4 class="hdr-making-these"><?php echo $this->__('We\'re Making These'); ?></h4>
+				
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-shop')->toHtml() ?>
+			</div><!-- .cntnt-shop -->
+		</div><!-- .section-shop -->
+		<div class="dotted-lines-h dotted-lines-shop"></div>
+
+		<div class="pg-section main-section section-vote">
+			<div class="hdr-wrap clear-box">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-vote-title')->toHtml() ?>
+				<a class="btn-teal btn-sign-up btn-sign-up-top" href="javascript:void(0);"><?php echo $this->__('Sign Up'); ?></a>
+			</div><!-- .hdr-wrap -->
+			<div class="dotted-lines-h"></div>
+
+			<div class="section-cntnt cntnt-vote clear-box">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-vote')->toHtml() ?>
+			</div><!-- .cntnt-vote -->
+		</div><!-- .section-vote -->
+
+		<div class="pg-section main-section section-meet">
+			<div class="hdr-wrap clear-box">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-meet-title')->toHtml() ?>
+				<a class="btn-teal btn-sign-up btn-sign-up-top" href="javascript:void(0);"><?php echo $this->__('Sign Up'); ?></a>
+			</div><!-- .hdr-wrap -->
+			<div class="dotted-lines-h"></div>
+
+			<div class="section-cntnt cntnt-meet clear-box">
+				<div class="meet-block block-about">
+					<h4 class="meet-hdr"><?php echo $this->__('About Us'); ?></h4>
+					<div class="img-about"><img src="<?php echo $this->getSkinUrl('images/home-new/img-about-us.png'); ?>" alt=""></div>
+
+					<p class="txt-blurb-big">Bevel works with independent designers to bring you designer jewelry at affordable prices.</p>
+					<p class="txt-blurb-sml">Designers submit designs, the community votes, and Bevel manufactures and sells selected designs. Shoppers always enjoy the bevel price, up to half the designer-made prices.</p>
+				</div><!-- .block-about -->
+
+				<div class="meet-block block-how">
+					<h4 class="meet-hdr"><?php echo $this->__('How It Works'); ?></h4>
+
+					<div class="how-bevel how-browse">
+						<h4 class="how-hdr">Browse</h4>
+						<p class="how-txt">Browse 1,000 of submissions from independent designers.</p>
+					</div><!-- .how-browse -->
+
+					<div class="how-bevel how-vote">
+						<h4 class="how-hdr">Vote</h4>
+						<p class="how-txt">Vote on the designs you like.</p>
+					</div><!-- .how-vote -->
+
+					<div class="how-bevel how-shop">
+						<h4 class="how-hdr">Shop</h4>
+						<p class="how-txt">Shop the designs we produce, at up to 50% off designer prices.</p>
+					</div><!-- .how-shop -->
+
+					<a class="btn-teal btn-sign-up-wide btn-sign-up-top" href="javascript:void(0);"><?php echo $this->__('Sign Up for Bevel'); ?></a>
+				</div><!-- block-how -->
+
+				<div class="meet-block block-designers">
+					<h4 class="meet-hdr"><?php echo $this->__('Our Designers'); ?></h4>
+					<p class="txt-our-designers">Bevel designers receive a 15% royalty on every piece sold.</p>
+
+					<div class="designer-display clear-box">
+						<div class="img-designer"><img src="<?php echo $this->getSkinUrl('images/home-new/designer-02a.png'); ?>" alt="Designer's Name"></div>
+						<p class="txt-from-designer">
+							"Bevel seemed like a great opportunity to showcase my work, get PR for my site, and make some money in the process."
+							<br/>
+							~ <strong>Katie Schloss</strong>, Designer
+						</p>
+					</div><!-- .designer-display -->
+
+					<div class="designer-display clear-box">
+						<div class="img-designer"><img src="<?php echo $this->getSkinUrl('images/home-new/designer-04.png'); ?>" alt="Designer's Name"></div>
+						<p class="txt-from-designer">
+							"The price-points on my site are pretty high. Bevel seemed like a great option for creating a design to reach mass market."
+							<br/>
+							~ <strong>Angela Redai</strong>, Designer
+						</p>
+					</div><!-- .designer-display -->
+				</div><!-- block-designers -->
+			</div><!-- .cntnt-meet -->
+		</div><!-- .section-meet -->
+	</div><!-- .main-cntnt -->
+
+	<div class="footer-container">
+		<div class="footer pg-section">
+			<div class="mentions-box clear-box">
+				<a class="link-mention" href="http://www.wired.com/business/2012/05/ff_gururies/3/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/home-new/logo-wired.png'); ?>" alt="Wired"></a>
+				<a class="link-mention" href="http://techcrunch.com/2012/01/28/founder-soup/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/home-new/logo-techcrunch.png'); ?>" alt="TechCrunch"></a>
+				<a class="link-mention" href="http://www.forbes.com/sites/tomiogeron/2012/06/01/dna-to-dollhouses-stanfords-startx-accelerator-launches-new-batch/" target="_blank"><img src="<?php echo $this->getSkinUrl('images/home-new/logo-forbes.png'); ?>" alt="Forbes"></a>
+				<a href="http://www.7x7.com/tech-gadgets/stanford-student-incubator-startx-launches-multiple-medical-startups" target="_blank"><img src="<?php echo $this->getSkinUrl('images/home-new/logo-7x7.png'); ?>" alt="7x7"></a>
+			</div><!-- .mentions-box -->
+
+			<div class="dotted-lines-h"></div>
+			
+			<div class="footer-links clear-box">
+				<div class="links-wrap">
+					<a class="btn-link-shop" href="javascript:void(0);">Shop</a>
+					<a class="btn-link-vote" href="javascript:void(0);">Vote</a>
+					<a class="btn-link-meet" href="javascript:void(0);">Meet Us</a>
+					<a href="mailto:info@shopbevel.com">Contact Us</a>
+					<a href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank">Find us on Facebook</a>
+					<a href="https://twitter.com/shopbevel" target="_blank">Follow us on Twitter</a>
+				</div><!-- .links-wrap -->
+
+				<p class="txt-copyright">ShopBevel Inc. (formerly CrowdJewel) 2013, All Rights Reserved.</p>
+			</div><!-- .footer-links -->
+		</div><!-- .footer -->
+	</div><!-- .footer-container -->
+</div><!-- .home-new -->
+
+<script type="text/javascript">
+	
+	function ajax_register(formElement)
+	{
+		var params = {};
+		jQuery("[name *='register']", jQuery(formElement)).each(function()
+		{
+			var elmentName = jQuery(this).attr("name");
+			var start = elmentName.indexOf("[") + 1;
+			var end = elmentName.indexOf("]");
+			name = elmentName.substring(start, end);
+			params[name] = jQuery(this).val();
+		})
+		
+		jQuery.post(
+				getUrl('bevellogin/ajax/register_user/'),
+				params,
+				ajax_register_result,
+				'json'
+		);
+	}
+	function ajax_register_result(data)
+	{
+		if(data.hasOwnProperty("error"))
+		{
+			alert(data.error);
+		}
+		else
+		{
+			jQuery(".frm-wrap").hide();
+			jQuery(".success-wrap").show();
+		}
+	}
+	jQuery(function(){
+		
+		customerForm = new VarienForm('customer-form', true);
+		designerForm = new VarienForm('designer-form', true);
+		Validation.add('validate-defaults','Please enter a valid value',function(the_field_value){
+			var defaults = ['first name','last name','password', 'gender'];
+			return $j.inArray(the_field_value.toLowerCase(), defaults) == -1;
+		});
+		
+		//custom submit code
+		jQuery("#customer-submit").click(function(event)
+		{	
+			//Run validator
+			event.preventDefault();
+			if(customerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+		
+		jQuery("#designer-submit").click(function(event)
+		{	
+			//Run validator
+			event.preventDefault();
+			if(designerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+		
+		// creating main slider
+			slider = jQuery('.bxslider').bxSlider({
+				controls: true,
+				infiniteLoop: true,
+				pager: false
+			});
+
+			jQuery('.go-to-designers').on('click', function(){
+				slider.goToNextSlide();
+			});
+
+		// @global-header - header spacing for offset
+			headerOffset = 100;
+
+		// scrollTo link button controls
+			jQuery('.link-shop, .btn-link-shop').on('click', function(){
+				var offsetTop = jQuery('.section-shop').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '193px'});
+				jQuery('body').stop().animate({ 'scrollTop': offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-vote, .btn-link-vote').on('click', function(){
+				var offsetTop = jQuery('.section-vote').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '325px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-meet, .btn-link-meet').on('click', function(){
+				var offsetTop = jQuery('.section-meet').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '470px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.btn-sign-up-top').on('click', function(){
+				jQuery('body').stop().animate({ scrollTop: 0 }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+		// @global-header - adding header links to array for checking page position
+			contentTop = [];
+
+			jQuery('.main-section').each(function(){
+				var topPos = jQuery(this).offset(); 
+
+				contentTop.push( (topPos.top - 70) );
+			});
+
+			contentTop[3] = jQuery('.footer-container').offset().top;
+
+			jQuery(window).scroll(function(){
+				checkPagePosition();
+			});
+	});
+</script>

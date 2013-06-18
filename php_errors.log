@@ -1,0 +1,110 @@
+[09-Nov-2012 23:55:05] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[09-Nov-2012 23:55:09] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[09-Nov-2012 23:55:10] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[09-Nov-2012 23:55:20] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[10-Nov-2012 21:43:19] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[10-Nov-2012 21:43:26] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:21:36] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:21:43] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:21:49] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:22:15] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:23:50] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:21] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:28] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:32] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:36] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:39] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:47] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:24:58] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 15:25:02] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[12-Nov-2012 20:34:29] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/page/html/trunkshow.phtml on line 58
+[12-Nov-2012 20:35:07] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/category/view.phtml on line 40
+[12-Nov-2012 20:35:14] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/page/html/trunkshow.phtml on line 58
+[12-Nov-2012 20:35:50] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/page/html/trunkshow.phtml on line 58
+[12-Nov-2012 20:35:55] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/page/html/trunkshow.phtml on line 58
+[12-Nov-2012 20:36:15] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/category/view.phtml on line 40
+[12-Nov-2012 20:37:35] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/category/view.phtml on line 40
+[12-Nov-2012 20:37:41] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/page/html/trunkshow.phtml on line 58
+[12-Nov-2012 20:38:45] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/category/view.phtml on line 40
+[12-Nov-2012 21:17:11] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 40
+[13-Nov-2012 16:34:28] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[13-Nov-2012 16:35:40] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[13-Nov-2012 16:35:43] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 15:55:12] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 15:55:59] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:39:23] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[14-Nov-2012 17:39:31] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[14-Nov-2012 17:39:32] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[14-Nov-2012 17:39:45] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[14-Nov-2012 17:39:48] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[14-Nov-2012 17:52:04] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:52:24] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:52:29] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:52:34] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:52:38] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 17:53:28] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 18:10:21] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 18:10:26] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 19:03:12] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 19:28:07] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 20:20:44] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[14-Nov-2012 20:21:57] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:26:12] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:26:20] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:32:58] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:33:48] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:52:06] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:52:27] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 15:52:31] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 19:28:04] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 19:29:09] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 19:29:21] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[15-Nov-2012 19:29:23] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:36:30] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:37:01] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:40:08] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 40
+[16-Nov-2012 02:40:41] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:41:09] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:41:23] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:43:08] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 02:43:59] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 07:13:18] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 15:05:05] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 40
+[16-Nov-2012 15:05:30] PHP Fatal error:  Call to a member function getDateEnd() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 40
+[16-Nov-2012 21:49:17] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[16-Nov-2012 21:52:15] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[17-Nov-2012 15:32:13] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel/template/catalog/product/view.phtml on line 65
+[26-Nov-2012 16:08:17] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:08:26] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:08:31] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:08:35] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:08:38] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:10:16] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:11:03] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:11:49] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[26-Nov-2012 16:14:34] PHP Fatal error:  Class 'Pixafy_Bevel_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[30-Nov-2012 21:52:13] PHP Fatal error:  Call to a member function getStatus() on a non-object in /pixafy/www/bevel/app/code/local/Pixafy/Bevel/Helper/TrunkShows.php on line 76
+[30-Nov-2012 21:56:34] PHP Fatal error:  Call to a member function getStatus() on a non-object in /pixafy/www/bevel/app/code/local/Pixafy/Bevel/Helper/TrunkShows.php on line 76
+[30-Nov-2012 21:56:45] PHP Fatal error:  Call to a member function getStatus() on a non-object in /pixafy/www/bevel/app/code/local/Pixafy/Bevel/Helper/TrunkShows.php on line 76
+[10-Dec-2012 16:39:25] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[18-Dec-2012 18:19:50] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[18-Dec-2012 18:19:58] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[18-Dec-2012 18:20:05] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[18-Dec-2012 18:30:48] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[18-Dec-2012 23:18:02] PHP Fatal error:  Call to a member function getDesigner() on a non-object in /pixafy/www/bevel/app/design/frontend/enterprise/bevel_christmas/template/catalog/category/view.phtml on line 120
+[20-Dec-2012 20:36:38] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 20:36:46] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 20:36:50] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 21:10:50] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 21:11:36] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 21:11:44] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 21:13:44] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[20-Dec-2012 21:14:00] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:32] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:33] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:35] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:35] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:39] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:40] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:52:45] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546
+[21-Dec-2012 15:57:49] PHP Fatal error:  Class 'Mage_Singledb_Helper_Data' not found in /pixafy/www/bevel/app/Mage.php on line 546

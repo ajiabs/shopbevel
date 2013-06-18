@@ -1,0 +1,80 @@
+<?php  if(Mage::getStoreConfig('mixpanel/track/mixpanel_on')) {
+	// check if the module is on
+?>
+	<!-- start your Mixpanel custom code -->
+	<script type="text/javascript">
+        mixpanel.set_config({
+            loaded: function() {
+                if (typeof(global_customer_object) != 'undefined') {
+                    mixpanel.people.set_once({
+                        '$email'     : global_customer_object.email,
+                        '$first_name': global_customer_object.first_name,
+                        '$last_name' : global_customer_object.last_name,
+                        '$username'  : global_customer_object.email,
+                        'is designer': global_customer_object.is_designer
+                    });
+                    mixpanel.name_tag(global_customer_object.email);
+                    //if (mixpanel.get_distinct_id() != global_customer_object.id)
+                    mixpanel.identify(global_customer_object.id);
+                }
+            }
+        });
+
+        $j(document).on('shopBevel_customerSignUp', function (event, customer_id) {
+            mixpanel.alias(customer_id);
+            mixpanel.track('$signup');
+        });
+
+        $j(document).on('shopBevel_designVoted', function (event, design_id) {
+            mixpanel.track('design voted', {'design ID' : design_id });
+        });
+
+        $j(document).on('shopBevel_shopPageOpened', function (event) {
+            mixpanel.track('shop page visited');
+        });
+
+        $j(document).on('shopBevel_productPageOpened', function (event, product_data) {
+            mixpanel.track('product page visited', {
+                'product ID'      : product_data.product_id,
+                'SKU'             : product_data.product_sku,
+                'product name'    : product_data.product_name,
+                'designer ID'     : product_data.designer_id,
+                'designer name'   : product_data.designer_name,
+                'collection ID'   : product_data.collection_id,
+                'collection name' : product_data.collection_name
+            });
+        });
+
+        if ($j('#dp-submit-design-btn').length) {
+            mixpanel.track_links('#dp-submit-design-btn', 'design submit', function(elem) {
+                mixpanel.register( { 'design submit page' : 'my account' } );
+                return { }
+            });
+        }
+
+        if ($j('a.btn-teal.get-started').length) {
+            mixpanel.track_links('a.btn-teal.get-started', 'design submit', function(elem) {
+                mixpanel.register( { 'design submit page' : 'design' } );
+                return { }
+            });
+        }
+
+        $j(document).on('shopBevel_designSubmitted', function (event, data) {
+            mixpanel.track('design submitted', {
+                'email images': data.email_images
+            });
+
+            mixpanel.unregister('design submit page');
+        });
+
+        var orderDetails = <?php echo $this->_getOrdersDetails() ?>;
+        if (orderDetails) {
+            mixpanel.track('purchase', orderDetails);
+            mixpanel.people.track_charge(orderDetails['revenue']);
+        }
+
+
+	</script>
+	<!-- end Mixpanel BRANDiD code -->
+
+<?php } ?>

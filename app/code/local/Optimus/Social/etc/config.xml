@@ -1,0 +1,82 @@
+<?xml version="1.0"?> 
+<config>
+  <modules>
+      <Optimus_Social>
+          <version>0.1.0</version>
+          <depends>
+              <!-- no dependencies --> 
+          </depends>
+      </Optimus_Social>
+  </modules>
+  <global> 
+   
+    <blocks>
+        <adminhtml>
+            <rewrite>
+            </rewrite>
+        </adminhtml>
+    </blocks>
+    
+    <blocks>
+    </blocks>
+    <helpers>
+        <social>
+          <class>Optimus_Social_Helper</class>
+        </social>
+    </helpers>
+  </global>
+  <adminhtml>
+      <acl>
+          <resources>
+              <admin>
+                  <children>
+                      <system>
+                          <children>
+                              <config>
+                                  <children>
+                                      <optimus_social_facebook>
+                                          <title>Social Settings: Facebook</title>
+                                      </optimus_social_facebook>
+                                  </children>
+                              </config>
+                          </children>
+                      </system>
+                  </children>
+              </admin>
+          </resources>
+      </acl>
+      <events></events> 
+      <translate></translate>
+  </adminhtml> 
+  <frontend>
+  </frontend>
+  <admin>
+       <routers>
+          <optimus_social>
+              <use>admin</use>
+              <args>
+                  <module>Optimus_Social</module>
+                  <frontName>optimus_social</frontName>
+              </args>
+          </optimus_social>
+      </routers>
+  </admin>
+  <!-- module defaults --> 
+  <default>
+      <!-- config values -->
+      <optimus_social>
+          <track>
+            <facebook_app_id><![CDATA[]]></facebook_app_id>
+            <facebook_app_secret><![CDATA[]]></facebook_app_secret>
+          </track>
+      </optimus_social>
+  </default>
+  <!--<crontab>
+      <jobs>
+          <get_mixpanel_view>
+              <schedule><cron_expr>*/2 * * * *</cron_expr></schedule>
+              <run><model>mixpanel/observer::cacheFeeds</model></run>
+          </get_mixpanel_view>
+      </jobs>
+  </crontab>-->
+</config>

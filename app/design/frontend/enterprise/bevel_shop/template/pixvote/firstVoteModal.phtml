@@ -1,0 +1,74 @@
+<?php $_pixvoteHelper = $this->helper("pixvote");?>
+<?php 
+	$_shareVariant = $_pixvoteHelper->TESTING_VARIANTS[array_rand($_pixvoteHelper->TESTING_VARIANTS)];
+	$_thanksVariant = $_pixvoteHelper->TESTING_VARIANTS[array_rand($_pixvoteHelper->TESTING_VARIANTS)];
+	$_noThanksVariant = $_pixvoteHelper->TESTING_VARIANTS[array_rand($_pixvoteHelper->TESTING_VARIANTS)];
+?>
+<!-- VOTE SHARE MODALS AND TRIGGERS -->
+<div class="designer-form-modal" id="share-double-modal">
+	<span style="display:none;" id="popup_share_subject"><?php echo $_pixvoteHelper->SUBJECT_POPUP_SHARE?></span>
+	<span style="display:none;" id="popup_share_version"><?php echo strtoupper($_shareVariant)?></span>
+	<div class="top-banner">
+		<a class="btn-close" id="no-share-btn" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<!-- <h3 class="share-title">Share this entry</h3>
+	<h3 class="share-subtitle"><span>to</span></h3>
+	<h4 class="share-action">Double your vote</h4> -->
+	<div class="share-info-container">
+		<h2 class="title">Thanks For Voting!</h2>
+		<div class="info">
+			<div class="pic-wrapper">
+				<img class="profile-pic" src="" />
+			</div>
+			<p class="profile-name">Name</p>
+			<p class="profile-loc">Location</p>
+		</div>
+		<div class="callout">
+			<h2>
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId( $_pixvoteHelper->STATIC_BLOCK_VOTE_SHARE_MAIN."-{$_shareVariant}")->toHtml() ?>
+			</h2>
+		</div>
+	</div>
+
+	<button type="button" class="fb-share-double-btn">Share on Facebook</button>
+</div>
+
+<div class="designer-form-modal" id="share-double-thanks-modal">
+	<span style="display:none;" id="popup_thanks_subject"><?php echo $_pixvoteHelper->SUBJECT_POPUP_THANKS?></span>
+	<span style="display:none;" id="popup_thanks_version"><?php echo strtoupper($_thanksVariant)?></span>
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<!-- <h3 class="share-title">Thank You!</h3>
+	<h3 class="share-subtitle"></h3>
+	<h4 style="text-align: left; margin-top: 5px;" class="share-title">Here's a $10 credit to use<span>in our Shopbevel shop.</span></h4> -->
+
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId( $_pixvoteHelper->STATIC_BLOCK_VOTE_SHARE_THANKS."-{$_thanksVariant}")->toHtml() ?>
+
+	<a href="<?php echo Mage::getBaseUrl(); ?>shop?track=<?php echo str_replace(" ","_",$_pixvoteHelper->SUBJECT_POPUP_THANKS)?>" class="btn-teal">Shop</a>
+</div>
+
+<div class="designer-form-modal" id="share-double-no-thanks-modal">
+	<span style="display:none;" id="popup_no_thanks_subject"><?php echo $_pixvoteHelper->SUBJECT_POPUP_NO_THANKS?></span>
+	<span style="display:none;" id="popup_no_thanks_version"><?php echo strtoupper($_noThanksVariant)?></span>
+	<div class="top-banner">
+		<a class="btn-close pixafy-modal-dismiss" href="javascript:void(0);"><?php echo $this->__('close'); ?></a>
+	</div><!-- .top-banner -->
+
+	<!-- <h3 class="share-title">Thank You!</h3>
+	<h3 class="share-subtitle"></h3>
+	<h4 style="text-align: left; margin-top: 5px;" class="share-title">Here's a $10 credit to use<span>in our Shopbevel shop.</span></h4> -->
+
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId( $_pixvoteHelper->STATIC_BLOCK_VOTE_SHARE_NO_THANKS."-{$_noThanksVariant}" )->toHtml(); ?>
+
+	<a href="<?php echo Mage::getBaseUrl(); ?>shop?track=<?php echo str_replace(" ","_",$_pixvoteHelper->SUBJECT_POPUP_NO_THANKS)?>" class="btn-teal">Shop</a>
+</div>
+
+<a style="display:none;" href="javascript:void(0)" class="pixafy-modal-trigger" id="share-double-trigger" data-modal-container="share-double-modal">Share</a>
+
+<a style="display:none;" href="javascript:void(0)" class="pixafy-modal-trigger" id="share-double-thanks-trigger" data-modal-container="share-double-thanks-modal">Share</a>
+
+<a style="display:none;" href="javascript:void(0)" class="pixafy-modal-trigger" id="share-double-no-thanks-trigger" data-modal-container="share-double-no-thanks-modal">Share</a>
+<!-- END VOTE SHARE MODALS AND TRIGGERS -->

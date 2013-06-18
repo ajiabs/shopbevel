@@ -1,0 +1,8 @@
+
+	<div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+	<?php
+		if($savedCards	=	Mage::registry('pixcim_saved_cards')){
+			echo $savedCards;
+		}
+	?>
+	</div>

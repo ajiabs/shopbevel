@@ -1,0 +1,223 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @see Mage_Catalog_Block_Category_View
+ */
+?>
+<?php
+    $_helper    = $this->helper('catalog/output');
+    $_category  = $this->getCurrentCategory();
+	$_event 	= $_category->getEvent();
+	$_todayDate = new DateTime(date("Y-m-d H:i:s"));
+	$_endDate = new DateTime($_event->getDateEnd());
+	$_timeLeft = $_todayDate->diff($_endDate);
+	$_bevelHelper = $this->helper('bevel/data');
+	$_trunkShowHelper = $this->helper('bevel/trunkShows');
+	$_days = $_timeLeft->format("%d");
+	$_hours = $_timeLeft->format("%h");
+	$_minutes = $_timeLeft->format("%i");
+	$_eventDate = new DateTime($_event->getDateEnd());
+	$_imgHtml   = '';
+	$_productCollection = $_category->getProductCollection()->addAttributeToSort('position');
+	$_startDate = $_trunkShowHelper->_startDate;
+	$_count = $_startDate;
+	$_dayMapping = array();
+	$_productArray = array();
+	$_today = date("d");
+	
+?>
+<div class="custom-breadcrumbs">
+	<a href="<?php echo $_category->getParentCategory()->getUrl()?>">TRUNK SHOWS</a>/<a href="<?php echo $_category->getUrl()?>"><?php echo $_category->getName()?></a>
+</div>
+<?php
+	foreach($_productCollection as $_product)
+	{
+		$_productArray[$_startDate] = Mage::getModel("catalog/product")->load($_product->getId());
+		$_startDate++;
+	}
+	for($i = 1; $i <= count($_productArray); $i++)
+	{
+		$_dayMapping[$_count] = $i;
+		$_count++;
+	}
+?>
+<?php
+    if ($_imgUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<div class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" /></div>';
+        $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
+?>
+
+<div class="trunkshow-cat-block">
+	<?php if($_imgUrl): ?>
+	    <?php echo $_imgHtml ?>
+	<?php endif; ?>
+
+	<div class="trunkshow-cat-desc cm-trunkshow-cat-desc">
+		<div class="page-title category-title">
+		   	<h1>12 DAYS OF CHRISTMAS</h1>
+		</div>
+
+		<?php /* <div class="page-title category-title">
+		    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+		        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
+		    <?php endif; ?>
+		    <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
+		</div> */ ?>
+		<div class="cat-designer-desc-block">
+			<span class="cat-designer-time">
+			<?php 
+					if($_event->getStatus() == "open" || $_event->getStatus() == "upcoming")
+					{
+						echo 'ends ';
+					}
+					else
+					{
+						echo 'ended ';
+					}
+			?> <?php echo $_eventDate->format("F");?> <?php echo $_eventDate->format("d").', '.$_eventDate->format("Y");?> 12 PM EST
+			</span>
+		</div>
+		<?php /* 
+		<div class="main-cat-clock">
+			<?php echo $_days.' '.$_bevelHelper->pluralize($_days, "day", "days").' + '.$_hours.' '.$_bevelHelper->pluralize($_hours, "hour", "hours").' + '.$_minutes.' '.$_bevelHelper->pluralize($_minutes, "minute", "minutes")?>
+		</div>		
+		*/ ?>
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		
+		<div class="main-cat-clock">
+			<?php
+				if ($_eventDate > $_todayDate)
+				{
+					echo "This event has not started";
+				}
+				elseif($_event->getStatus() == "open")
+				{
+					echo $_days.' '.$_bevelHelper->pluralize($_days, "day", "days").' + '.$_hours.' '.$_bevelHelper->pluralize($_hours, "hour", "hours").' + '.$_minutes.' '.$_bevelHelper->pluralize($_minutes, "minute", "minutes");
+				}
+				else
+					echo 'This event has ended';
+					
+			?>
+		</div>				
+		
+	
+		<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+		    <div class="category-description std">
+		        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+		    </div>
+		    <?php endif; ?>
+		    <!--
+		    <div class="cat-designer-desc-block">
+		    	<span class="only-day-title">DAY <?php #echo $_dayMapping[$_today];?></span>
+		    	by <span class="designername"><?php #echo $_productArray[$_today]->getDesigner() ?></span>
+		    </div>
+		    -->
+        <div class="product-share-block">
+        	<span class="tt-title"><?php echo $this->__('share this collection') ?></span>
+			<?php 
+				$url = urlencode($_category->getUrl());
+				$text = urlencode($_bevelHelper->generateShareText($_helper->categoryAttribute($_category, $_category->getName(), 'name')));
+				$image = urlencode($_category->getImageUrl());
+			?>
+	        <ul>
+    			<li><a target="_blank" class="fb-icon" href="http://www.facebook.com/sharer.php?u=<?php echo $url?>">Facebook</a></li>
+	    		<li><a target="_blank" class="tw-icon" href="https://twitter.com/share?text=<?php echo $text?>&url=<?php echo $url?>">Twitter</a></li>
+	    		<li><a target="_blank" class="pi-icon" href="http://pinterest.com/pin/create/button/?url=<?php echo $url?>&media=<?php echo $image?>">pinterest</a></li>
+	    		<li><a target="_blank" class="t-icon" href="http://www.tumblr.com/share/photo?source=<?php echo $image?>&caption=<?php echo $text?>&click_thru=<?php echo $url?>">t</a></li>
+	        	
+        	</ul>
+        </div>
+        <?php /*
+        <div class="mtd-links-block">
+        	<a href="#designerone" class="meet-the-designer-icon">meet the designer</a>
+        	<a href="#designertwo" class="behind-the-scenes-icon">behind the scenes</a>
+        </div>
+		 */ ?>
+	</div>
+</div>
+
+<?php if($this->isContentMode()): ?>
+    <?php echo $this->getCmsBlockHtml() ?>
+<?php elseif($this->isMixedMode()): ?>
+    <?php echo $this->getProductListHtml() ?>
+    <?php echo $this->getCmsBlockHtml() ?>
+<?php else: ?>
+    <?php echo $this->getProductListHtml() ?>
+<?php endif; ?>
+<div class="designer-block">
+	<?php
+			//Get ongoing trunk shows minus the one we're currently on
+			$_events = $_trunkShowHelper->getTrunkShows($_event->getId(), 3, TRUE);
+			
+			//Show header if other trunkshows avaiable
+			if(count($_events))
+			{
+	?>
+	<h2 class="sp-title"><?php echo $this->__('Past Trunk Shows') ?></h2>
+	<?php
+			}
+	?>
+	<div class="trunk-show-content clearfix">
+		<ul class="trunk-show-slider jcarousel-skin-tango">
+		
+		<?php
+
+			foreach($_events as $_event)
+			{
+				$_eventDate = new DateTime($_event->getDateEnd());
+				$_trunkshow = Mage::getModel('catalog/category')->load($_event->getCategoryId());
+		?>	
+				<li class="temporary-style">
+					<a class="cat-img" href="<?php echo $_trunkshow->getUrl()?>" title="">
+						<img src="<?php echo$_trunkshow->getResizedImage(); ?>" alt="" />
+					</a>
+					<a href="<?php echo $_trunkshow->getUrl()?>"><?php echo $_trunkshow->getName();?></a>
+					<span>ended <?php echo $_eventDate->format("l");?>, <?php echo $_eventDate->format("F");?> <?php echo $_eventDate->format("d");?></span>
+				</li>
+
+		<?php
+			}
+		?>
+
+		</ul>
+	
+	</div>
+</div>
+
+<script type="text/javascript">
+/* jQuery(document).ready(function(){
+	jQuery('.trunk-show-slider').jcarousel({
+		wrap: 'circular',
+		animation: 800
+	});
+});
+*/
+</script>

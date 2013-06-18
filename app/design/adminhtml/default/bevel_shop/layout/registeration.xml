@@ -1,0 +1,7 @@
+<layout version="0.1.0">
+	   <registeration_adminhtml_waitlist_index>
+        <reference name="content">
+            <block type="registeration/adminhtml_waitlist" name="waitlist" />
+        </reference>
+    </registeration_adminhtml_waitlist_index>	
+</layout>

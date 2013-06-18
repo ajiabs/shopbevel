@@ -1,0 +1,76 @@
+<div class="dh-wrapper">
+
+	<div class="page-title">
+		<h1>Designer Hub</h1>
+	</div>
+
+	<div class="header-callout">
+		<h4>We want to make it easy to help you spread the word. Here are helpful templates and tips for you to use in spreading the word about your submission.</h4>
+		<span>Have an idea to make this page better? Email us at <a href="mailto:info@shopbevel.com">info@shopbevel.com</a>.</span>
+	</div>
+
+	<div class="email-template-wrapper">
+		<h4 class="">Email Tempates</h4>
+		<div class="email-template 1">
+			<p>
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dh-et-1')->toHtml(); ?>
+			</p>
+		</div>
+		<div class="email-template 2">
+			<p>
+				<?php echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId('dh-et-2')->toHtml() ); ?>
+			</p>
+		</div>
+		<div class="email-template 3">
+			<p>
+				<?php echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId('dh-et-3')->toHtml() ); ?>
+			</p>
+		</div>
+	</div>
+
+	<div class="graphics-wrapper">
+		<h4>Graphics</h4>
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('dh-graphics')->toHtml() ?>
+	</div>
+</div>
+
+<div class="pixafy-modal-container" id="preview-modal">
+	<a href="javascript:void(0)" class="pixafy-modal-dismiss">X</a>
+	<img src="" alt="" class="preview-image" />
+</div>
+
+<a href="javascript:void(0)" style="display: none;" class="pixafy-modal-trigger" id="preview-modal-trigger" data-modal-container="preview-modal">trigger preview modal</a>
+
+
+<script>
+	;(function( $, window, document, undefined ) {
+		$(function() {
+			var subNav = $( '.header-sub-nav' ).remove();
+
+			$( '#preview-modal' ).pixafyModal({
+				modalID: 'preview-modal-wrapper',
+				transition: 'fade',
+			});
+
+			$( '.preview' ).on( 'click', function() {
+				var self = $( this );
+				var src = self
+							.siblings( 'img' )
+							.attr( 'src' );
+				var modalImg = $( '#preview-modal' )
+									.find( 'img' )
+									.attr( 'src', src );
+				var trigger = $( '#preview-modal-trigger' )
+									.trigger( 'click' );
+			});
+
+			$( '.download' ).on( 'click', function() {
+				var self = $( this );
+				var src = self
+							.siblings( 'img' )
+							.attr( 'src' );
+				self.attr( 'href', src );
+			});
+		});
+	})( jQuery, window, document );
+</script>

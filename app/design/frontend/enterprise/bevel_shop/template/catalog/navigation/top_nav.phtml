@@ -1,0 +1,21 @@
+<li><a href="<?php echo Mage::getUrl("shop")?>">All</a></li>
+<?php
+	//NOTE: the loading of these categories should probabaly be placed in a block(TODO)
+	$_collectionParentId = Mage::getStoreConfig('bevel/general/collection_category_id');
+	$_collectionParent = Mage::getModel('catalog/category')->load($_collectionParentId);
+	$_collectionIds = $_collectionParent->getChildren();
+	$_filter = array("in" => explode(',',$_collectionIds));
+	$_collections = Mage::getModel('catalog/category')->getCollection()
+	->addAttributeToSelect("name")
+	->addAttributeToFilter('entity_id', $_filter)
+	->addAttributeToFilter('is_active', 1)
+	->addAttributeToFilter('include_in_menu', 1)
+	->setOrder('nav_position','ASC');
+	foreach($_collections as $_collection):
+?>
+<li>&bull;</li>
+<li><a href="<?php echo $_collection->getUrl()?>"><?php echo $_collection->getName()?></a></li>
+<?php
+		//echo $this->drawItem($_collection);
+	endforeach;
+?>

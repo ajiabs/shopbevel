@@ -1,0 +1,61 @@
+<div class="pg-section main-section section-meet">
+	<div class="hdr-wrap clear-box">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-meet-title')->toHtml() ?>
+		<a class="btn-teal btn-sign-up btn-sign-up-top" href="<?php echo Mage::getStoreConfig('bevel/general/vote_url'); ?>" target="_blank"><?php echo $this->__('Cast Your Vote'); ?></a>
+	</div><!-- .hdr-wrap -->
+	<div class="dotted-lines-h"></div>
+
+	<div class="section-cntnt cntnt-meet clear-box">
+		<div class="meet-block block-about">
+			<h4 class="meet-hdr"><?php echo $this->__('About Us'); ?></h4>
+			<div class="img-about"><img src="<?php echo $this->getSkinUrl('images/img-about-us.png'); ?>" alt=""></div>
+
+			<p class="txt-blurb-big">Shopbevel works with independent designers to bring you designer jewelry at affordable prices.</p>
+			<p class="txt-blurb-sml">Designers submit designs, the community votes, and Shopbevel manufactures and sells selected designs. Shoppers always enjoy the Shopbevel price, up to half the designer-made prices.</p>
+		</div><!-- .block-about -->
+
+		<div class="meet-block block-how">
+			<h4 class="meet-hdr"><?php echo $this->__('How It Works'); ?></h4>
+
+			<div class="how-bevel how-browse">
+				<h4 class="how-hdr">Browse</h4>
+				<p class="how-txt">Browse 1,000 of submissions from independent designers.</p>
+			</div><!-- .how-browse -->
+
+			<div class="how-bevel how-vote">
+				<h4 class="how-hdr">Vote</h4>
+				<p class="how-txt">Vote on the designs you like.</p>
+			</div><!-- .how-vote -->
+
+			<div class="how-bevel how-shop">
+				<h4 class="how-hdr">Shop</h4>
+				<p class="how-txt">Shop the designs we produce, at up to 50% off designer prices.</p>
+			</div><!-- .how-shop -->
+
+			<a class="btn-teal btn-sign-up-wide btn-sign-up-top" href="javascript:void(0);" onclick="showSignUp();"><?php echo $this->__('Sign Up for Shopbevel'); ?></a>
+		</div><!-- block-how -->
+
+		<div class="meet-block block-designers">
+			<h4 class="meet-hdr"><?php echo $this->__('Our Designers'); ?></h4>
+			<p class="txt-our-designers">Bevel designers receive a 15% royalty on every piece sold.</p>
+
+			<div class="designer-display clear-box">
+				<div class="img-designer"><img src="<?php echo $this->getSkinUrl('images/designer-02a.png'); ?>" alt="Designer's Name"></div>
+				<p class="txt-from-designer">
+					"Bevel seemed like a great opportunity to showcase my work, get PR for my site, and make some money in the process."
+					<br/>
+					~ <strong>Katie Schloss</strong>, Designer
+				</p>
+			</div><!-- .designer-display -->
+
+			<div class="designer-display clear-box">
+				<div class="img-designer"><img src="<?php echo $this->getSkinUrl('images/designer-04.png'); ?>" alt="Designer's Name"></div>
+				<p class="txt-from-designer">
+					"The price-points on my site are pretty high. Bevel seemed like a great option for creating a design to reach mass market."
+					<br/>
+					~ <strong>Angela Redai</strong>, Designer
+				</p>
+			</div><!-- .designer-display -->
+		</div><!-- block-designers -->
+	</div><!-- .cntnt-meet -->
+</div><!-- .section-meet -->

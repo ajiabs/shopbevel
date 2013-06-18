@@ -1,0 +1,198 @@
+<?php
+	$_challenge = $this->getChallenge();
+	$_featDesign = $this->getFeaturedDesign();
+	if($_featDesign):
+		//$_featDesign = $_designs->getFirstItem();
+		$_images = $this->getFeaturedImages();
+		$_commentCount = $this->getFeaturedCommentCount();
+		$_comments = $this->getFeaturedComments();
+		$_authors = $this->getFeaturedAuthors();
+		$_designers = $this->getFeaturedDesigners();
+		$_designs = $this->getFeaturedDesigns();
+		$_votes = $this->getFeaturedVotes();
+		$_helper = $this->helper("pixvote");
+		$_isExpired = $_helper->checkIfExpired($_challenge->getVoteEndTime());
+		$_now = Mage::getModel('core/date')->timestamp(time());
+		$_time = date("Y-m-d H:i:s",$_now);
+		$_bevelHelper = $this->helper('bevel/data');
+		$_userVotes = $this->getFeaturedUserVotes();
+		$_isAjax = $this->getIsAjax();
+		$_currentPage = $this->getCurrentPage();
+		$_pageTotal = $this->getFeaturedPageTotal();
+		$_designUrl = $_helper->getDesignUrl($_featDesign,$_challenge);
+		$_profileUrl = $_helper->getProfileUrl($_designers[$_featDesign->getCustomerId()]);
+		if(!$_isAjax):
+?>
+
+
+	<script type="text/javascript">
+		$j(function () {
+			FEATURED_TOTAL = <?php echo $this->getFeaturedPageTotal()?>;
+			FEATURED_PAGE = 1;
+			FEATURED_PAGEINATION_URL = "<?php echo $this->getFeaturedPaginationUrl()?>";
+		});
+	</script>
+
+<?php
+		endif;
+	$_today = new DateTime($_time);
+	$_endTime= new DateTime($_challenge->getVoteEndTime());
+	$_timeLeft = $_today->diff($_endTime);
+	$_days = $_timeLeft->format("%d");
+	$_hours = $_timeLeft->format("%h");
+	$_minutes = $_timeLeft->format("%i");
+?>
+<!-- VOTE DISPLAY SECTION -->
+
+<?php //if(!$_isAjax):
+
+?>
+<!-- <div class="vote-display-container"> -->
+<?php
+	//endif;
+?>
+<?php /*
+	<div class="desc">
+		<div class="item-title">
+			<h2><?php echo $_featDesign->getName()?></h2>
+			<p class="bevel-price">$<?php echo $_featDesign->getBevelPrice(); ?></p>
+		</div>
+		<div class="vote-dsgnr-info clear-box">
+			<a href="<?php echo $_profileUrl?>">
+				<div class="vote-dsgnr-pic">
+					<img src='<?php echo $_helper->getProfileImage($_designers[$_featDesign->getCustomerId()])?>'/>
+				</div>
+			</a>
+			<div class="vote-dsgnr-desc">
+				<p class="txt-title">Designer</p>
+				<a href="<?php echo $_profileUrl?>"><p class="txt-dsgnr-name"><?php echo $_helper->formatName($_designers[$_featDesign->getCustomerId()]->getName());?></p></a>
+				<p class="txt-locale"><?php echo $_designers[$_featDesign->getCustomerId()]->getLocation();?></p>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="image">
+		<?php
+			if(!$_isExpired):
+		?>
+			<a href="javascript:void(0)" class="vote-btn" data-design-id="<?php echo $_featDesign->getId()?>">
+				<?php if (array_key_exists($_featDesign->getId(),$_userVotes)): ?>
+					<img data-voted="1" class="vote-display-btn" src="<?php echo $this->getSkinUrl('images/vote-heart-active.png')?>" alt="Voted" />
+				<?php else: ?>
+					<img class="vote-display-btn" src="<?php echo $this->getSkinUrl('images/vote-heart-inactive.png')?>" alt="Not Voted" />
+				<?php endif; ?>
+			</a>
+		<?php
+			endif;
+		foreach($_images[$_featDesign->getId()] as $_image):
+				$resizedImage = $_helper->getResizedImage($_image, 'getUrl', 520);
+		?>
+			<a href="<?php echo Mage::getUrl($_designUrl)?>"><img src="<?php echo $resizedImage;?>" alt="<?php ?>"/></a>
+		<?php
+			break;
+			endforeach;
+		?>
+
+	</div>
+
+	<div class="vote-info">
+
+		<div class="votes">
+			<p id="vote-<?php echo $_featDesign->getId()?>"><?php echo $_votes[$_featDesign->getId()];?></p>
+		</div>
+
+		<div class="comment-count">
+			<p class="count-box-<?php echo $_featDesign->getId()?>"><?php echo $_commentCount[$_featDesign->getId()];?></p>
+		</div>
+
+		<div class="time-left">
+			<?php
+				if($_isExpired):
+			?>
+
+					<p>Voting has ended</p>
+			<?php
+				else:
+			?>
+				<p>
+					<span class="blk"><?php echo $_days.' '.$_bevelHelper->pluralize($_days, "day", "days")?></span>
+					<span class="blk"><?php echo $_hours.' '.$_bevelHelper->pluralize($_hours, "hour", "hours")?></span>
+					<span class="blk"><?php echo $_minutes.' '.$_bevelHelper->pluralize($_minutes, "minute", "minutes")?></span>
+				</p>
+			<?php
+				endif;
+			?>
+		</div>
+
+		<div style="" class="vote-comments-container vote-display" id="comment-area-<?php echo $_featDesign->getId();?>">
+			<ul class="comments-list list-<?php echo $_featDesign->getId(); ?>">
+				<?php
+					foreach($_comments[$_featDesign->getId()] as $_comment):
+				?>
+					<li class="comments-list-item clear-box">
+						<div class="comment-image">
+							<img src="<?php echo $_helper->getProfileImage($_authors[$_comment->getCustomerId()])?>" alt="author image">
+						</div>
+						<div class="comment-text">
+							<span class="author"><?php echo $_authors[$_comment->getCustomerId()]->getName();?>  </span>
+							<span class="text"><?php echo $_comment->getComment()?></span>
+						</div>
+					</li>
+				<?php
+					endforeach;
+				?>
+			</ul>
+
+			<div class="post-comment-container vote-display">
+				<div class="top">
+					<div class="commenter-image">
+						<img src="<?php echo $_helper->getProfileImage( $this->helper("customer")->getCustomer())?>" />
+					</div>
+					<div class="comment-input">
+						<input type="text" name="comment-input" class="comment-input input-<?php echo $_featDesign->getId(); ?>" id="comment-input-<?php echo $_featDesign->getId(); ?>" placeholder="Add a comment...">
+					</div>
+				</div>
+				<div class="comment-view-all">
+					<?php
+						if($_commentCount[$_featDesign->getId()] > 1):
+					?>
+
+						<a class="view-comments" href="<?php echo Mage::getUrl($_designUrl)?>#see-all-comments" data-design-id="<?php echo $_featDesign->getId();?>">See all comments</a>
+					<?php
+						endif;
+					?>
+				</div>
+				<div class="post-comment">
+					<a href="javascript:void(0)" class="vote-comment-btn btn-<?php echo $_featDesign->getId(); ?>" data-design-id="<?php echo $_featDesign->getId();?>">Comment</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+*/ ?>
+<?php
+	//if($_currentPage < $_pageTotal):
+?>
+		<!-- <a href="javascript:void(0)" class="next-btn" id="next-btn">Next</a> -->
+<?php
+	//endif;
+?>
+	<?php
+		//if($_currentPage > 1):
+	?>
+	<!-- <a href="javascript:void(0)" class="prev-btn" id="prev-btn">Previous</a> -->
+<?php
+		//endif;
+	//if(!$_isAjax):
+?>
+<!-- </div> -->
+
+<?php
+	//endif;
+?>
+<!-- END VOTE DISPLAY SECTION -->
+
+<?php
+	endif;
+?>

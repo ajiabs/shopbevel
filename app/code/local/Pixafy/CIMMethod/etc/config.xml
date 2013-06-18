@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <Pixafy_CIMMethod>
+		  <!-- declare module's version information for database updates -->
+          <version>0.1.0</version>
+       </Pixafy_CIMMethod>
+    </modules>
+ 
+    <global>
+    <blocks>
+        <cimmethod>
+            <class>Pixafy_CIMMethod_Block</class>
+        </cimmethod>
+    </blocks>
+        <models>
+            <cimmethod>
+                <class>Pixafy_CIMMethod_Model</class>
+            </cimmethod>
+        </models>
+        <resources>
+            <cimmethod_setup>
+                <setup>
+					<!-- which module to look for install/upgrade files in -->
+                    <module>Pixafy_CIMMethod</module>
+                </setup>
+				<!-- specify database connection for this resource -->
+                <connection>
+					<!-- do not create new connection, use predefined core setup connection -->
+                    <use>core_setup</use>
+                </connection>
+            </cimmethod_setup>
+            <cimmethod_write>
+                <connection>
+                  <use>core_write</use>
+                </connection>
+            </cimmethod_write>
+            <cimmethod_read>
+               <connection>
+                <use>core_read</use>
+              </connection>
+            </cimmethod_read>
+        </resources>
+    </global>
+	<!-- declare default configuration values for this module -->
+    <default>
+		<!-- 'payment' configuration section (tab) -->
+        <payment>
+			<!-- 'cimmethod' configuration group (fieldset) -->
+            <cimmethod>
+				<!-- by default this payment method is inactive -->
+                <active>1</active>
+				<!-- model to handle logic for this payment method -->
+                <model>cimmethod/cimmethod</model>
+				<!-- order status for new orders paid by this payment method -->
+                <order_status>processing</order_status>
+				<!-- default title for payment checkout page and order view page -->
+                <title>Saved Credit Card</title>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <payment_action>authorize_capture</payment_action>
+                <allowspecific>0</allowspecific>
+                <card_autosave>1</card_autosave>
+                <savedcard_placeorders>1</savedcard_placeorders>
+            </cimmethod>
+         </payment>
+    </default>
+</config>

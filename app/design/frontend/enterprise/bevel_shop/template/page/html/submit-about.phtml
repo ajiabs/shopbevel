@@ -1,0 +1,136 @@
+<div class="big-submit-container">
+	<div class="product-polaroids">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-polaroids')->toHtml(); ?>
+	</div><!-- .product-polaroids -->
+
+	<div class="submit-box">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-blurb')->toHtml(); ?>
+		<?php /*
+		<h2>Submit your designs</h2>
+		<p class="txt-blurb">Submit your design to get the chance to be manufactured and sold on Shopbevel</p>
+		*/ ?>
+		<a href="<?php echo $this->getBaseUrl(); ?>submit-design" class="btn-teal get-started">GET STARTED</a>
+	</div><!-- .submit-box -->
+
+	<span class="container-bg">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-banner')->toHtml(); ?>
+	</span>
+</div><!-- .big-submit-box -->
+
+<div class="page-container">
+	<h3 class="hdr-how-submit-works"><?php echo $this->__('How it works'); ?></h3>
+
+	<div class="submit-procedure-box clear-box">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-steps')->toHtml(); ?>
+		<?php /*
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Submit Your Design</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Let the community and your network vote on which pieces they love. </span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Submit Your Design</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-vote.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Let the community and your network vote on which pieces they love. </span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Get Produced</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-produce.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">If selected, your design will go into production.</span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Sale</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-sale.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Customers can pre-order and when orders are available in store.</span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Get Paid</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-paid.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Customers can pre-order and when orders are available in store.</span>
+		</div><!-- .procedure-step-box -->
+		*/ ?>
+	</div><!-- .submit-procedure-box -->
+
+	<div class="dotted-lines-h"></div>
+
+	<h3 class="hdr-support-testimonials"><?php echo $this->__('Testimonials'); ?></h3>
+
+
+	<div class="testimonials-container">
+		<a href="<?php echo $this->getBaseUrl(); ?>submit-design" class="btn-teal get-started">GET STARTED</a>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-testimonials')->toHtml(); ?>
+		<?php /*
+		<div class="testimonials-box clear-box">
+			<div class="dsgnr-img">
+				<img src="<?php echo $this->getSkinUrl('images/img-designer.png'); ?>" alt="Designer's Name" />
+			</div><!-- .dsgnr-img -->
+			<div class="dsgnr-name-locale">
+				Michael Raymond, <span class="designer-locale">New York City</span>
+			</div><!-- .dsgnr-name-locale -->
+
+			<div class="testimonial-more">
+				<p class="tagline">Designed by Shopbevel</p>
+				<p class="prdct-name">Pyramid two-tone ring by Michael Raymond</p>
+
+				<div class="prdct-info-n-blurb clear-box">
+					<div class="prdct-info-box clear-box">
+						<div class="prdct-img">
+							<span class="hdr-making-these">We're Making This</span>
+							<img src="<?php echo $this->getSkinUrl('images/img-product.png'); ?>" alt="Product Name" />
+						</div><!-- .prdct-img -->
+
+						<div class="prdct-info">
+							<p class="likes">9328</p>
+							<p class="price-regular">Designer Price: $150</p>
+							<p class="price-sale">Bevel Price: $39</p>
+							<p class="items-sold"># Items Sold: 400</p>
+							<p class="prdct-royalty">Royalty: $400.00</p>
+						</div><!-- .prdct-info- -->
+					</div><!-- .prdct-info-box -->
+
+					<div class="dsgnr-blurb">
+						<p class="txt-blurb">
+							"I feel lucky to have come across Shopbevel. Not only does putting my work out there to be judged help me understand what direction to pursue, Shopbevel acts as my partner in chrime." ~
+						</p>
+						<p class="dsgnr-sig">Raymond Michael, <strong>Designer</strong></p>
+					</div>
+				</div><!-- .prdct-info-n-blurb -->
+			</div><!-- .testimonial-more -->
+		</div><!-- .testimonials-box -->
+		*/ ?>
+	</div><!-- .testimonials-container -->
+
+</div><!-- .page-container -->
+
+<script type="text/javascript">
+	$j(function(){
+		/* Taking user submitted image, hiding it and setting it as the background image for the page banner */
+		bannerImageUrl = $j('.container-bg img').get(0).src;
+		$j('.container-bg img').hide();
+		$j('.big-submit-container').css('background-image', 'url("' + bannerImageUrl + '")');
+	});
+</script>

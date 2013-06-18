@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Pixafy
+ *
+ * @category    Pixafy
+ * @package     Pixafy_Cachebuster
+ * @copyright   Copyright (c) 2013 Pixafy (http://www.pixafy.com)
+ * @author      Thomas Lackemann
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <cachebuster translate="title" module="cachebuster">
+                                        <title>Cachebuster</title>
+                                        <sort_order>50</sort_order>
+                                    </cachebuster>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

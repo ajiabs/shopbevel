@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Pixafy_Onemorestep>
+            <version>0.1.0</version>
+        </Pixafy_Onemorestep>
+    </modules>
+    <frontend>
+        <routers>
+            <onemorestep>
+                <use>standard</use>
+                <args>
+                    <module>Pixafy_Onemorestep</module>
+                    <frontName>onemorestep</frontName>
+                </args>
+            </onemorestep>
+        </routers>
+    </frontend>
+    
+    <global>
+    	<rewrite>
+            <pixafy_onemorestep_onepage_saveExcellence>
+                <from><![CDATA[#^/checkout/onepage/saveExcellence/#]]></from>
+                <to>/onemorestep/cart/saveExcellence/</to>
+            </pixafy_onemorestep_onepage_saveExcellence>
+        </rewrite>
+    </global>
+</config>

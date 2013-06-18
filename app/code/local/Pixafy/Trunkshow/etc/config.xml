@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Pixafy_Trunkshow>
+      <version>0.1.0</version>
+    </Pixafy_Trunkshow>
+  </modules>
+  <global>
+    <page>
+      <layouts>
+        <trunkshowpage translate="label">
+          <label>trunkshow</label>
+          <template>page/html/trunkshow.phtml</template>
+          <layout_handle>trunkshow_layout</layout_handle>
+        </trunkshowpage>
+        <!-- add more layouts here -->
+      </layouts>
+    </page>
+  </global>
+</config>

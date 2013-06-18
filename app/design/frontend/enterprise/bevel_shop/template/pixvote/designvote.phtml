@@ -1,0 +1,142 @@
+<?php
+	$_isLoggedIn  = $this->helper("customer")->isLoggedIn();
+	$_design = $this->getCurrentDesign();
+	$_images = $this->getImages();
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_designer = $this->getDesigner();
+	$_commentCount = $this->getCommentCount();
+	$_comments = $this->getComments();
+	$_votes = $this->getVotes();
+	$_authors = $this->getAuthors();
+	$_challenge = $this->getChallenge();
+	$_bevelHelper = $this->helper('bevel/data');
+	$_pixvoteHelper = $this->helper("pixvote");
+	$_userVotes = $this->getUserVotes();
+	$_today = $this->getToday();
+	$_endTime= new DateTime($_challenge->getVoteEndTime());
+	$_timeLeft = $_today->diff($_endTime);
+	$_days = $_timeLeft->format("%d");
+	$_hours = $_timeLeft->format("%h");
+	$_minutes = $_timeLeft->format("%i");
+	$_isFirstVote = $this->getIsFirstVote();
+	$_isExpired = $_pixvoteHelper->checkIfExpired($_challenge->getVoteEndTime()) || $_design->getStatusId() == $_pixvoteHelper->ENTRY_STATUS_IN_EXPIRED;
+?>
+
+<!-- VOTE ITEMS SECTION -->
+	<?php
+		foreach($_images as $_image) {
+				$_imageUrl = $_pixvoteHelper->getResizedImage($_image, 'getUrl', $_pixvoteHelper->DESIGN_IMAGE_WIDTH,  null);
+			break;
+		}
+	?>
+	<div class="product-designer">
+		<?php
+				//$_designUrl = $_pixvoteHelper->getDesignUrl($_design,$_challenge);
+				$_designUrl = Mage::getUrl($_pixvoteHelper->getDesignUrl($_design,$_challenge));
+				$text = $_design->getDescription();
+			?>
+		<div class="prdt-img">
+
+			<div class="vote-item-share" data-url="<?php echo $_designUrl; ?>">
+				<a data-design="<?php echo $_design->getId()?>" href="http://www.facebook.com/sharer.php?u=<?php echo $_designUrl?>" data-fb="1" class="vote-item-share-link fb share-link" data-url="<?php echo $_designUrl; ?>" data-image="<?php echo $_imageUrl; ?>">Share on Facebook</a>
+				<a href="https://twitter.com/share?text=<?php echo $text?>&url=<?php echo $_designUrl; ?>" class="vote-item-share-link tw share-link">Share on Twitter</a>
+				<a href="http://pinterest.com/pin/create/button/?url=<?php echo $_designUrl?>&media=<?php echo $_imageUrl;?>" class="vote-item-share-link pin share-link">Share on Pinterest</a>
+			</div>
+					<?php
+					foreach($_images as $_image):
+							$resizedImage = $_pixvoteHelper->getResizedImage($_image, 'getUrl', $_pixvoteHelper->DESIGN_IMAGE_WIDTH,  null);
+						?>
+						<img src="<?php echo $resizedImage;?>" alt="<?php echo $_design->getName()?>"/>
+					<?php
+						//Break for now; TODO(limit to only one Image)
+						break;
+						endforeach;
+					?>
+		</div>
+
+		<div class="vote-dsgnr-info clear-box">
+			<?php
+				$_profileUrl = $_pixvoteHelper->getProfileUrl($_designer);
+			?>
+			<a href="<?php echo $_profileUrl?>" class="designer-link">
+				<div class="vote-dsgnr-pic">
+					<img src='<?php echo $_pixvoteHelper->getProfileImage($_designer)?>'/>
+				</div>
+				<div class="vote-dsgnr-desc">
+					<p class="txt-title">Designer</p>
+					<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designer->getName());?></p>
+					<p class="txt-locale"><?php echo $_designer->getLocation();?></p>
+					<p class="bevel-price">$<?php echo $_design->getBevelPrice(); ?></p>
+				</div>
+			</a>
+			<a href="<?php echo $_designUrl ?>" class="item-link">View Item</a>
+		</div>
+		<div class="vote-info clear-box">
+			<?php $_voted = array_key_exists($_design->getId(),$_userVotes);
+					$_isVotable = ($_design->getStatusId() == $_pixvoteHelper->ENTRY_STATUS_IN_VOTING && !$_voted && !$_isExpired ? true : false );
+			?>
+
+			<button class="btn-teal <?php if ($_isVotable){ echo 'vote-btn';} else { echo 'grey'; } ?> <?php if ( $_isLoggedIn ) {echo 'logged-in';} ?> <?php if ( !$_voted ) {echo 'new-vote';} ?> <?php if ( $_isFirstVote ) {echo 'first-vote';} ?>" data-design-id="<?php echo $_design->getId()?>" data-imgURL="<?php echo $_imageUrl;?>" data-URL="<?php echo $_designUrl; ?>" data-name="<?php echo $_design->getName(); ?>">VOTE</button>
+			<span class="vote-count">Total Votes (<span><?php echo ($_votes) ? : '0'; ?></span>)</span>
+			<span class="following-alert">VOTED!</span>
+
+			<div style="" class="vote-comments-container vote-item" id="comment-area-<?php echo $_design->getId();?>">
+				<ul class="comments-list list-<?php echo $_design->getId(); ?>">
+					<?php
+						foreach($_comments as $_comment):
+					?>
+						<li class="comments-list-item clear-box">
+							<div class="comment-image">
+								<img src="<?php echo $_pixvoteHelper->getProfileImage($_authors[$_comment->getCustomerId()])?>" alt="author image">
+							</div>
+							<div class="comment-text">
+								<span class="author"><?php echo $_authors[$_comment->getCustomerId()]->getName();?>  </span>
+								<span class="text"><?php echo $_comment->getComment()?></span>
+							</div>
+						</li>
+					<?php
+						endforeach;
+					?>
+				</ul>
+
+				<div class="post-comment-container vote-item">
+					<div class="top">
+						<div class="commenter-image">
+							<img src="<?php echo $_pixvoteHelper->getProfileImage( $this->helper("customer")->getCustomer())?>" />
+						</div>
+						<div class="comment-input">
+							<input <?php echo  !$_isLoggedIn ? 'disabled="disabled"' : ''?> type="text" name="comment-input" class="comment-input input-<?php echo $_design->getId(); ?>" id="comment-input-<?php echo $_design->getId(); ?>" placeholder="<?php echo  !$_isLoggedIn ? 'Signup to add a comment...' : 'Add a comment...'?>">
+						</div>
+					</div>
+					<div class="comment-view-all">
+
+					<?php
+						if( $_commentCount > 1):
+					?>
+
+						<a class="view-comments" href="<?php echo $_designUrl?>#see-all-comments" data-design-id="<?php echo $_design->getId();?>">See comments (<span class="count-box-<?php echo $_design->getId();?>"><?php echo $_commentCount;?></span>)</a>
+					<?php
+						endif;
+					?>
+					</div>
+					<div class="post-comment">
+						<a href="javascript:void(0)" class="vote-comment-btn btn-<?php echo $_design->getId(); ?>" data-design-id="<?php echo $_design->getId();?>">Comment</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			/*
+			 * set up our info for facebook sharing the vote
+			 */
+			VOTE_ITEM_INFO[ '<?php echo $_design->getId();?>' ] = {
+				item_name: '<?php echo $_design->getName(); ?>',
+				url: '<?php echo $_designUrl; ?>',
+				image: '<?php echo $_imageUrl; ?>',
+				designer_image: '<?php echo $_pixvoteHelper->getProfileImage($_designer)?>',
+				designer_name: '<?php echo $_pixvoteHelper->formatName($_designer->getName());?>',
+				designer_loc: '<?php echo $_designer->getLocation();?>'
+			};
+
+		</script>
+	</div>

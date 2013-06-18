@@ -1,0 +1,296 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+ <link type="text/css" rel="stylesheet" href="<?php echo Mage::getBaseUrl(); ?>contactimporter/styles/style.css">
+<br><br><br>
+
+<div class="Contest-div"> 
+<a class="breadcrumblink" href="<?php echo Mage::getUrl('messages/index/todolist'); ?>">Contest Tool</a> 
+<a class="breadcrumblink sub" href="<?php echo Mage::getUrl('messages/index/compose'); ?>">Message</a>
+</div>
+
+<div class="box">
+  <div class="box-content">
+    <h4>
+   Step 2 : Create Fan List
+    </h4>
+    <p>Here you can import your email contacts and send email to them</p>
+    <form action="<?php echo Mage::getUrl('messages/index/winnerstodolist'); ?>" name="emailListForm" id="emailListForm" method="post">
+      	  	  <!-- Include these scripts to import address books with CloudSponge -->
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8"> jQuery.noConflict();</script>
+		<script type="text/javascript" src="https://api.cloudsponge.com/address_books.js"></script>
+<script type="text/javascript" charset="utf-8">
+//these values will hold the owner information
+var owner_email, owner_first_name, owner_last_name;
+var appendInTextarea = true; // whether to append to existing contacts in the textarea
+var emailSep = ", "; // email address separator to use in textarea
+function populateTextarea(contacts, source, owner) {
+var contact, name, email, entry;
+var emails = [];
+var textarea = document.getElementById('contact_list');
+// preserve the original value in the textarea
+if (appendInTextarea && textarea.value.strip().length > 0) {
+emails = textarea.value.split(emailSep);
+}
+ 
+// format each email address properly
+for (var i = 0; i < contacts.length; i++) {
+contact = contacts[i];
+name = contact.fullName();
+email = contact.selectedEmail();
+entry = name + ":" + email +"";
+if (emails.indexOf(entry) < 0) {
+emails.push(entry);
+}
+}
+// dump everything into the textarea
+textarea.value = emails.join(emailSep);
+
+
+var emaillist =  emails.join(emailSep);
+// store the selected contacts in server
+new Ajax.Request('<?php echo Mage::getUrl('messages/index/assignusercontacts'); ?>', {
+	  method:'POST',
+	  parameters: {emaillist:emaillist} ,
+	  onSuccess: function(html) {
+		  document.getElementById('contactemails').innerHTML = html.responseText ;
+	  },
+	  onFailure: function() { alert('Something went wrong...'); }
+	});
+
+	// capture the owner information
+	owner_email = (owner && owner.email && owner.email[0] && owner.email[0].address) || "";
+	owner_first_name = (owner && owner.first_name) || "";
+	owner_last_name = (owner && owner.last_name) || "";
+}
+
+var csPageOptions = {
+  domain_key:"<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('contest_cloudsponge_apikey')->toHtml(); ?>", 
+  sources:['yahoo', 'gmail','outlook'],
+  afterSubmitContacts:populateTextarea
+};
+
+jQuery(document).ready(function(){ 
+	jQuery("#loademails").click(function() {
+		 var emaillist =  jQuery('#contact_list').val();
+		 jQuery.ajax({
+		     url: "<?php echo Mage::getUrl('messages/index/assignusercontacts'); ?>",
+		     type: "POST",
+		     data: {emaillist:emaillist} ,
+		     cache: false,
+		     dataType:'html',
+		     success: function(html) { 
+		     	 jQuery('#contactemails').html(html);		         
+		     }
+		 });	  
+	 });
+
+	// shows the user emails using pagination
+	jQuery(document).on( "click", "a.jqloadcontactpage",function(){ 
+		 var contactPage =  jQuery(this).attr('id');
+		 var pageCount =  jQuery('#pagelistcounts').val();
+		 jQuery.ajax({
+		     url: "<?php echo Mage::getUrl('messages/index/paginateusermails'); ?>",
+		     type: "POST",
+		     data: {page:contactPage,noofitems:pageCount} ,
+		     cache: false,
+		     dataType:'html',
+		     success: function(html) { 
+		     	 jQuery('#contactemails').html(html);
+		     }
+		 });	  
+	
+	});
+});
+// function to load contacts when user changes the number of contacts per page
+function changeContListcount(){ 
+    var contactPage = '1'; 
+    var pageCount =  jQuery('#pagelistcounts').val();
+    jQuery.ajax({
+        url: "<?php echo Mage::getUrl('messages/index/paginateusermails'); ?>",
+        type: "POST",
+        data: {page:contactPage,noofitems:pageCount} ,
+        cache: false,
+        dataType:'html',
+        success: function(html) { 
+            jQuery('#contactemails').html(html);
+            jQuery('#currentpage').val(contactPage);
+        }
+    });	  
+}
+
+//function to select/deselect all emails
+function toggleChecked(status) {
+	var selcount= 0;        
+	jQuery(".jqEmailList .chkemails").each( function() { 
+		jQuery(this).prop("checked",status); 
+		if(status == true)
+			selcount++;
+			else
+			selcount = 0;	
+	});
+        
+        var selectMail=jQuery('#emails').val();        
+        jQuery('.compose_btn').prop('disabled', true);
+        jQuery.ajax({
+        url: "<?php echo Mage::getUrl('messages/index/changestatusall'); ?>",
+        type: "POST",
+        data: {mailSelected:selectMail,state:status} ,
+        cache: false,
+        dataType:'html',
+        success: function(html) {       
+             var param = html.split('~~');             
+             jQuery('#emailselcount').val(param[0]);
+             jQuery('#jqEmailSelMessage').html('Total '+param[0]+' contacts selected'); 
+             jQuery('.compose_btn').prop('disabled', false);
+        }
+   });	
+        
+	
+}
+
+//function to select/deselect an email
+function toggleEmails(status,email) { 
+    var selectMail = email; 
+    jQuery('.compose_btn').prop('disabled', true);
+    jQuery.ajax({
+        url: "<?php echo Mage::getUrl('messages/index/changestatus'); ?>",
+        type: "POST",
+        data: {mailSelected:selectMail,state:status} ,
+        cache: false,
+        dataType:'html',
+        success: function(html) {    
+                var param = html.split('~~');             
+                jQuery('#emailselcount').val(param[0]);
+                jQuery('#jqEmailSelMessage').html('Total '+param[0]+' contacts selected'); 
+                jQuery('.compose_btn').prop('disabled', false);
+        }
+    });	 
+}
+// function to check whether an email is selected or not
+function checkSelEmails() {
+	var selcount = jQuery('#emailselcount').val();
+	if(selcount > 0)
+		document.emailListForm.submit();
+	else
+		alert('Please select any email');
+	return false;
+}
+	
+</script>
+ <?php session_start(); ?>
+<div><a class="cs_import addfromadressbook">Add from Address Book</a><br>
+	<div class="clear"></div>
+</div>
+
+<!-- This textarea will be populated with the contacts returned by CloudSponge -->
+<input type="hidden" id="contact_list"  > 
+ 
+ 
+ <div id="contactemails">
+ <?php  
+ $contactListCount = array('10','25','50','100');
+ if(!isset($_SESSION['deflistcount'])) {
+ 	$_SESSION['deflistcount'] = 10;
+ }	
+ $contactNoDefault = $_SESSION['deflistcount'];
+ // generate dropdown for no of items per page
+ $htmlCountSel = ' Show <select name=pagelistcounts" id="pagelistcounts" onchange="changeContListcount();">';
+ foreach($contactListCount as $contacts) {
+    $htmlCountSel .= '<option value="'.$contacts.'" '.(($contacts==$contactNoDefault)?'selected="selected"':'').' >'.$contacts.'</option>';
+ }
+ $htmlCountSel .= '</select> Contacts';
+
+ $boxEmailList = $htmlCountSel.'<div class="cont-mail-blk"><div class="cont-mail-blk-hd"><div class="cont-mail-blk-hd-col1">Contact</div>
+    	<div class="cont-mail-blk-hd-col2">Email</div><div class="cont-mail-blk-hd-col3">Invite</div> </div>';
+   	if(sizeof($_SESSION['contexttool']['importmails']) >0) {
+   		$i=1;
+   		// iterate all emails
+   		foreach($_SESSION['contexttool']['importmails'] as $key=>$impMails) {
+   			if($i > $contactNoDefault) {
+   				break;
+   			}
+	   		$checkedMsg = '';
+	   		if($impMails['status']==1) { 
+            	$checkedMsg= ' checked="checked"';
+	   		}
+  			$boxEmailList .= '<div class="cont-mail-blk-rw">
+    		<div class="cont-mail-blk-col1">&nbsp;'.trim($impMails['name']).'</div>
+    		<div class="cont-mail-blk-col2">&nbsp;'.$key.'</div>
+    		<div class="cont-mail-blk-col3"><input class="chkemails" onclick="toggleEmails(this.checked,this.value)" type="checkbox" name="selemails[]" value="'.$key.'" '.$checkedMsg.'></div>
+  			</div>';
+            $i++;
+                        
+            if($emails!='')
+            	$emails=$emails.','.$key;
+            else
+            	$emails=$key;
+   		}
+        foreach($_SESSION['contexttool']['importmails'] as $key=>$impMails) {   			
+        	if($impMails['status']==1) { 
+            	$checkedCount++;
+             }
+        }
+        $boxEmailList .= ' <input type="hidden" name="emails" id="emails" value="'.$emails.'">';
+   		if($i > $contactNoDefault) {
+   			$totContacts = sizeof($_SESSION['contexttool']['importmails']);
+   			$numPages = ceil($totContacts / $contactNoDefault)+1;
+			$paginationLink .= '<div class="pagination_new">';
+   			for($i=1;$i<$numPages; $i++){
+            	$selclass=($i==1)?"jqloadcontactpage active":"jqloadcontactpage";
+   				$paginationLink .= '<a href="#" class="'.$selclass.'" id="'.$i.'">'.$i.'</a>&nbsp;';
+   			}
+			$paginationLink .= '</div>';
+   		}
+   	}
+   	else $boxEmailList .= '<tr><td colspan="3">No contacts imported</td></tr>';     
+  		$boxEmailList .= '</div>';
+  		$selMessage = 'Total '.$checkedCount.' contacts selected';
+		$nextStep = '<div class="proceed"><input name="btnContinue" type="button" class="compose_btn"  value="Proceed" onclick="checkSelEmails()" /></div>';
+  		$boxEmailListOptions = '<div class="choose-blk">
+  			  <div class="choose-blk-row">
+    		<div class="choose-blk-col1"><input type="checkbox" onclick="toggleChecked(this.checked)"></div>
+    		<div class="choose-blk-col2">Choose All </div> </div>
+			<div class="choose-blk-row">  <div class="">
+			<div id="jqEmailSelMessage">'.$selMessage.'</div>
+			<input type="hidden" name="emailselcount" id="emailselcount" value="'.$checkedCount.'"></div> </div></div>
+			 '.$nextStep.'';
+   
+   		echo '<div class="jqEmailList"><div class="contact_mail_outerblk_outer"> <div class="contact_mail_outerblk1">'.$boxEmailList.'</div>';
+   		echo '<br>';
+   		if(sizeof($_SESSION['contexttool']['importmails']) >0) 
+   			echo 	'<div class="contact_mail_outerblk2">'.$boxEmailListOptions.'</div>';
+    	echo '  </div></div>'.$paginationLink.'</div>';
+ 
+ ?>
+ 		</div>
+	</form>
+  </div>
+</div>
+ 
+ 

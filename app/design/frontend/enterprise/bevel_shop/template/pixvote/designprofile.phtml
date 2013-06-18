@@ -1,0 +1,39 @@
+<?php
+	$_design = $this->getCurrentDesign();
+	$_images = $this->getImages();
+	$_pixvoteHelper = $this->getPixvoteHelper();
+	$_designer = $this->getDesigner();
+	$_challenge = $this->getChallenge();
+	$_designUrl = $_pixvoteHelper->getDesignUrl($_design,$_challenge);
+	$_profileUrl = $_pixvoteHelper->getProfileUrl($_designer);
+?>
+<div class="product-designer">
+	<div class="prdt-img">
+		<a href="<?php echo Mage::getUrl($_designUrl)?>">
+			<div class="product-grid-slider">
+				<?php
+				foreach($_images as $_image):
+						$_resizedImage = $_pixvoteHelper->getResizedImage($_image, 'getUrl', $_pixvoteHelper->DESIGN_IMAGE_WIDTH,  null);
+					?>
+					<img src="<?php echo $_resizedImage;?>" alt=""/>
+				<?php
+					break;
+					endforeach;
+				?>
+			</div>
+		</a>
+	</div>
+	<div class="vote-dsgnr-info clear-box">
+		<a href="<?php echo $_profileUrl?>">
+			<div class="vote-dsgnr-pic">
+				<img src="<?php echo $_pixvoteHelper->getProfileImage($_designer)?>" alt="">
+			</div>
+			<div class="vote-dsgnr-desc">
+				<p class="txt-title">Designer</p>
+				<p class="txt-dsgnr-name"><?php echo $_pixvoteHelper->formatName($_designer->getName());?></p>
+				<p class="txt-locale"><?php echo $_designer->getLocation();?></p>
+				<p class="bevel-price">$<?php echo $_design->getBevelPrice(); ?></p>
+			</div>
+		</a>
+	</div>
+</div><!-- end product item -->

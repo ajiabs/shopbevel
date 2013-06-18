@@ -1,0 +1,279 @@
+<div class="home-new">
+	<div class="main-cntnt">
+
+		<div class="slider-n-form">
+			<ul class="bxslider clear-box">
+				<li>
+					<div class="slide-box slide-customers">
+						<div class="frm-wrap">
+							<form class="frm-sign-up frm-customers" id="customer-form">
+								<h4 class="hdr-frm-title">Designer Jewelry Made Affordable</h4>
+								<p class="txt-frm-blurb">
+									<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-customers-form')->toHtml() ?>
+									<a class="btn-slide-over go-to-designers" href="javascript:void(0);">Click here.</a>
+								</p>
+
+								<p><a href="javascript:void(0);" class="btn-fb-signup">Connect using Facebook</a></p>
+
+								<div class="line-brown"></div>
+								<div class="txt-or">or</div>
+
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input type="text" name="register[first-name]" class="ipt-text input-text ipt-bvl ipt-fname required-entry validate-defaults" placeholder="First Name">
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="text" name="register[last-name]" class="ipt-text input-text ipt-bvl ipt-lname required-entry validate-defaults" placeholder="Last Name">
+									</div>
+								</div>
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input type="text" name="register[email]" class="ipt-text input-text ipt-bvl required-entry validate-email" placeholder="Email Address">
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="password" name="register[password]" class="ipt-text input-text ipt-bvl ipt-pswrd required-entry validate-password" placeholder="Password">
+									</div>
+								</div>
+
+								<input id="customer-submit" type="submit" class="btn-teal btn-sign-up-wide ipt-submit" value="Sign Up for Shopbevel">
+
+								<div class="discount-box clear-box">
+									<p class="discount-amount">50%+</p>
+									<p class="txt-discount">Get 50%+ off designer prices when bevel produces</p>
+								</div>
+							</form><!-- .frm-customers -->
+						</div><!-- .frm-wrap -->
+
+						<div class="success-wrap">
+							<div class="success-box">
+								<h4 class="txt-thank-you">Thanks for signing up!</h4>
+								<p class="txt-follow-us">Check us out on Facebook &amp; Twitter!</p>
+								<div class="icons-box clear-box">
+									<a class="icon-follow icon-fb" href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank">Follow us on Facebook</a>
+									<a class="icon-follow icon-twt" href="https://twitter.com/shopbevel" target="_blank">Follow us on Twitter</a>
+								</div>
+							</div><!-- .success-box -->
+						</div><!-- .success-wrap -->
+					</div><!-- .slide-customers -->
+				</li>
+				<li>
+					<div class="slide-box slide-designers">
+						<div class="frm-wrap">
+							<form class="frm-sign-up frm-designers" id="designer-form" novalidate="novalidate">
+								<h4 class="hdr-frm-title">Designers Wanted</h4>
+								<p class="txt-frm-blurb">
+									<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-designers-form')->toHtml() ?>
+								</p>
+
+								<p><a href="javascript:void(0);" data-is-designer="1" class="btn-fb-signup">Connect using Facebook</a></p>
+
+								<div class="line-brown"></div>
+								<div class="txt-or">or</div>
+
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input id="field-is-designer" type="hidden" name="register[is-designer]" value="1"/>
+										<input type="text" name="register[first-name-designer]" class="ipt-text input-text ipt-bvl ipt-fname required-entry validate-defaults" placeholder="First Name">
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="text" name="register[last-name-designer]" class="ipt-text input-text ipt-bvl ipt-lname required-entry" placeholder="Last Name">
+									</div>
+								</div>
+								<div class="clear-box">
+									<div class="ipt-wrap lft-side">
+										<input type="text" name="register[email-designer]" class="ipt-text input-text ipt-bvl required-entry validate-email" placeholder="Email Address">
+									</div>
+									<div class="ipt-wrap rgt-side">
+										<input type="password" name="register[password-designer]" class="ipt-text input-text ipt-bvl ipt-pswrd required-entry validate-password" placeholder="Password">
+									</div>
+								</div>
+
+								<input id="designer-submit" type="submit" class="btn-teal btn-sign-up-wide ipt-submit" value="Sign Up for Shopbevel">
+
+								<span class="line-spacer"></span>
+								<div class="discount-box clear-box">
+									<p class="discount-amount">15%</p>
+									<p class="txt-discount">Royalty for every piece of jewelry manufactured and sold.</p>
+								</div>
+							</form><!-- .frm-designers -->
+						</div><!-- .frm-wrap -->
+
+						<div class="success-wrap">
+							<div class="success-box">
+								<h4 class="txt-thank-you">Thanks for signing up!</h4>
+								<p class="txt-follow-us">Check us out on Facebook &amp; Twitter!</p>
+								<div class="icons-box clear-box">
+									<a class="icon-follow icon-fb" href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank">Follow us on Facebook</a>
+									<a class="icon-follow icon-twt" href="https://twitter.com/shopbevel" target="_blank">Follow us on Twitter</a>
+								</div>
+							</div><!-- .success-box -->
+						</div><!-- .success-wrap -->
+
+					</div><!-- .slide-designers -->
+				</li>
+			</ul>
+		</div><!-- .slider-n-form -->
+
+
+
+		<div class="pg-section main-section section-shop">
+			<div class="hdr-wrap clear-box">
+				<!-- <h2 class="section-hdr icon-vote">Shop</h2> -->
+				<div class="section-blurb"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-shop-title')->toHtml() ?></div>
+				<a class="btn-teal btn-sign-up btn-sign-up-top" href="<?php echo Mage::getBaseUrl(); ?>shop"><?php echo $this->__('Shop Our Designs'); ?></a>
+			</div><!-- .hdr-wrap -->
+
+			<div class="section-cntnt cntnt-shop clear-box">
+				<!-- <h4 class="hdr-making-these"><?php echo $this->__('We\'re Making These'); ?></h4> -->
+
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-shop')->toHtml() ?>
+			</div><!-- .cntnt-shop -->
+		</div><!-- .section-shop -->
+		<div class="dotted-lines-h dotted-lines-shop"></div>
+
+		<div class="pg-section main-section section-vote">
+			<div class="hdr-wrap clear-box">
+				<div class="section-blurb"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-vote-title')->toHtml() ?></div>
+				<a class="btn-teal btn-sign-up btn-sign-up-top" href="<?php echo Mage::getStoreConfig('bevel/general/vote_url'); ?>" target="_blank"><?php echo $this->__('preorder winners'); ?></a>
+			</div><!-- .hdr-wrap -->
+			<div class="dotted-lines-h"></div>
+
+			<div class="section-cntnt cntnt-vote clear-box">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('home-vote')->toHtml() ?>
+			</div><!-- .cntnt-vote -->
+		</div><!-- .section-vote -->
+
+	</div><!-- .main-cntnt -->
+</div><!-- .home-new -->
+
+<script type="text/javascript">
+
+	jQuery(window).load(function() {
+		jQuery(window).scrollTop(0);
+	});
+
+	jQuery(function(){
+		<?php
+			if($this->getRequest()->getParam("feedback")):
+		?>
+				showFeedback();
+		<?php
+			endif;
+		?>
+		customerForm = new VarienForm('customer-form', true);
+		designerForm = new VarienForm('designer-form', true);
+		Validation.add('validate-defaults','Please enter a valid value',check_defaults);
+
+		//custom submit code
+		jQuery("#customer-submit").click(function(event)
+		{
+			//Run validator
+			event.preventDefault();
+			if(customerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+
+		jQuery("#designer-submit").click(function(event)
+		{
+			//Run validator
+			event.preventDefault();
+			if(designerForm.validator.validate())
+			{
+				ajax_register(jQuery(this).parent());
+			}
+			return false;
+		});
+
+		// @home-new - creating main slider
+			slider = jQuery('.bxslider').bxSlider({
+				controls: true,
+				infiniteLoop: true,
+				pager: false
+			});
+
+			jQuery('.go-to-designers').on('click', function(){
+				slider.goToNextSlide();
+			});
+
+		/* leveling voting boxes */
+			equalHeight(jQuery('.section-vote .prdt-info'));
+
+		/* @global-header - header spacing for offset
+			headerOffset = 100;
+
+		//	@global-header - scrollTo link button controls
+			jQuery('.link-shop, .btn-link-shop').on('click', function(){
+				var offsetTop = jQuery('.section-shop').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '193px'});
+				jQuery('body').stop().animate({ 'scrollTop': offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-vote, .btn-link-vote').on('click', function(){
+				var offsetTop = jQuery('.section-vote').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '325px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.link-meet, .btn-link-meet').on('click', function(){
+				var offsetTop = jQuery('.section-meet').offset().top - headerOffset;
+				jQuery('.header-arrow').stop().animate({'left': '470px'});
+				jQuery('body').stop().animate({ scrollTop: offsetTop }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+
+			jQuery('.btn-sign-up-top').on('click', function(){
+				jQuery('body').stop().animate({ scrollTop: 0 }, 800, function(){
+					checkPagePosition(); iOSScroll();
+				});
+			});
+		*/
+
+		// @global-header - scrolling header for iOS below version 5
+			ver = iOSversion();
+
+			window.onscroll = function() {
+				iOSScroll();
+			};
+
+		/* @global-header - adding header links to array for checking page position
+			contentTop = [];
+
+			jQuery('.main-section').each(function(){
+				var topPos = jQuery(this).offset();
+
+				contentTop.push( (topPos.top - headerOffset) );
+			});
+
+			contentTop[3] = jQuery('.footer-container').offset().top;
+
+			jQuery(window).scroll(function(){
+				checkPagePosition();
+			});
+		*/
+	});
+</script>
+<?php
+	//Get Vote date
+	$date = new DateTime(Mage::helper('bevel/shopbevel')->getVoteDate());
+?>
+<script type="text/javascript">
+$j(function () {
+	target = new Date("<?php echo $date->format('F d, Y H:i:s');?>");
+
+	//Modify for time zone
+	target.setHours(target.getHours() - (target.getTimezoneOffset()/60));
+	$j('.countdown').countdown({onExpiry:voteExpire, until: target, format: 'DMS', layout:"in {dn} {dl}", alwaysExpire:true});
+});
+function voteExpire()
+{
+	$j('.countdown').html("TODAY");
+}
+</script>

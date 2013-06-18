@@ -1,0 +1,82 @@
+<layout version="0.1.0">
+
+	<registeration_ajax_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpone" name="registeration_rpone" template="registeration/rpone.phtml"></block>
+        </reference>
+	</registeration_ajax_index>
+	
+	<registeration_ajax_pagetwo>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rptwo" name="registeration_rptwo" template="registeration/rptwo.phtml"></block>
+        </reference>
+	</registeration_ajax_pagetwo>
+	
+	<registeration_ajax_pagethree>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpthree" name="registeration_rpthree" template="registeration/rpthree.phtml"></block>
+        </reference>
+	</registeration_ajax_pagethree>
+	
+	<registeration_ajax_pagefour>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpfour" name="registeration_rpfour" template="registeration/rpfour.phtml"></block>
+        </reference>
+	</registeration_ajax_pagefour>
+	
+	<registeration_ajax_pagefive>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpfive" name="registeration_rpfive" template="registeration/rpfive.phtml"></block>
+        </reference>
+	</registeration_ajax_pagefive>
+
+	<registeration_ajax_pagesix>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpsix" name="registeration_rpsix" template="registeration/rpsix.phtml">
+			</block>
+        </reference>
+	</registeration_ajax_pagesix>
+	<registeration_ajax_pageseven>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpseven" name="registeration_rpseven" template="registeration/rpseven.phtml">
+			</block>
+        </reference>
+	</registeration_ajax_pageseven>
+	<registeration_ajax_pageeight>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>	
+		<reference name="content">
+			<block type="registeration/rpeight" name="registeration_rpeight" template="registeration/rpeight.phtml">
+			</block>
+        </reference>
+	</registeration_ajax_pageeight>
+
+
+
+
+
+
+	
+</layout>

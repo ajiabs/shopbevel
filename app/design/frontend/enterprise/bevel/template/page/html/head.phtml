@@ -1,0 +1,144 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<?php 
+	if (Mage::registry('current_product'))  
+	{
+?>
+<meta property="og:image" content="<?php echo Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'small_image')->resize(100,100);?>" />
+<meta property="og:title" content="<?php echo $this->helper('bevel/data')->generateShareText(Mage::registry('current_product')->getName()) ?>" />
+
+<?php
+	}
+	else if(Mage::registry('current_category'))
+	{
+?>
+<meta property="og:image" content="<?php echo Mage::registry('current_category')->getImageUrl()?>" />
+<meta property="og:title" content="<?php echo $this->helper('bevel/data')->generateShareText(Mage::registry('current_category')->getName())?>" />
+<?php
+	}
+?>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37209296-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript">
+// init
+var site_url = "<?php echo Mage::getUrl()?>";
+window.fbAsyncInit = function () {
+    FB.init({
+        appId:<?php echo $this->helper('bevel/data')->_fb_app_id?>,
+        status:true,
+        cookie:true,
+        oauth:true,
+        xfbml:true
+    });
+    //FB.Canvas.setAutoGrow();
+    //FB.Canvas.scrollTo(0, 0);
+};
+// load the SDK Asynchronously
+(function(d){
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+}(document));
+
+// --------------------------------------------------------
+// Facebook functions
+// --------------------------------------------------------
+
+/**
+ * Checks whether or not user connected or not
+ * @param response
+ */
+function authFbUser(response) {
+    // user accepted
+    if (response.authResponse) {
+        FB.api('/me',{fields: "email,first_name,last_name,gender"}, function(response) {
+            // check for error
+            if (response.error != undefined) {
+                alert("Facebook error: " + response.error);
+            }
+            // process success
+            else 
+			{
+				$j("#email").val(response.email);
+				$j("#first-name").val(response.first_name);
+				$j("#last-name").val(response.last_name);
+				if(response.gender != undefined)
+				{
+					var gender = response.gender.toLowerCase() == "male" ? 1 : 2;
+					$j("#gender").val(gender);
+				}
+			}
+        });
+    }
+    // user cancelled/closed
+    else {
+      //  alert("User cancelled");
+    }
+}
+</script>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<?php
+	$agent = $_SERVER['HTTP_USER_AGENT'];
+	$pattern = '/iPad/'; /*MOVE THIS TO CONSTANT FILE*/
+	preg_match($pattern, $agent, $agentMatches);
+?>
+<?php if(!$agentMatches) :?>
+<meta name="viewport" type="handheld" content="width=1310, initial-scale=0.7;">
+<?php endif; ?>
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link href='http://fonts.googleapis.com/css?family=Lekton:400,700|Questrial' rel='stylesheet' type='text/css'>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>

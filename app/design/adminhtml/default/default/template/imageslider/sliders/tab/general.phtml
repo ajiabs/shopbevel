@@ -1,0 +1,22 @@
+	<style>
+		label{
+			width:300px !important;
+		}
+	</style>
+	<div class="entry-edit">
+		<?php	echo $this->_form->toHtml();	?>
+		<fieldset id="slider">
+			<span class="field-row">
+				<label for="embed"><?php echo $this->__('XML Embed Code') ?></label>
+				<div><code><?php echo Mage::helper('core')->escapeHtml($this->_slider->getEmbedCode()) ?></code></div>
+			</span>
+			<span class="field-row">
+				<label for="embed"><?php echo $this->__('WYSIWYG Embed Code') ?></label>
+				<div><code><?php echo Mage::helper('core')->escapeHtml($this->_slider->getWysiwygCode()) ?></code></div>
+			</span>
+			<span class="field-row">
+				<label for="embed"><?php echo $this->__('PHTML Code') ?></label>
+				<div><code><?php echo Mage::helper('core')->escapeHtml($this->_slider->getPhpCode()) ?></code></div>
+			</span>
+		</fieldset>
+	</div>

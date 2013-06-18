@@ -1,0 +1,26 @@
+
+<div id="ajax-content">
+	<h1>resgister landing page</h1>
+	<P>test content</P>
+	<script type="text/javascript">
+	function ajaxPostFuncOne(){
+		jQuery.ajax({
+			type: "GET",
+			url: "<?php echo $this->getUrl('registeration/ajax/index/')?>",
+			dataType: "json",
+			success: function(jsonResponse){
+				console.log(jsonResponse);
+	         	if(jsonResponse.status == 1){
+	         		jQuery("#ajax-content").html(jsonResponse.html_content);
+	         	}else{
+		         	alert(jsonResponse.error_message);
+		         	
+	         	}
+	        }
+					
+		});
+	}
+</script>
+
+<button onclick="ajaxPostFuncOne()">Next</button>
+</div>

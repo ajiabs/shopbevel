@@ -1,0 +1,30 @@
+<form id="co-excellence-form" action="">
+<fieldset>
+    <ul class="form-list">
+    <li id="excellence-form">
+		<?php echo $this->__('you are logged in as:') ?>
+		<div class="user-checkout-block">
+			<?php $customer = $this->getCustomer();?>
+			<?php echo $customer->getName();?>
+			<a href="<?php echo $this->getUrl('customer/account/'); ?>"><?php echo $this->__('edit account') ?></a>
+		</div>
+     </li>
+    </ul>
+    <div class="buttons-set" id="excellence-buttons-container">
+        <button type="button" title="<?php echo $this->__('Continue') ?>" class="button" onclick="excellence.save()"><span><span><?php echo $this->__('Continue') ?></span></span></button><a href="<?php echo $this->getUrl('customer/account/logout/'); ?>"><?php echo $this->__('logout') ?></a>
+        <span class="please-wait" id="excellence-please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/bevel-b.png') ?>" alt="" class="v-middle" /> <?php echo $this->__('<span class="txt-loading">LOADING</span> Next step, please wait.') ?>
+        </span>
+    </div>
+</fieldset>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var excellence = new ExcellenceMethod('co-excellence-form','<?php echo $this->getUrl('onemorestep/onepage/saveExcellence') ?>');
+    var excellenceForm = new VarienForm('co-excellence-form');
+	//This step is hidden. Call the same function as if clicking continue.
+	$j(document).ready(function(){
+		excellence.save();
+	});
+//]]>
+</script>

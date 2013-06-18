@@ -1,0 +1,23 @@
+	<div class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+	<?php
+		if($savedCards	=	Mage::registry('pixcim_saved_cards')){
+			echo $savedCards;
+		}
+	?>
+	</div>
+	<script type="text/javascript">
+		Event.observe($('cim_savedcards'), 'change', function(event) {
+			if(this.value){
+				$('cim_cc_last4').value = $('cim_cc_last4_'+this.value).value;
+				$('cim_cc_type').value = $('cim_cc_type_'+this.value).value;
+				$('cim_cc_exp_month').value = $('cim_cc_exp_month_'+this.value).value;
+				$('cim_cc_exp_year').value = $('cim_cc_exp_year_'+this.value).value;
+			}
+			else{
+				$('cim_cc_last4').value = '';
+				$('cim_cc_type').value = '';
+				$('cim_cc_exp_month').value = '';
+				$('cim_cc_exp_year').value = '';
+			}
+		});
+	</script>

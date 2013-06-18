@@ -1,0 +1,221 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<?php
+	if(!$this->helper('customer')->isLoggedIn())
+	{
+?>
+	<div class="login-window-step-one-container">
+		<div id="login-window-step-one">
+			<div class="login-form-block" id="reg-one">
+				<h2>SHOP TRUNK SHOWS</h2>
+				<a href="javascript:void(0);" id="fb-login-btn" class="fb-login-btn">login with facebook</a>
+				<span class="or-title">or</span>
+				<div class="login-fields-block">
+					<p id="reg-error" class="validation-failed" style="display:none"></p>
+					<form id="registration-form" method="POST" action="<?php echo $this->getUrl('registeration/ajax/register_user/')?>">
+						<input type="text" name="register[email]" id="email" value="Email" placeholder="Email" class="required-entry validate-email" />
+						<input type="text" name="register[first-name]" id="first-name" value="First Name" placeholder="First Name" class="required-entry validate-defaults" />
+						<input type="text" name="register[last-name]" id="last-name" value="Last Name" placeholder="Last Name" class="required-entry validate-defaults" />
+						<input type="password" name="register[password]" id="password" value="Password" placeholder="Password" class="required-entry validate-defaults validate-new-password" />
+						<input type="submit" id="submit" value="Sign Up" />
+					</form>
+				</div>		
+			</div>
+			<div class="login-form-block" id="reg-two" style="display:none">
+				<h2>ONE MORE THING</h2>
+				<div class="login-fields-block">
+					<form id="registration-form-two" method="POST" action="<?php echo $this->getUrl('registeration/ajax/register_user/')?>">
+						<!--<input type="text" name="register[gender]" id="gender" value="Gender" placeholder="Gender" class="required-entry validate-defaults"/>-->
+						<select autocomplete="off" id="gender" name="register[gender]" title="Gender" class="validate-select">
+			                    <option value="" selected="selected">Gender</option>
+			                    <option value="1">Male</option>
+			                    <option value="2">Female</option>
+			            </select>
+						<input type="text" name="register[age]" id="age" value="Age" placeholder="Age" class="required-entry validate-digits"/>
+						<input type="text" name="register[zipcode]" id="zipcode" value="Zipcode" placeholder="Zipcode" class="required-entry validate-zip"/>
+						<input type="submit" id="submit-two" value="See our trunk shows" />
+					</form>
+				</div>		
+			</div>
+		</div>
+	</div>
+
+	<div class="login-window-step-three-container">
+		<div id="login-window-step-three">
+			<div class="login-form-block">
+				<h2>Login</h2>
+				<div class="login-fields-block">
+				<?php
+					$className = Mage::getConfig()->getBlockClassName('customer/form_login');
+ 					$loginBlock = new $className();               
+				?>
+					<form method="POST" id="user-login-form" action="<?php echo $loginBlock->getPostActionUrl()?>"> 
+						<input type="text" name="login[username]" value="Email" placeholder="Email"  class="input-text required-entry validate-email"/>
+						<input type="password" name="login[password]" value="Password"  placeholder="Password"  class="input-text required-entry validate-password validate-defaults" />
+						<input type="submit" value="Log In" /><br/>
+						<a id="login-window-step-one-container" href="#login-window-step-one" title="<?php echo $this->__('Register') ?>"><?php echo $this->__('Register') ?></a><br/>
+						<a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" title="<?php echo $this->__('Forgot your password?') ?>"><?php echo $this->__('Forgot your password?') ?></a>
+					</form>
+				</div>		
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+$j(function ()
+{
+	//Validation objs for form
+	stepOneForm = new VarienForm('registration-form', true);
+	stepTwoForm = new VarienForm('registration-form-two', true);
+	loginForm = new VarienForm('user-login-form', true);
+	
+	//Add custom validation form
+	Validation.add('validate-defaults','Please enter a valid value',function(the_field_value){
+		var defaults = ['first name','last name','password', 'gender'];
+        return $j.inArray(the_field_value.toLowerCase(), defaults) == -1;
+    });
+	
+	//Attach click event for facebook
+	$j("#fb-login-btn").click(function(){
+		FB.login(authFbUser, {scope: 'email'});
+	});
+	
+
+	//Attach clickclear
+	$j("#registration-form input").clickclear();
+	$j("#registration-form-two input").clickclear();
+	$j("#user-login-form input").clickclear();
+	
+	//custom submit code
+	$j("#submit").click(function(event)
+	{	
+		event.preventDefault();
+		//Run validator
+		if(stepOneForm.validator.validate())
+		{
+			//Show next part of form
+			$j("#reg-error").hide();
+			$j("#reg-one").hide();
+			$j("#reg-two").show();
+		}
+	});
+	
+	//custom submit code
+	$j("#submit-two").click(function(event)
+	{	
+		//Run validator
+		event.preventDefault();
+		if(stepTwoForm.validator.validate())
+		{
+			var params = {};
+			$j("[name *='register']").each(function()
+			{
+				name = this.id;
+				params[name] = $j(this).val();
+			})
+			$j.post(
+					$j("#registration-form").attr("action"),
+					params,
+					registerResult,
+					'json'
+			);
+		}
+		else
+		{
+			$j(".validation-advice").show();
+		}
+	});
+});
+
+function registerResult(data)
+{
+	if(data.error != undefined)
+	{
+		$j("#reg-error").html(data.error).show();
+		$j("#reg-two").hide();
+		$j("#reg-one").show();
+	}
+	else
+	{
+		window.location.href = data.redirect_url;
+	}
+}
+</script>
+
+<script type="text/javascript">
+jQuery('.homelink-trigger').click(function() {
+	
+  if (jQuery(this).next(".homelinkout").is(":hidden")) {
+  	
+	jQuery(this).next(".homelinkout").slideDown("fast");
+	
+  } else {
+  	
+  	jQuery(this).next(".homelinkout").slideUp("fast");
+  }
+ });
+</script>
+
+<?php
+	}
+?>
+<!-- ERROR MESSAGE -->
+<!--<a title="error message" href="#error-message-output" id="error-message-block">error message located in footer.phtml</a>-->
+
+<div style="display:none;">
+	<div id="error-message-output">
+		<div class="error-bevel-logo"></div>
+		<div class="error-txt-block">
+			<span class="error-title">
+				BAG EXPIRED
+			</span>
+			<span class="error-txt">
+				We only have so much product to offer. Be sure to snag your pieces!
+			</span>
+		</div>
+	</div>
+</div>
+<!-- END ERROR MESSAGE -->
+<div class="footer-container">
+    <div class="footer">
+
+        	<?php echo $this->getChildHtml() ?>
+
+        <div class="social-footer-block">
+        	<ul>
+        		<li><a href="https://www.facebook.com/pages/Bevel/301907439861926?fref=ts" target="_blank" class="fb-icon">Facebook</a></li>
+        		<li><a href="https://twitter.com/BevelTrunkShows" class="tw-icon" target="_blank">Twitter</a></li>
+        		<li><a href="https://pinterest.com/beveltrunkshows/" class="pi-icon" target="_blank">pinterest</a></li>
+        		<li><a href="//www.beveluncut.com" class="t-icon" target="_blank">t</a></li>
+        	</ul>
+        </div>
+    </div>
+	<?php /* <address class="copyright"><?php echo $this->getCopyright() ?></address> */ ?>
+</div>
+

@@ -1,0 +1,25 @@
+
+<script type="text/javascript">
+	function ajaxPostFuncOne2(param){
+		jQuery.ajax({
+			type: "GET",
+			url: "<?php echo $this->getUrl('registeration/ajax/pageeight/')?>",
+			dataType: "json",
+			success: function(jsonResponse){
+	         	if(jsonResponse.status == 1){
+		         	jQuery("#ajax-content").html(jsonResponse.html_content);
+	         	}else{
+		         	alert(jsonResponse.error_message);
+	         	}
+	        }
+					
+		});
+	}
+</script>
+
+<h1>Registeration Page 7</h1>
+<P>qustion 1</P>
+<P>qustion 2</P>
+<P>qustion 3</P>
+<P>qustion 4</P>
+<input class="ipt-footerSubmit" type="submit" value="See trunk shows" onclick="ajaxPostFuncOne2()"></input>				

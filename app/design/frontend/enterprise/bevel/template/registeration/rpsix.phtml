@@ -1,0 +1,72 @@
+
+<script type="text/javascript">
+	function ajaxPostFuncSix(){
+		var str = jQuery("#customForm").serialize();
+		jQuery.ajax({
+			type: "POST",
+			url: "<?php echo $this->getUrl('registeration/ajax/pageseven/')?>",
+			dataType :"html",
+			data: {data: str},
+			success: function(data){
+		         	jQuery("#ajax-content").html(data);
+	         	}
+					
+		});
+	}
+</script>
+
+<h1>Registeration Page 6</h1>
+
+<form method="post" id="customForm" action="javascript:void(0)">
+<ul class="form-list">
+                <li class="fields">
+	    				<div class="field name-firstname">
+	        				<label for="firstname" class="required"><em>*</em>First Name</label>
+	        					<div class="input-box">
+	            					<input autocomplete="off" id="firstname" name="firstname" value="" title="First Name" maxlength="255" class="input-text required-entry" type="text">
+	        					</div>
+	    				</div>
+	    		 </li>
+	    		 <li>
+		    				<div class="field name-lastname">
+			        			<label for="lastname" class="required"><em>*</em>Last Name</label>
+			        			<div class="input-box">
+			            			<input autocomplete="off" id="lastname" name="lastname" value="" title="Last Name" maxlength="255" class="input-text required-entry" type="text">
+			        			</div>
+	   	 					</div>
+				</li>
+                <li>
+                    <label for="email_address" class="required"><em>*</em>Email Address</label>
+                    <div class="input-box">
+                        <input autocomplete="off" name="email" id="email_address" value="<?php echo Mage::getsingleton('core/session')->getPreRegisterationEmail();?>" title="Email Address" class="input-text validate-email required-entry" type="text">
+                    </div>
+                </li>
+    			<li><label for="gender" class="required"><em>*</em>Gender</label>
+					<div class="input-box">
+			   			<select autocomplete="off" id="gender" name="gender" title="Gender" class="validate-select">
+			                    <option value="" selected="selected"></option>
+			                    <option value="1">Male</option>
+			                    <option value="2">Female</option>
+			            </select>
+					</div>
+				</li>
+				<li class="fields">
+	    				<div class="field password">
+	        				<label for="password" class="required"><em>*</em>Password</label>
+	        					<div class="input-box">
+	            					<input autocomplete="off" id="password" name="password" value="" title="Password" maxlength="255" class="input-text required-entry" type="password">
+	        					</div>
+	    				</div>
+	    		 </li>
+				<li class="fields">
+	    				<div class="field confirm-password">
+	        				<label for="confirm-password" class="required"><em>*</em> Confirm Password</label>
+	        					<div class="input-box">
+	            					<input autocomplete="off" id="confirm-password" name="confirm-password" value="" title="confirm-password" maxlength="255" class="input-text required-entry" type="password">
+	        					</div>
+	    				</div>
+	    		 </li>
+				
+	<input class="ipt-footerSubmit" type="submit" value="next" onclick="ajaxPostFuncSix()"></input>				
+</ul>
+</form>

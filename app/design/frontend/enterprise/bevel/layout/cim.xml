@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="cim"><name>cim</name><path>cim</path><label>My Payment Method</label></action>
+        </reference>
+    </customer_account>
+    <checkout_onepage_index>
+		<block type="cim/payment_savecard" template="cim/payment/savecard.phtml" name="cim.savecard" output="toHtml"></block>
+    </checkout_onepage_index>
+    <cim_index_index>
+        <label>Customer My Cards</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cim/cards" template="cim/cards.phtml" name="cim_cards"></block>
+        </reference>
+    </cim_index_index>
+    <cim_index_edit>
+        <label>Customer My Cards-Edit</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cim/cards" template="cim/cards_edit.phtml" name="cim_cards_edit"></block>
+        </reference>
+    </cim_index_edit>
+    <cim_index_add>
+        <label>Customer My Cards-Add</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="cim/cards" template="cim/cards_edit.phtml" name="cim_cards_add"></block>
+        </reference>
+    </cim_index_add>
+</layout>

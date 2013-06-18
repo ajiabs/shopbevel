@@ -1,0 +1,25 @@
+	
+<?php
+if($this->userCanSaveCards()){
+	?>
+	<script type="text/javascript">
+		document.observe("dom:loaded", function() {
+			$(document.body).observe('mouseover', function(event){
+				if(!$('cim-savecard-insered')){
+					$('payment_form_authorizenet').update($('payment_form_authorizenet').innerHTML+'<div id="cim-savecard-insered">'+$('cim_savecard').innerHTML+'</div>');
+				}
+			});
+		});		
+	</script>
+	
+	<div style="display:none" id="cim_savecard">
+		<table>
+			<tr>
+				<td><input class="checkbox" type="checkbox" autocomplete="off" name="payment[cim_save_card]"></td>
+				<td><label for="p_method_cimmethod"><?php echo $this->__('Save card info') ?></label></td>
+			</tr>
+		</table>
+	</div>
+	<?php
+}
+?>

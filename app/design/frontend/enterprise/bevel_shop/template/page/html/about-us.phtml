@@ -1,0 +1,139 @@
+<div class="about-hiw-section">
+	<h2>How It Works</h2>
+	<div class="hiw-wrapper" id="our-model">
+		<div class="info">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-hiw')->toHtml() ?>
+		</div>
+		<div class="counter">
+			<div class="counter-logo-wrapper">
+				<img class="counter-logo" src="<?php echo $this->getSkinUrl('images/sb-circle-logo.png'); ?>">
+			</div>
+			<div class="sub-counter">
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-count-block')->toHtml() ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="submit-procedure-box clear-box">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('submit-about-steps')->toHtml(); ?>
+		<?php /*
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Submit Your Design</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Let the community and your network vote on which pieces they love. </span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Submit Your Design</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-vote.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Let the community and your network vote on which pieces they love. </span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Get Produced</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-produce.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">If selected, your design will go into production.</span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Sale</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-sale.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Customers can pre-order and when orders are available in store.</span>
+		</div><!-- .procedure-step-box -->
+
+		<div class="procedure-step-box">
+			<h4 class="hdr-step-title">Get Paid</h4>
+
+			<div class="img-wrap">
+				<img src="<?php echo $this->getSkinUrl('images/img-submit-paid.png'); ?>" alt="" />
+			</div>
+
+			<span class="step-dscrp">Customers can pre-order and when orders are available in store.</span>
+		</div><!-- .procedure-step-box -->
+		*/ ?>
+	</div><!-- .submit-procedure-box -->
+
+	<p class="hiw-footer-link">Want to submit a design? Visit <a href="<?php echo Mage::getBaseUrl(); ?>submit-design">SUBMIT.</a></p>
+	<p class="hiw-footer-link">Have questions about our product development? Visit our <a href="<?php echo Mage::getBaseUrl(); ?>faq">FAQs.</a></p>
+</div><!-- end how it works section -->
+
+<div class="dotted-lines-h"></div>
+
+<div class="about-os-section" id="our-story">
+	<h2>About Us</h2>
+	<div class="info-wrapper">
+		<div class="info-left">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-os-left')->toHtml() ?>
+		</div>
+
+		<div class="info-right">
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-os-right')->toHtml() ?>
+			<img src="<?php echo $this->getSkinUrl('images/about-profile-pic.png') ?>" />
+		</div>
+	</div>
+
+</div><!-- end our story section -->
+
+<div class="dotted-lines-h"></div>
+
+<div class="about-od-section" id="our-designers">
+	<div class="info-left">
+		<?php echo strip_tags( $this->getLayout()->createBlock('cms/block')->setBlockId('about-designer-block')->toHtml(), '<img>'); ?>
+		<p>
+			Submit your design for the chance to be produced and featured on Shopbevel.
+		</p>
+		<a class="btn-teal about-page-submit-btn od-btn" href="<?php echo Mage::getBaseUrl() ?>submit-design/#faq-section">SUBMIT DESIGN</a>
+	</div>
+
+	<div class="info-right">
+		<h2>Our Designers</h2>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-od-right')->toHtml() ?>
+
+	</div>
+</div><!-- end our designers section -->
+
+<div class="dotted-lines-h"></div>
+
+<div class="about-op-section-wrapper">
+	<img class="bg-image" src="<?php echo $this->getSkinUrl('images/bg-about-op-section.png') ?>" />
+	<div class="about-op-section" id="our-products">
+		<div class="info-left">
+			<h2>Our Product</h2>
+			<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-op-left')->toHtml() ?>
+
+		</div>
+		<div class="info-right">
+			<a href="<?php echo Mage::getBaseUrl(); ?>shop" class="btn-teal about-page-submit-btn op-btn">SHOP OUR PRODUCT</a>
+			<p class="hiw-footer-link first">Want to submit a design? Visit <a href="<?php echo Mage::getBaseUrl(); ?>submit-about">SUBMIT.</a></p>
+			<p class="hiw-footer-link">Have questions about our product development? Visit our <a href="<?php echo Mage::getBaseUrl(); ?>submit-design">FAQs.</a></p>
+		</div>
+	</div>
+</div><!--end about our products section -->
+
+<div class="dotted-lines-h"></div>
+
+<div class="about-opr-section" id="our-prices">
+	<div class="info-left">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-opr-left')->toHtml() ?>
+	</div>
+	<div class="info-right">
+		<h2>Our Price</h2>
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('about-opr-right')->toHtml() ?>
+	</div>
+</div>
